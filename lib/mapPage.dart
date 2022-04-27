@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class MapPage extends StatelessWidget {
-  const MapPage({Key? key}) : super(key: key);
+class MapPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
+  MapScreen createState() => MapScreen();
+}
+
+class MapScreen extends State<MapPage> {
+  static const _initialCameraPosition = CameraPosition(
+    target: LatLng(59.334591, 18.063240), zoom: 11.5,);
+
+  @override
+  Widget build(BuildContext context){
     return const Scaffold(
-      body: Center(child: Text('This is the center of the Map page')),
+      body: GoogleMap(initialCameraPosition: _initialCameraPosition,
+        zoomControlsEnabled: false,
+        myLocationButtonEnabled: false,)
+
     );
   }
+
 }
+
