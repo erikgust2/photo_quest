@@ -1,7 +1,10 @@
-import 'package:flutter/material.dart';
+
+import 'package:photo_quest/searchItem.dart';
 import 'package:xml/xml.dart';
+import 'package:flutter/material.dart';
+import 'xmlParser.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'dart:core';
 
 void main() {
   runApp(MyApp());
@@ -26,17 +29,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // The list that contains information about photos
-  List _loadedItems = [];
+  Set<SearchItem> _loadedItems = <SearchItem>{};
 
   // The function that fetches data from the API
   Future<void> _fetchData() async {
-    const API_URL = 'https://kulturarvsdata.se/ksamsok/api?method=search&version=1.1&hitsPerPage=500&query=text=runsten';
-
+    const API_URL = 'https://kulturarvsdata.se/ksamsok/api?method=search&version=1.1&hitsPerPage=25&query=boundingBox=/WGS84%20%2212.883397%2055.56512%2013.01874%2055.635582%22';
     final response = await http.get(Uri.parse(API_URL));
-    final document = XmlDocument.parse((response.body));
-
+    final document = XmlDocument.parse(response.body);
+    XMLParser p = XMLParser();
+    p.parse(document);
     setState(() {
-      _loadedItems = document.children;
+      _loadedItems = p.getItems();
     });
   }
 
