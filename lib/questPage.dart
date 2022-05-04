@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'questJoined.dart';
 class QuestPage extends StatefulWidget {
-   QuestPage({Key? key}) : super(key: key);
+   const QuestPage({Key? key}) : super(key: key);
+  @override
   State<QuestPage> createState() => _MyTabbedPageState();
 
 }
@@ -30,13 +31,21 @@ class _MyTabbedPageState extends State<QuestPage> with SingleTickerProviderState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.pink[100],
         title: TabBar(
           controller: _tabController,
+
           tabs: [
             Tab(text: 'Discover'),
-            Tab(text: 'Completed'),
+            Tab(text: 'Joined'),
           ],
         ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+          children: [Text("Discover"), QuestJoined()
+
+          ]
       ),
     );
   }

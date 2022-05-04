@@ -11,13 +11,14 @@ void main() => runApp(const MyApp());
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  static const String _title = 'Flutter Code Sample';
+  static const String _title = 'PhotoQuest';
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: _title,
       home: MyStatefulWidget(),
+        debugShowCheckedModeBanner: false
     );
   }
 }
@@ -48,14 +49,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('PhotoQuest'),
-        centerTitle: true,
-      ),
+
       body: screens [_selectedIndex],
 
       bottomNavigationBar: BottomNavigationBar(
-
+        backgroundColor: Colors.pink[100],
         type:BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

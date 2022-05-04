@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ChallengePage extends StatefulWidget {
-  ChallengePage({Key? key}) : super(key: key);
+  const ChallengePage({Key? key}) : super(key: key);
+  @override
   State<ChallengePage> createState() => _MyTabbedPageState();
 
 }
@@ -30,6 +31,7 @@ class _MyTabbedPageState extends State<ChallengePage> with SingleTickerProviderS
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.pink[100],
         title: TabBar(
           controller: _tabController,
           tabs: [
