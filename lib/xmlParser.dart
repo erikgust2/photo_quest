@@ -1,9 +1,6 @@
 
-import 'dart:html';
-
 import 'package:photo_quest/searchItem.dart';
 import 'package:xml/xml.dart';
-import 'package:xml/xml_events.dart';
 
 
 class XMLParser {
