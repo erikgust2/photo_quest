@@ -1,5 +1,6 @@
 
 import 'package:photo_quest/searchItem.dart';
+import 'package:photo_quest/searcher.dart';
 import 'package:xml/xml.dart';
 import 'package:flutter/material.dart';
 import 'xmlParser.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       // Hide the debug banner
       debugShowCheckedModeBanner: false,
-      title: 'fuck',
+      title: 'searchPage',
       home: HomePage(),
     );
   }
@@ -28,13 +29,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // The list that contains information about photos
+  // The list that contains challenge items
   Set<SearchItem> _loadedItems = <SearchItem>{};
+  Searcher searcher = Searcher();
 
   // The function that fetches data from the API
   Future<void> _fetchData() async {
-    const API_URL = 'https://kulturarvsdata.se/ksamsok/api?method=search&version=1.1&hitsPerPage=25&query=boundingBox=/WGS84%20%2212.883397%2055.56512%2013.01874%2055.635582%22';
-    final response = await http.get(Uri.parse(API_URL));
+    var URL = searcher.search("kyrka", "byggnad", "2212.883397, 2055.56512, 2013.01874, 2055.635582");
+    //const API_URL = 'https://kulturarvsdata.se/ksamsok/api?method=search&version=1.1&hitsPerPage=25&query=boundingBox=/WGS84%20%2212.883397%2055.56512%2013.01874%2055.635582%22';
+    final response = await http.get(Uri.parse(URL));
     final document = XmlDocument.parse(response.body);
     XMLParser p = XMLParser();
     p.parse(document);
@@ -47,7 +50,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('no'),
+          title: Text('press it'),
         ),
         body: SafeArea(
             child: _loadedItems.length == 0

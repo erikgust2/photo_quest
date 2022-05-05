@@ -1,79 +1,79 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class SearchItem {
-  String mTitle = "";
-  String mDescription = "";
-  String mType = "";
-  String mTimeLabel = "";
-  String mPlaceLabel = "";
-  late LatLng mCoordinates;
+  String itemTitle = "";
+  String itemDescription = "";
+  String itemType = "";
+  String itemTimeLabel = "";
+  String itemPlaceLabel = "";
+  String itemCoordinates = "";
 
   /** Gets and sets the items title. */
   String getTitle() {
-    return mTitle;
+    return itemTitle;
   }
 
   void setTitle(title) {
-    mTitle = title.trim();
+    itemTitle = title.trim();
   }
 
   /** Gets and sets the items description. */
   String getDescription() {
-    return mDescription;
+    return itemDescription;
   }
 
   void setDescription(description) {
-    if (mDescription != null) {
-      mDescription += "\n\n" + description.trim();
+    if (itemDescription != null) {
+      itemDescription += "\n\n" + description.trim();
     }
     else {
-      mDescription = description.trim();
+      itemDescription = description.trim();
     }
   }
 
   /** Gets and sets the items type. */
   String getType() {
-    return mType;
+    return itemType;
   }
   void setType(String type) {
-    mType = type.trim();
+    itemType = type.trim();
   }
 
   /** Gets and sets the items time label. */
   String getTimeLabel() {
-    return mTimeLabel;
+    return itemTimeLabel;
   }
 
   void setTimeLabel(String timeLabel) {
-    mTimeLabel = timeLabel.trim();
+    itemTimeLabel = timeLabel.trim();
   }
 
   /** Gets and sets the items place label. */
   String getPlaceLabel() {
-    return mPlaceLabel;
+    return itemPlaceLabel;
   }
 
   void setPlaceLabel(String placeLabel) {
-    mPlaceLabel = placeLabel.trim();
+    itemPlaceLabel = placeLabel.trim();
   }
 
   /** Gets and sets the items coordinates. */
   LatLng getCoordinates() {
-    return mCoordinates;
+    List coords = [];
+    coords = itemCoordinates.split(",");
+    double latitude = double.parse(coords[0]);
+    double longitude = double.parse(coords[1]);
+    LatLng coordinates = LatLng(latitude, longitude);
+    return coordinates;
   }
 
   void setCoordinates(String coordinates) {
-    List coords = [];
-    coords = coordinates.split(",");
-
-    double latitude = double.parse(coords[0]);
-    double longitude = double.parse(coords[1]);
-    mCoordinates = LatLng(latitude * 1e6, longitude * 1e6);
+    itemCoordinates = coordinates;
   }
 
 
   String toString(){
-    return "title: " + getTitle().trim().replaceAll(',', '') + "\n description: " + getDescription() +
+    return "\ntitle: " + getTitle().trim().replaceAll(',', '') + "\n description: " + getDescription().trimLeft() +
         "\n place: " + getPlaceLabel() + "\n time: " + getTimeLabel() +
         "\n type: "+ getType() + "\n coordinates: "+ getCoordinates().toString() + "\n";
   }

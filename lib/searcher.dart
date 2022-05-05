@@ -25,66 +25,35 @@ class Searcher {
    * Combines the supplied parameters to a finished query string, which then
    * is used to do the actual search.
    * @param query The text string supplied by the user
-   * @param type The chosen type
-   * @param milieu The chosen milieu
-   * @param coordinates A geo rectangle of the screen
-   * @return -1 for error 0 for no data, and 1 for when the search was a success.
-   */
-  void search(String query, String type,
-      String milieu, String coordinates) {
+   * @param type The chosen type: (Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
+   * @param coordinates A geo rectangle of the screen  (boundingBox=/WGS84+ ”väst syd ost nord”)
+  */
+
+  String search(String query, String type, String coordinates) {
     bool isFirst = true;
-    if ("" != query) {
-      mQuery = "&query=text%3D";
-      mQuery += "%22" + query.trim().replaceAll(" ", "%22+and+%22") + "%22";
-      isFirst = false;
-    }
-    else {
       mQuery = "&query=";
+    if (query.isNotEmpty) {
+        mQuery += query;
+        isFirst = false;
+      }
+    if (type.isNotEmpty) {
+      if (!isFirst) {
+        mQuery += "+and+";
+      }
+      mQuery += "itemType=" + type;
     }
-    if (milieu == "Byggnader") {
+    if (coordinates.isNotEmpty) {
       if (!isFirst) {
         mQuery += "+and+";
       } else {
         isFirst = false;
       }
-      mQuery += "%22bbrb%22";
+      mQuery += "boundingBox=" + coordinates;
     }
-    if (milieu == "Fornlämningar") {
-      if (!isFirst) {
-        mQuery += "+and+";
-      } else {
-        isFirst = false;
-      }
-      mQuery += "%22fmi%22";
-    }
-    if (coordinates != null) {
-      if (!isFirst) {
-        mQuery += "+and+";
-      } else {
-        isFirst = false;
-      }
-      mQuery += "boundingBox=/WGS84+" + coordinates;
-    }
-    if (type == "Föremål") {
-      if (!isFirst) {
-        mQuery += "+and+";
-      } else {
-        isFirst = false;
-      }
-      mQuery += "itemType=%22objekt/f%C3%B6rem%C3%A5l%22";
-    }
-    if (type == "Platser") {
-      if (!isFirst) {
-        mQuery += "+and+";
-      } else {
-        isFirst = false;
-      }
-      mQuery += "+itemType=%22milj%C3%B6%22";
-    }
-    result = BASE_URL + SIZE + SELECTION_SIZE + API_KEY + mQuery;
+    mQuery+= "+and+geoDataExists='j'";
+    return BASE_URL + SIZE + SELECTION_SIZE + API_KEY + mQuery;
   }
 
-  String getSearchURL(){return result;}
 }
 
 
