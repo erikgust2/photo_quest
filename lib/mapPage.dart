@@ -8,7 +8,7 @@ class MapPage extends StatefulWidget {
 
 class MapScreen extends State<MapPage> {
   static const _initialCameraPosition = CameraPosition(
-    target: LatLng(59.334591, 18.063240), zoom: 11.5,);
+    target: LatLng(59.329353, 18.068776), zoom: 11.5,);
 
   @override
   Widget build(BuildContext context){
