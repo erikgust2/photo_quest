@@ -50,6 +50,7 @@ class Searcher {
       }
       mQuery += "boundingBox=" + coordinates;
     }
+
     mQuery+= "+and+geoDataExists='j'";
     return BASE_URL + SIZE + SELECTION_SIZE + API_KEY + mQuery;
   }

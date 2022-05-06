@@ -17,7 +17,7 @@ class XMLParser {
   Set<SearchItem> items = <SearchItem>{};
 
   void parse(XmlDocument doc) {
-    Iterable<XmlNode> input = doc.nodes;
+    List<XmlNode> input = doc.children;
         if (input.isNotEmpty) {
           final records = doc.findAllElements(RECORD);
           for (var record in records) {
