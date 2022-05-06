@@ -14,8 +14,8 @@ class MapScreen extends State<MapPage> {
   Widget build(BuildContext context){
     return const Scaffold(
       body: GoogleMap(initialCameraPosition: _initialCameraPosition,
-        zoomControlsEnabled: false,
-        myLocationButtonEnabled: false,)
+        zoomControlsEnabled: true,
+        myLocationButtonEnabled: true,)
 
     );
   }

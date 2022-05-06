@@ -33,7 +33,7 @@ class Searcher {
     bool isFirst = true;
       mQuery = "&query=";
     if (query.isNotEmpty) {
-        mQuery += query;
+        mQuery += "%22" +query.trim().replaceAll(" ", "%22+and+%22") +"%22";
         isFirst = false;
       }
     if (type.isNotEmpty) {
@@ -48,10 +48,10 @@ class Searcher {
       } else {
         isFirst = false;
       }
-      mQuery += "boundingBox=" + coordinates;
+      mQuery += "boundingBox=/WGS84%20%22" + coordinates.replaceAll(", ", "%20");
     }
 
-    mQuery+= "+and+geoDataExists='j'";
+    print(BASE_URL + SIZE + SELECTION_SIZE + API_KEY + mQuery);
     return BASE_URL + SIZE + SELECTION_SIZE + API_KEY + mQuery;
   }
 
