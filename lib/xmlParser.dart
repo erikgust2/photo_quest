@@ -11,7 +11,7 @@ class XMLParser {
   static const String DATE = "pres:timeLabel";
   static const String PLACE = "pres:placeLabel";
   static const String COORDINATES = "gml:coordinates";
-  Set<SearchItem> items = <SearchItem>{};
+  Set<SearchItem> items = {};
 
   void parse(XmlDocument doc) {
     List<XmlNode> input = doc.children;
@@ -21,10 +21,10 @@ class XMLParser {
                     SearchItem item = SearchItem();
                     record.findAllElements(TYPE).forEach((type) {item.setType(type.text);});
                     record.findAllElements(TITLE).forEach((title) {item.setTitle(title.text);});
-                    record.findAllElements(DESCRIPTION).forEach((desc) {item.setDescription(desc.text);});
-                    record.findAllElements(PLACE).forEach((place) {item.setPlaceLabel(place.text);});
+                    record.findAllElements(DESCRIPTION).forEach((desc){item.setDescription(desc.text.replaceAll("\n", " ").replaceAll("  ", ""));});
+                    record.findAllElements(PLACE).forEach((place) {item.setPlaceLabel(place.text.replaceAll("\n", " ").replaceAll("  ", ""));});
                     record.findAllElements(DATE).forEach((date) {item.setTimeLabel(date.text);});
-                    record.findAllElements(COORDINATES).forEach((coord) {item.setCoordinates(coord.text);});
+                    record.findAllElements(COORDINATES).forEach((coord) {item.setCoordinates(coord.text.replaceAll(" ", ""));});
                     if (item.itemCoordinates.isNotEmpty)items.add(item);
                  }
         }

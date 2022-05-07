@@ -2,7 +2,7 @@
 class Searcher {
 
   static final Searcher INSTANCE = Searcher();
-  static const String SELECTION_SIZE = "20";
+  static const String SELECTION_SIZE = "2";
   static const String MAP_SIZE = "20";
   static const String BASE_URL = "http://kulturarvsdata.se/ksamsok/api?method=search";
   static const String SIZE = "&hitsPerPage=";
@@ -39,6 +39,8 @@ class Searcher {
     if (type.isNotEmpty) {
       if (!isFirst) {
         mQuery += "+and+";
+      } else {
+        isFirst = false;
       }
       mQuery += "itemType=" + type;
     }
@@ -48,7 +50,7 @@ class Searcher {
       } else {
         isFirst = false;
       }
-      mQuery += "boundingBox=/WGS84%20%22" + coordinates.replaceAll(", ", "%20");
+      mQuery += "boundingBox=/WGS84%20%22" + coordinates;
     }
 
     print(BASE_URL + SIZE + SELECTION_SIZE + API_KEY + mQuery);
