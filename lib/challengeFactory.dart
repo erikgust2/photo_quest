@@ -1,6 +1,5 @@
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:photo_quest/mainSearch.dart';
 import 'package:photo_quest/searchItem.dart';
 import 'package:photo_quest/searcher.dart';
 import 'package:xml/xml.dart';
