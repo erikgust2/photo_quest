@@ -21,11 +21,12 @@ class XMLParser {
                     SearchItem item = SearchItem();
                     record.findAllElements(TYPE).forEach((type) {item.setType(type.text);});
                     record.findAllElements(TITLE).forEach((title) {item.setTitle(title.text);});
-                    record.findAllElements(DESCRIPTION).forEach((desc){item.setDescription(desc.text.replaceAll("\n", " ").replaceAll("  ", ""));});
-                    record.findAllElements(PLACE).forEach((place) {item.setPlaceLabel(place.text.replaceAll("\n", " ").replaceAll("  ", ""));});
+                    record.findAllElements(DESCRIPTION).forEach((desc){item.setDescription(desc.text.replaceAll("\n", " ").replaceAll("  ", " ").trim());});
+                    record.findAllElements(PLACE).forEach((place) {item.setPlaceLabel(place.text.replaceAll("\n", " ").replaceAll("  ", "").trim());});
                     record.findAllElements(DATE).forEach((date) {item.setTimeLabel(date.text);});
-                    record.findAllElements(COORDINATES).forEach((coord) {item.setCoordinates(coord.text.replaceAll(" ", ""));});
-                    if (item.itemCoordinates.isNotEmpty)items.add(item);
+                    record.findAllElements(COORDINATES).forEach((coord) {item.setCoordinates(coord.text.replaceAll(" ", "").replaceAll("\n", ""));});
+                    if (item.itemCoordinates.isNotEmpty &&
+                        item.itemTimeLabel.isNotEmpty)items.add(item);
                  }
         }
       }

@@ -30,12 +30,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // The list that contains challenge items
-  List<SearchItem> _loadedItems = [];
-  Searcher searcher = Searcher.getInstance();
-  var typemap = MapType.normal;
+  final Set<Marker> markers = {}; //markers for google map
+  static const _initialCameraPosition = CameraPosition(
+    target: LatLng(59.329353, 18.068776), zoom: 12,);
   late GoogleMapController mapController; //contrller for Google map
-  final Set<Marker> markers = new Set(); //markers for google map
+  var typemap = MapType.normal;
 
+  Set<SearchItem> _loadedItems = {};
+  Searcher searcher = Searcher.getInstance();
   String south = "";
   String west = "";
   String east = "";
@@ -43,6 +45,7 @@ class _HomePageState extends State<HomePage> {
   String searchType = "";
   String searchQuery = "";
   String type = "Select Search Type";
+  late SearchItem _selectedItem;
 
   // The function that fetches data from the API
   Future<void> _fetchData(dynamic URL) async {//(boundingBox=/WGS84+ ”väst syd ost nord”)
@@ -52,12 +55,57 @@ class _HomePageState extends State<HomePage> {
     XMLParser p = XMLParser();
     p.parse(document);
     setState(() {
-      _loadedItems = p.getItems().toList();
+      _loadedItems.addAll(p.getItems());
     });
   }
 
-  static const _initialCameraPosition = CameraPosition(
-    target: LatLng(59.329353, 18.068776), zoom: 12,);
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(_selectedItem.getTitle()),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(_selectedItem.getType()),
+                Text(_selectedItem.getDescription()),
+                Text(_selectedItem.getPlaceLabel().split(", ").last),
+                Text(_selectedItem.getTimeLabel()),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              child: const Text('Save quest?'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.all(12.0),
+                  primary: Colors.black,
+                  textStyle: const TextStyle(fontSize: 15),
+                  backgroundColor: Colors.blueAccent
+                )
+            ),
+            ElevatedButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.all(12.0),
+                  primary: Colors.black,
+                  textStyle: const TextStyle(fontSize: 15),
+                  backgroundColor: Colors.redAccent
+                )
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,62 +120,66 @@ class _HomePageState extends State<HomePage> {
         onFieldSubmitted: (String search) {
           searchQuery = search;
         }
-        )
-      ),/*
-        DropdownButton<String>(
-        value: type,
-        icon: const Icon(Icons.arrow_downward),
-        elevation: 16,
-        style: const TextStyle(color: Colors.deepPurple),
-        underline: Container(
-          height: 2,
-          color: Colors.deepPurpleAccent,
         ),
-        onChanged: (newValue) {
-          setState(() {
-            searchQuery = newValue!;
-          });
-        },
-        items: <String>["Föremål", "Byggnad","Kulturlämning", "Konstverk", "Kulturmiljö", "Objekt"]
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-      )*/
-
+        /*actions:[
+          DropdownButton<String>(
+            value: type,
+            icon: const Icon(Icons.arrow_downward),
+            elevation: 16,
+            style: const TextStyle(color: Colors.deepPurple),
+            underline: Container(
+              height: 2,
+              color: Colors.deepPurpleAccent,
+            ),
+            onChanged: (newValue) {
+              setState(() {
+                searchQuery = newValue!;
+              });
+            },
+            items: <String>["Föremål", "Byggnad","Kulturlämning", "Konstverk", "Kulturmiljö", "Objekt"]
+                .map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          )
+        ]*/
+      ),
       body: GoogleMap(initialCameraPosition: _initialCameraPosition,
         zoomControlsEnabled: true,
         myLocationButtonEnabled: true,
         mapType: typemap,
-        markers:markers,
+        markers: markers,
         onMapCreated: (controller) {
           setState(() {
                 mapController = controller;
               });
             },
-            onTap: (coordinate1) {
+            onTap: (coordinate) {
               setState(() {//”väst syd ost nord”)
-                west = coordinate1.longitude.toString();
-                south = coordinate1.latitude.toString();
-                east = (coordinate1.longitude+0.02).toString();
-                north = (coordinate1.latitude+0.02).toString();
+                west = coordinate.longitude.toString();
+                south = coordinate.latitude.toString();
+                east = (coordinate.longitude+0.01).toString();
+                north = (coordinate.latitude+0.01).toString();
                 dynamic URL = searcher.search(searchQuery, searchType, west + "%20"+ south + "%20" + east + "%20" + north);
                 _fetchData(URL);
-                for (SearchItem item in _loadedItems) {
-                  markers.add(Marker( //add first marker
-                    markerId: MarkerId(item.getTitle()),
+                _loadedItems.forEach((item) {
+                  markers.add(Marker(
+                    icon: BitmapDescriptor.defaultMarker,//add first marker
+                    markerId: MarkerId(item.toString()),
                     position: item.getCoordinates(), //position of marker
                     infoWindow: InfoWindow( //popup info
                       title: item.getTitle(),
-                      snippet: item.getDescription(),
+                      onTap: () {
+                        _selectedItem = item;
+                        _showMyDialog();
+                      }
                     ),
-                    icon: BitmapDescriptor.defaultMarker, //Icon for Marker
-                  ));
-                  print(item.toString() + "\n");
-                }
-
+                   visible: true //Icon for Marker
+                  )
+                  );
+                });
               });
             },
           ),

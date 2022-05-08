@@ -23,8 +23,8 @@ class SearchItem {
   }
 
   void setDescription(description) {
-    if (itemDescription != null) {
-      itemDescription += "\n\n" + description.trim();
+    if (itemDescription.isNotEmpty) {
+      itemDescription += " " + description.trim();
     }
     else {
       itemDescription = description.trim();
