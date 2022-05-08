@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(MapsTest());
 
-class MyApp extends StatelessWidget {
+class MapsTest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -23,8 +23,8 @@ class SearchItem {
   }
 
   void setDescription(description) {
-    if (itemDescription != null) {
-      itemDescription += "\n\n" + description.trim();
+    if (itemDescription.isNotEmpty) {
+      itemDescription += " " + description.trim();
     }
     else {
       itemDescription = description.trim();
@@ -61,8 +61,8 @@ class SearchItem {
   LatLng getCoordinates() {
     List coords = [];
     coords = itemCoordinates.split(",");
-    double latitude = double.parse(coords[0]);
-    double longitude = double.parse(coords[1]);
+    double longitude = double.parse(coords[0]);
+    double latitude = double.parse(coords[1]);
     LatLng coordinates = LatLng(latitude, longitude);
     return coordinates;
   }
