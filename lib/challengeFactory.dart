@@ -164,7 +164,7 @@ class _HomePageState extends State<HomePage> {
                 north = (coordinate.latitude+0.01).toString();
                 dynamic URL = searcher.search(searchQuery, searchType, west + "%20"+ south + "%20" + east + "%20" + north);
                 _fetchData(URL);
-                _loadedItems.forEach((item) {
+                _loadedItems.forEach((item) { //FOR SOME REASON IT ONLY LOADS THE MARKERS ON A SECOND CLICK
                   markers.add(Marker(
                     icon: BitmapDescriptor.defaultMarker,//add first marker
                     markerId: MarkerId(item.toString()),
