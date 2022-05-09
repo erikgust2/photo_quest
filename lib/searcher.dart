@@ -39,7 +39,7 @@ class Searcher {
       } else {
         isFirst = false;
       }
-      mQuery += "itemType=" + type;
+      mQuery += "%20" + "itemType=" + type + "%20";
     }
     if (coordinates.isNotEmpty) {
       if (!isFirst) {

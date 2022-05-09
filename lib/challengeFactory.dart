@@ -32,10 +32,15 @@ class _HomePageState extends State<HomePage> {
   final Set<Marker> markers = {}; //markers of search items for google map
   static const _initialCameraPosition = CameraPosition(//this position is Central Stockholm
     target: LatLng(59.329353, 18.068776), zoom: 12,);
+
   late GoogleMapController mapController; //controller for Google map
+
   var typemap = MapType.normal;
 
+  final List<String> _searchTypes = ["foremal", "byggnad","kulturlämning", "konstverk", "kulturmiljo", "objekt"];
+
   Set<SearchItem> _loadedItems = {};//searchItems loaded after fetching data and parsing the XML
+
   Searcher searcher = Searcher.getInstance(); //singleton (I know singelton is generally supposed to be avoided
                                                 // but this class gets the URL
   String south = "";  // URL uses (boundingBox=/WGS84+ ”väst syd ost nord”)
@@ -44,8 +49,9 @@ class _HomePageState extends State<HomePage> {
   String north = "";
   String searchType = ""; //(Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
   String searchQuery = ""; //for example statues, churches, bones, some items have years associated
-  String type = "Select Search Type";//text prompt in text field
-  late SearchItem _selectedItem;// when a marker is clicked on, it mecomes the selected item
+  double searchSize = 0.005; //1 km
+
+  late SearchItem _selectedItem;// when a marker is clicked on, it becomes the selected item
 
   // The function that fetches data from the API
   Future<void> _fetchData(dynamic URL) async {
@@ -116,36 +122,33 @@ class _HomePageState extends State<HomePage> {
         title: TextFormField(
         decoration: const InputDecoration(
           border: UnderlineInputBorder(),
-          labelText: 'Enter query',
+          labelText: 'Enter query?',
+          labelStyle: TextStyle(color: Colors.white)
         ),
         onFieldSubmitted: (String search) {
           searchQuery = search;   //uses an empty string if nothing is written as the query, type is still undefined
-        }
+        },
         ),
-        /*actions:[             //attempt at creating a selection box for types, currently non-functional
+        actions:[             //attempt at creating a selection box for types, currently non-functional
           DropdownButton<String>(
-            value: type,
-            icon: const Icon(Icons.arrow_downward),
+            value: "byggnad",
+            icon: const Icon(Icons.search),
             elevation: 16,
-            style: const TextStyle(color: Colors.deepPurple),
-            underline: Container(
-              height: 2,
-              color: Colors.deepPurpleAccent,
-            ),
-            onChanged: (newValue) {
-              setState(() {
-                searchQuery = newValue!;
-              });
-            },
-            items: <String>["Föremål", "Byggnad","Kulturlämning", "Konstverk", "Kulturmiljö", "Objekt"]
-                .map<DropdownMenuItem<String>>((String value) {
+            style: const TextStyle(color: Colors.white),
+            items: _searchTypes.map((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
               );
             }).toList(),
+            onChanged: (item) {
+              setState(() {
+                searchType = item!;
+              });
+            },
+
           )
-        ]*/
+        ]
       ),
       body: GoogleMap(initialCameraPosition: _initialCameraPosition,
         zoomControlsEnabled: true,
@@ -158,12 +161,12 @@ class _HomePageState extends State<HomePage> {
               });
             },
             onTap: (coordinate) {
-              setState(() {//”väst syd ost nord”)
+              setState(() {
                 west = coordinate.longitude.toString();
                 south = coordinate.latitude.toString();
-                east = (coordinate.longitude+0.02).toString();
-                north = (coordinate.latitude+0.02).toString();
-                dynamic URL = searcher.search(searchQuery, searchType, west + "%20"+ south + "%20" + east + "%20" + north);
+                east = (coordinate.longitude + searchSize).toString();
+                north = (coordinate.latitude + searchSize).toString();  //makes a box for items
+                String URL = searcher.search(searchQuery, searchType, west + "%20"+ south + "%20" + east + "%20" + north);
                 _fetchData(URL);
                 _loadedItems.forEach((item) { //FOR SOME REASON IT ONLY LOADS THE MARKERS ON A SECOND CLICK, loads quest items
                   markers.add(Marker(
