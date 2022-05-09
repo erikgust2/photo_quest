@@ -8,7 +8,7 @@ class SearchItem {
   String itemPlaceLabel = "";
   String itemCoordinates = "";
 
-  /** Gets and sets the items title. */
+  /// Gets and sets the items title. */
   String getTitle() {
     return itemTitle;
   }
@@ -17,7 +17,7 @@ class SearchItem {
     itemTitle = title.trim();
   }
 
-  /** Gets and sets the items description. */
+  /// Gets and sets the items description. */
   String getDescription() {
     return itemDescription;
   }
@@ -31,7 +31,7 @@ class SearchItem {
     }
   }
 
-  /** Gets and sets the items type. */
+  /// Gets and sets the items type. */
   String getType() {
     return itemType;
   }
@@ -39,7 +39,7 @@ class SearchItem {
     itemType = type.trim();
   }
 
-  /** Gets and sets the items time label. */
+  /// Gets and sets the items time label. */
   String getTimeLabel() {
     return itemTimeLabel;
   }
@@ -48,7 +48,7 @@ class SearchItem {
     itemTimeLabel = timeLabel.trim();
   }
 
-  /** Gets and sets the items place label. */
+  /// Gets and sets the items place label. */
   String getPlaceLabel() {
     return itemPlaceLabel;
   }
@@ -57,7 +57,7 @@ class SearchItem {
     itemPlaceLabel = placeLabel.trim();
   }
 
-  /** Gets and sets the items coordinates. */
+  /// Gets and sets the items coordinates. */
   LatLng getCoordinates() {
     List coords = [];
     coords = itemCoordinates.split(",");
@@ -72,6 +72,7 @@ class SearchItem {
   }
 
 
+  @override
   String toString(){
     return "\ntitle: " + getTitle().trim().replaceAll(',', '') + "\n description: " + getDescription().trimLeft() +
         "\n place: " + getPlaceLabel() + "\n time: " + getTimeLabel() +

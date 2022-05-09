@@ -29,37 +29,37 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // The list that contains challenge items
-  final Set<Marker> markers = {}; //markers for google map
-  static const _initialCameraPosition = CameraPosition(
+  final Set<Marker> markers = {}; //markers of search items for google map
+  static const _initialCameraPosition = CameraPosition(//this position is Central Stockholm
     target: LatLng(59.329353, 18.068776), zoom: 12,);
-  late GoogleMapController mapController; //contrller for Google map
+  late GoogleMapController mapController; //controller for Google map
   var typemap = MapType.normal;
 
-  Set<SearchItem> _loadedItems = {};
-  Searcher searcher = Searcher.getInstance();
-  String south = "";
+  Set<SearchItem> _loadedItems = {};//searchItems loaded after fetching data and parsing the XML
+  Searcher searcher = Searcher.getInstance(); //singleton (I know singelton is generally supposed to be avoided
+                                                // but this class gets the URL
+  String south = "";  // URL uses (boundingBox=/WGS84+ ”väst syd ost nord”)
   String west = "";
   String east = "";
   String north = "";
-  String searchType = "";
-  String searchQuery = "";
-  String type = "Select Search Type";
-  late SearchItem _selectedItem;
+  String searchType = ""; //(Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
+  String searchQuery = ""; //for example statues, churches, bones, some items have years associated
+  String type = "Select Search Type";//text prompt in text field
+  late SearchItem _selectedItem;// when a marker is clicked on, it mecomes the selected item
 
   // The function that fetches data from the API
-  Future<void> _fetchData(dynamic URL) async {//(boundingBox=/WGS84+ ”väst syd ost nord”)
-    //const API_URL = 'https://kulturarvsdata.se/ksamsok/api?method=search&version=1.1&hitsPerPage=25&query=boundingBox=/WGS84%20%2212.883397%2055.56512%2013.01874%2055.635582%22';
+  Future<void> _fetchData(dynamic URL) async {
+    //example url: 'https://kulturarvsdata.se/ksamsok/api?method=search&version=1.1&hitsPerPage=25&query=boundingBox=/WGS84%20%2212.883397%2055.56512%2013.01874%2055.635582%22';
     final response = await http.get(Uri.parse(URL));
     final document = XmlDocument.parse(response.body);
     XMLParser p = XMLParser();
     p.parse(document);
     setState(() {
-      _loadedItems.addAll(p.getItems());
+      _loadedItems.addAll(p.getItems()); //parser puts everything in the set after parsing into search items
     });
   }
 
-  Future<void> _showMyDialog() async {
+  Future<void> _showMyDialog() async {  //text box thing that pops up when a marker is clicked on
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -70,7 +70,8 @@ class _HomePageState extends State<HomePage> {
             child: ListBody(
               children: <Widget>[
                 Text(_selectedItem.getType()),
-                Text(_selectedItem.getDescription()),
+                if(_selectedItem.getDescription().isNotEmpty && _selectedItem.getDescription() != "null")
+                  Text(_selectedItem.getDescription()), //needs to be in separate dropdownbutton, descriptions are sometimes very long
                 Text(_selectedItem.getPlaceLabel().split(", ").last),
                 Text(_selectedItem.getTimeLabel()),
               ],
@@ -78,7 +79,7 @@ class _HomePageState extends State<HomePage> {
           ),
           actions: <Widget>[
             ElevatedButton(
-              child: const Text('Save quest?'),
+              child: const Text('Save quest?'),//not implemented
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -90,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                 )
             ),
             ElevatedButton(
-              child: const Text('Cancel'),
+              child: const Text('Cancel'),//closes window
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -118,10 +119,10 @@ class _HomePageState extends State<HomePage> {
           labelText: 'Enter query',
         ),
         onFieldSubmitted: (String search) {
-          searchQuery = search;
+          searchQuery = search;   //uses an empty string if nothing is written as the query, type is still undefined
         }
         ),
-        /*actions:[
+        /*actions:[             //attempt at creating a selection box for types, currently non-functional
           DropdownButton<String>(
             value: type,
             icon: const Icon(Icons.arrow_downward),
@@ -160,11 +161,11 @@ class _HomePageState extends State<HomePage> {
               setState(() {//”väst syd ost nord”)
                 west = coordinate.longitude.toString();
                 south = coordinate.latitude.toString();
-                east = (coordinate.longitude+0.01).toString();
-                north = (coordinate.latitude+0.01).toString();
+                east = (coordinate.longitude+0.02).toString();
+                north = (coordinate.latitude+0.02).toString();
                 dynamic URL = searcher.search(searchQuery, searchType, west + "%20"+ south + "%20" + east + "%20" + north);
                 _fetchData(URL);
-                _loadedItems.forEach((item) { //FOR SOME REASON IT ONLY LOADS THE MARKERS ON A SECOND CLICK
+                _loadedItems.forEach((item) { //FOR SOME REASON IT ONLY LOADS THE MARKERS ON A SECOND CLICK, loads quest items
                   markers.add(Marker(
                     icon: BitmapDescriptor.defaultMarker,//add first marker
                     markerId: MarkerId(item.toString()),
