@@ -36,7 +36,7 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.photo_quest"
-        minSdkVersion 20 //flutter.minSdkVersion ändrade sdk version för att google maps apiet skulle funka
+        minSdkVersion 21 //flutter.minSdkVersion ändrade sdk version för att google maps apiet skulle funka
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
