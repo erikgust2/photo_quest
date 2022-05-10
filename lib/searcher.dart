@@ -33,7 +33,7 @@ class Searcher {
         mQuery += "%22" +query.trim().replaceAll(" ", "%22+and+%22") +"%22";
         isFirst = false;
       }
-    if (type.isNotEmpty) {// @param type The chosen type: (Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
+    if (type.isNotEmpty && type != "type") {// @param type The chosen type: (Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
       if (!isFirst) {
         mQuery += "+and+";
       } else {
