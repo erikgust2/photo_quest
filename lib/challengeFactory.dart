@@ -1,5 +1,7 @@
 
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:photo_quest/searchItem.dart';
 import 'package:photo_quest/searcher.dart';
 import 'package:xml/xml.dart';
@@ -9,8 +11,8 @@ import 'package:http/http.dart' as http;
 import 'dart:core';
 import 'package:geolocator/geolocator.dart';
 
-void main() => runApp(const ChallengeFactory());
 
+void main() => runApp(const ChallengeFactory());
 
 class ChallengeFactory extends StatelessWidget {
   const ChallengeFactory({Key? key}) : super(key: key);
@@ -21,21 +23,21 @@ class ChallengeFactory extends StatelessWidget {
       // Hide the debug banner
       debugShowCheckedModeBanner: false,
       title: 'searchPage',
-      home: HomePage(),
+      home: ChallengePage(),
     );
   }
 }
 
 
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class ChallengePage extends StatefulWidget {
+  const ChallengePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _ChallengePageState createState() => _ChallengePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ChallengePageState extends State<ChallengePage> {
 
   final Set<Marker> markers = {}; //markers of search items for google map
 
@@ -46,7 +48,9 @@ class _HomePageState extends State<HomePage> {
 
   var typemap = MapType.normal;
 
-  final List<String> _searchTypes = ["foremal", "byggnad","kulturlämning", "konstverk", "kulturmiljo", "objekt", "type"];
+  Location currentLocation = Location();
+
+  //final List<String> _searchTypes = ["foremal", "byggnad","kulturlämning", "konstverk", "kulturmiljo", "objekt", "type"];
 
   Set<SearchItem> _loadedItems = {};//searchItems loaded after fetching data and parsing the XML
 
@@ -58,7 +62,9 @@ class _HomePageState extends State<HomePage> {
   String north = "";
   String searchType = ""; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
   String searchQuery = ""; //for example statues, churches, bones, some items have years associated
+  String searchQuantity= "10"; //default size, can be modified for less items
   double searchSize = 0.005; //1 km
+
 
   late SearchItem _selectedItem;// when a marker is clicked on, it becomes the selected item
 
@@ -112,9 +118,9 @@ class _HomePageState extends State<HomePage> {
             child: ListBody(
               children: <Widget>[
                 Text(_selectedItem.getType()),
-                if(_selectedItem.getDescription().isNotEmpty && _selectedItem.getDescription() != "null")
+                if(_selectedItem.getDescription().isNotEmpty && _selectedItem.getDescription() != "null" && !_selectedItem.getDescription().contains("För eventuell historik se under Dokument"))
                   Text(_selectedItem.getDescription()), //needs to be in separate dropdownbutton, descriptions are sometimes very long
-                Text(_selectedItem.getPlaceLabel().split(", ").last),
+                Text(_selectedItem.getPlaceLabel()),
                 Text(_selectedItem.getTimeLabel()),
               ],
             ),
@@ -151,56 +157,38 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      // Location services are not enabled don't continue
-      // accessing the position and request users of the
-      // App to enable the location services.
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
-  }
-
-
-
   Future<void> _getSearchItems(LatLng coordinate) async{
     west = coordinate.longitude.toString();
     south = coordinate.latitude.toString();
     east = (coordinate.longitude + searchSize).toString();
     north = (coordinate.latitude + searchSize).toString();  //makes a box for items
-    String URL = searcher.search(searchQuery, searchType, west + "%20"+ south + "%20" + east + "%20" + north);
+    String URL = searcher.search(searchQuery, searchType, searchQuantity, west + "%20"+ south + "%20" + east + "%20" + north);
     _fetchData(URL);
     _createMarkers();
   }
 
+  void getLocation() async{
+    var location = await currentLocation.getLocation();
+    currentLocation.onLocationChanged.listen((LocationData loc){
+      mapController.animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+        target: LatLng(loc.latitude ?? 0.0,loc.longitude?? 0.0),
+        zoom: 12.0,
+      )));
+      setState(() {
+        markers.add(Marker(markerId: MarkerId('Home'),
+            position: LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0)
+        ));
+      });
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    setState(() {
+      getLocation();
+    });
+  }
 
     @override
   Widget build(BuildContext context) {
@@ -212,13 +200,9 @@ class _HomePageState extends State<HomePage> {
         mapType: typemap,
         markers: markers,
         onMapCreated: (controller) {
-        setState(() async {
+        setState(() {
                 mapController = controller;
-                _determinePosition();
-                Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-                double lat = position.latitude;
-                double long = position.longitude;
-                _getSearchItems(LatLng(lat, long));
+                getLocation();
               });
             },
             onTap: (coordinate) {
