@@ -29,7 +29,6 @@ class ChallengeMap extends StatelessWidget {
 }
 
 
-
 class ChallengeMapScreen extends StatefulWidget {
   const ChallengeMapScreen({Key? key}) : super(key: key);
 
@@ -46,9 +45,11 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
 
   late GoogleMapController mapController; //controller for Google map
 
-  var typemap = MapType.normal;
+  var mapType = MapType.normal;
 
   Location currentLocation = Location();
+
+  late LatLng currentCoordinates;
 
   //final List<String> _searchTypes = ["foremal", "byggnad","kulturlämning", "konstverk", "kulturmiljo", "objekt", "type"];
 
@@ -62,12 +63,10 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
   String north = "";
   String searchType = ""; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
   String searchQuery = ""; //for example statues, churches, bones, some items have years associated
-  String searchQuantity= "10"; //default size, can be modified for less items
+  String searchQuantity= "20"; //default size, can be modified for less items
   double searchSize = 0.005; //1 km
 
-
   late SearchItem _selectedItem;// when a marker is clicked on, it becomes the selected item
-
 
 
   // The function that fetches data from the API
@@ -89,7 +88,7 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
       setState(() {
         markers.add(Marker(
             icon: searchIcon,//add first marker
-            markerId: MarkerId(item.toString()),
+            markerId: MarkerId(item.getTitle() + item.getCoordinates().toString()),
             position: item.getCoordinates(), //position of marker
             infoWindow: InfoWindow( //popup info
                 title: item.getTitle(),
@@ -104,7 +103,15 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
       });
     }
 
-
+  double _getDistance (LatLng coord1, LatLng coord2) {
+    var _distanceInMeters = Geolocator.distanceBetween(
+      coord1.latitude,
+      coord1.longitude,
+      coord2.latitude,
+      coord2.longitude
+    );
+    return _distanceInMeters;
+  }
 
 
   Future<void> _showMyDialog() async {  //text box thing that pops up when a marker is clicked on
@@ -122,6 +129,7 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
                   Text(_selectedItem.getDescription()), //needs to be in separate dropdownbutton, descriptions are sometimes very long
                 Text(_selectedItem.getPlaceLabel()),
                 Text(_selectedItem.getTimeLabel()),
+                Text(_getDistance( _selectedItem.getCoordinates(), currentCoordinates).toString().split(".").first + " m") /**SET UP SO DISTANCE IS SHOWN**/
               ],
             ),
           ),
@@ -170,14 +178,13 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
   void getLocation() async{
     var location = await currentLocation.getLocation();
     _getSearchItems(LatLng(location.latitude??0.0, location.longitude??0.0));
+    currentCoordinates = LatLng(location.latitude ?? 0.0, location.longitude ?? 0.0);
     currentLocation.onLocationChanged.listen((LocationData loc){
       mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(loc.latitude ?? 0.0,loc.longitude?? 0.0),
         zoom: 12.0,
       )));
       setState(() {
-        markers.add(Marker(markerId: MarkerId('Home'),
-            position: LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0)));
             _getSearchItems(LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0));
       });
     });
@@ -198,7 +205,7 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
         zoomControlsEnabled: true,
         myLocationButtonEnabled: true,
         myLocationEnabled: true,
-        mapType: typemap,
+        mapType: mapType,
         markers: markers,
         onMapCreated: (controller) {
         setState(() {
