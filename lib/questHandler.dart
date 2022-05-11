@@ -11,7 +11,7 @@ import 'dart:core';
 import 'package:geolocator/geolocator.dart';
 
 class QuestHandler {
-
+  static const List<String> _SEARCH_TYPES = ["Föremål", "Byggnad", "Kulturlämning", "Konstverk", "Kulturmiljö", "Objekt"];
   Set<SearchItem> loadedItems = {};//searchItems loaded after fetching data and parsing the XML
   String searchType = ""; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
   String searchQuery = ""; //for example statues, churches, bones, some items have years associated
@@ -77,6 +77,37 @@ class QuestHandler {
 
   Widget build(BuildContext context, SearchItem selectedItem) {
     return Scaffold(
+        appBar: AppBar(
+            backgroundColor: Colors.blue[900],
+            title: TextFormField(
+              decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'Enter query?',
+                  labelStyle: TextStyle(color: Colors.white)
+              ),
+              onFieldSubmitted: (String search) {
+                searchQuery = search;   //uses an empty string if nothing is written as the query, type is still undefined
+              },
+            ),
+            actions:[             //attempt at creating a selection box for types, currently non-functional
+              DropdownButton<String>(
+                value: "type",
+                icon: const Icon(Icons.search),
+                elevation: 16,
+                style: const TextStyle(color: Colors.white),
+                items: _SEARCH_TYPES.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (item) {
+                    searchType = item!;
+
+                },
+              )
+            ]
+        ),
       body: ListBody(
         children: <Widget>[
         Text(selectedItem.getType()),
