@@ -4,7 +4,6 @@ class Searcher {
   static final Searcher INSTANCE = Searcher();
   static const String BASE_URL = "http://kulturarvsdata.se/ksamsok/api?method=search";
   static const String SIZE = "&hitsPerPage=";
-
 //static final String API_KEY = "&x-api=test";
   static const String API_KEY = "&x-api=test";
   static const String FROM = "&startRecord="; //unused
