@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photo_quest/questMap.dart';
 import 'mapPage.dart';
 import 'profilePage.dart';
 import 'questPage.dart';
@@ -34,7 +35,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final screens = [
     QuestPage(),
     ChallengePage(),
-    MapPage(),
+    QuestMapPage(),
     ProfilePage()
   ];
 
@@ -45,6 +46,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       _selectedIndex = index;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
