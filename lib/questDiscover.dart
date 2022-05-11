@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:photo_quest/searchPage.dart';
+import 'package:photo_quest/quest.dart';
 
-/// This is a very simple class, used to
-/// demo the `SearchPage` package
-class Quest {
+
+class QuestDiscover {
   final String name, area;
 
-  Quest(this.name, this.area);
+  QuestDiscover(this.name, this.area);
 }
 
 void main() => runApp(MyApp());
@@ -40,34 +39,14 @@ class MyHomePage extends StatelessWidget {
         itemBuilder: (context, index) {
           final Quest quest = quests[index];
           return ListTile(
-            title: Text(quest.name),
-            subtitle: Text(quest.area),
+            title: Text(quest.questDescription),
+            subtitle: Text(quest.questDescription),
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: 'Search quests',
-        onPressed: () => showSearch(
-          context: context,
-          delegate: SearchPage<Quest>(
-            items: quests,
-            searchLabel: 'Search quests',
-            suggestion: Center(
-              child: Text('Filter quests by type'),
-            ),
-            failure: Center(
-              child: Text('No quest found :('),
-            ),
-            filter: (quest) => [
-              quest.name,
-              quest.area,
-            ],
-            builder: (quest) => ListTile(
-              title: Text(quest.name),
-              subtitle: Text(quest.area),
-            ),
-          ),
-        ),
+        onPressed: () {  },
         child: Icon(Icons.search),
       ),
     );

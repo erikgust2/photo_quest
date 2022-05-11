@@ -3,13 +3,19 @@ import 'dart:core';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Quest {
-  Quest (String title, String type, String description, String time, String coordinates, String distance) {
-    String questTitle = title;
-    String questDescription = description;
-    String questType = type;
-    String questTimeLabel = time;
-    String questCoordinates = coordinates;
+  late String questTitle;
+  late String questDescription;
+  late String questType;
+  late String questTimeLabel;
+  late String questCoordinates;
 
+  Quest (String title, String type, String description, String time, String coordinates, String distance) {
+    questTitle = title;
+    questDescription = description;
+    questType = type;
+    questTimeLabel = time;
+    questCoordinates = coordinates;
+  }
 
     /// Gets and sets the quests title. */
     String getTitle() {
@@ -76,4 +82,3 @@ class Quest {
           getCoordinates().toString() + "\n";
     }
   }
-}

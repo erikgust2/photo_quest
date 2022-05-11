@@ -28,7 +28,7 @@ class XMLParser {
                     record.findAllElements(DATE).forEach((date) {item.setTimeLabel(date.text);});
                     record.findAllElements(COORDINATES).forEach((coord) {item.setCoordinates(coord.text.replaceAll(" ", "").replaceAll("\n", ""));});
                     if (item.itemCoordinates.isNotEmpty &&
-                        item.itemTimeLabel.isNotEmpty && item.itemDescription.isNotEmpty && !item.itemTitle.contains("Ej utrett"))items.add(item);
+                        item.itemTimeLabel.isNotEmpty && item.itemDescription.isNotEmpty && !item.itemTitle.contains("EJ UTRETT"))items.add(item);
                  }
         }
       }

@@ -110,11 +110,11 @@ class QuestHandler {
         ),
       body: ListBody(
         children: <Widget>[
-        Text(selectedItem.getType()),
-        if(selectedItem.getDescription().isNotEmpty && selectedItem.getDescription() != "null" && !selectedItem.getDescription().contains("För eventuell historik se under Dokument"))
-        Text(selectedItem.getDescription()), //needs to be in separate dropdownbutton, descriptions are sometimes very long
-        Text(selectedItem.getPlaceLabel()),
-        Text(selectedItem.getTimeLabel()),
+          Text(selectedItem.itemTitle),
+          if(selectedItem.itemDescription.isNotEmpty && selectedItem.itemDescription != "null" && !selectedItem.itemDescription.contains("För eventuell historik se under Dokument"))
+            Text(selectedItem.itemDescription), //needs to be in separate dropdownbutton, descriptions are sometimes very long
+          Text(selectedItem.itemPlaceLabel),
+          Text(selectedItem.itemTimeLabel),
         Text(getDistance(selectedItem.getCoordinates(), currentCoordinates).toString().split(".").first + " m") /**SET UP SO DISTANCE IS SHOWN**/
     ],
     ),

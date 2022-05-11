@@ -64,10 +64,10 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
       setState(() {
         markers.add(Marker(
             icon: searchIcon,//add first marker
-            markerId: MarkerId(item.getTitle() + item.getCoordinates().toString()),
+            markerId: MarkerId(item.itemTitle + item.getCoordinates().toString()),
             position: item.getCoordinates(), //position of marker
             infoWindow: InfoWindow( //popup info
-                title: item.getTitle(),
+                title: item.itemTitle,
                 onTap: () {
                   _selectedItem = item;
                   _showMyDialog();
@@ -86,15 +86,15 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(_selectedItem.getTitle()),
+          title: Text(_selectedItem.itemTitle),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text(_selectedItem.getType()),
-                if(_selectedItem.getDescription().isNotEmpty && _selectedItem.getDescription() != "null" && !_selectedItem.getDescription().contains("För eventuell historik se under Dokument"))
-                  Text(_selectedItem.getDescription()), //needs to be in separate dropdownbutton, descriptions are sometimes very long
-                Text(_selectedItem.getPlaceLabel()),
-                Text(_selectedItem.getTimeLabel()),
+                Text(_selectedItem.itemTitle),
+                if(_selectedItem.itemDescription.isNotEmpty && _selectedItem.itemDescription != "null" && !_selectedItem.itemDescription.contains("För eventuell historik se under Dokument"))
+                  Text(_selectedItem.itemDescription), //needs to be in separate dropdownbutton, descriptions are sometimes very long
+                Text(_selectedItem.itemPlaceLabel),
+                Text(_selectedItem.itemTimeLabel),
                 Text(handler.getDistance(_selectedItem.getCoordinates(), currentCoordinates).toString().split(".").first + " m") /**SET UP SO DISTANCE IS SHOWN**/
               ],
             ),
