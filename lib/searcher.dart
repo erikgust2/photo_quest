@@ -45,8 +45,9 @@ class Searcher {
       }// @param coordinates A geo rectangle of the screen  (boundingBox=/WGS84+ ”väst syd ost nord”)
       mQuery += "boundingBox=/WGS84%20%22" + coordinates;
     }
-
-    print(BASE_URL + SIZE + quantity + API_KEY + mQuery); //double checks that URL is correct
+    String result = (BASE_URL + SIZE + quantity + API_KEY + mQuery).
+    replaceAll("ö", "%C3%B6").replaceAll("å", "%C3%A5").replaceAll("ä", "%C3%A4").
+    replaceAll("Ö", "%C3%B6").replaceAll("Å", "%C3%A5").replaceAll("Ä", "%C3%A4");
     return BASE_URL + SIZE + quantity + API_KEY + mQuery;
   }
 

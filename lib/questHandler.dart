@@ -36,6 +36,14 @@ class QuestHandler {
     searchType = type; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
     searchQuery = query; //for example statues, churches, bones, some items have years associated
     searchQuantity = quantity;
+    loadedItems.clear();
+    getSearchItems(coordinate);
+  }
+
+  void makeAdditionalQuery(String query, String type, String quantity, LatLng coordinate){
+    searchType = type; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
+    searchQuery = query; //for example statues, churches, bones, some items have years associated
+    searchQuantity = quantity;
     getSearchItems(coordinate);
   }
 
