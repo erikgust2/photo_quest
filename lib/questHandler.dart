@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:photo_quest/searchItem.dart';
 import 'package:photo_quest/searcher.dart';
 import 'package:xml/xml.dart';
@@ -23,15 +24,20 @@ class QuestHandler {
   Searcher searcher = Searcher.getInstance(); //singleton (I know singelton is generally supposed to be avoided
   // but this class gets the URL
   late LatLng currentCoordinates;
+  Location currentLocation = Location();
 
-  QuestHandler(String query, String type, String quantity, double size, LatLng coordinates){
+  QuestHandler(String query, String type, String quantity){
     searchType = type; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
     searchQuery = query; //for example statues, churches, bones, some items have years associated
     searchQuantity = quantity;
-    double searchSize = size;
-    currentCoordinates = coordinates;
   }
 
+  void makeNewQuery(String query, String type, String quantity, LatLng coordinate){
+    searchType = type; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
+    searchQuery = query; //for example statues, churches, bones, some items have years associated
+    searchQuantity = quantity;
+    getSearchItems(coordinate);
+  }
 
   // The function that fetches data from the API
   Future<void> _fetchData(dynamic URL) async {
@@ -41,6 +47,7 @@ class QuestHandler {
     p.parse(document);
     loadedItems.addAll(p.getItems()); //parser puts everything in the set after parsing into search items
   }
+
   Future<void> getSearchItems(LatLng coordinate) async{
     west = coordinate.longitude.toString();
     south = coordinate.latitude.toString();
@@ -48,6 +55,12 @@ class QuestHandler {
     north = (coordinate.latitude + searchSize).toString();  //makes a box for items
     String URL = searcher.search(searchQuery, searchType, searchQuantity, west + "%20"+ south + "%20" + east + "%20" + north);
     _fetchData(URL);
+  }
+
+  Future<LatLng> getLocation() async {
+    var location = await currentLocation.getLocation();
+    currentCoordinates = LatLng(location.latitude ?? 0.0, location.longitude ?? 0.0);
+    return currentCoordinates;
   }
 
   double getDistance (LatLng coord1, LatLng coord2) {
@@ -60,7 +73,7 @@ class QuestHandler {
     return _distanceInMeters;
   }
 
-  
+
 
   Widget build(BuildContext context, SearchItem selectedItem) {
     return Scaffold(

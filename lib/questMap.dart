@@ -44,11 +44,9 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
   static const _initialCameraPosition = CameraPosition(//this position is Central Stockholm
     target: LatLng(59.329353, 18.068776), zoom: 12,);
 
-  late GoogleMapController mapController; //controller for Google map
+  GoogleMapController? mapController; //controller for Google map
 
   var mapType = MapType.normal;
-
-  Location currentLocation = Location();
 
   late LatLng currentCoordinates;
 
@@ -132,19 +130,22 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
     );
   }
 
-  void getLocation() async{
-    var location = await currentLocation.getLocation();
-    currentCoordinates = LatLng(location.latitude ?? 0.0, location.longitude ?? 0.0);
-    handler = QuestHandler("", "", "20", 0.05, currentCoordinates);
-    handler.getSearchItems(currentCoordinates);
-    _createMarkers();
-    currentLocation.onLocationChanged.listen((LocationData loc){
-      mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+  void getItems() async{
+    var location = await handler.getLocation();
+    setState(() {
+      handler.getSearchItems(LatLng(location.latitude, location.longitude));
+      currentCoordinates = LatLng(location.latitude, location.longitude);
+      _loadedItems = handler.loadedItems;
+      _createMarkers();
+    });
+    handler.currentLocation.onLocationChanged.listen((LocationData loc){
+      mapController?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(loc.latitude ?? 0.0,loc.longitude?? 0.0),
         zoom: 12.0,
       )));
       setState(() {
             handler.getSearchItems(LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0));
+            currentCoordinates = LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0);
             _loadedItems = handler.loadedItems;
             _createMarkers();
       });
@@ -155,7 +156,8 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
   void initState(){
     super.initState();
     setState(() {
-      getLocation();
+      handler = QuestHandler("", "", "10");
+      getItems();
     });
   }
 
