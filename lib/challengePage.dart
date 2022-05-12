@@ -1,45 +1,41 @@
 import 'package:flutter/material.dart';
-
-class ChallengePage extends StatefulWidget {
+import 'package:photo_quest/QuestTab.dart';
+import 'SettingsNavDrawer.dart';
+import 'profilePage.dart';
+import 'QuestTab.dart';
+class ChallengePage extends StatelessWidget {
   const ChallengePage({Key? key}) : super(key: key);
-  @override
-  State<ChallengePage> createState() => _MyTabbedPageState();
-
-}
-
-class _MyTabbedPageState extends State<ChallengePage> with SingleTickerProviderStateMixin {
-  static const List<Tab> myTabs = <Tab>[
-    Tab(text: 'LEFT'),
-    Tab(text: 'RIGHT'),
-  ];
-
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(vsync: this, length: myTabs.length);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink[100],
-        title: TabBar(
-          controller: _tabController,
-          tabs: [
-            Tab(text: 'challengeDiscover'),
-            Tab(text: 'challengeCompleted'),
+        centerTitle: true,
+        backgroundColor: Colors.pink[200],
+        title: Text('Quests'),
+
+          actions: [
+            Builder(builder: (context) => IconButton(
+              icon: Icon(Icons.person),
+              onPressed: (){
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context)=> const ProfilePage()
+                )
+                );
+              },
+            )
+
+            )
           ],
-        ),
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+          )
       ),
+      drawer: const SettingsNavBar(),
+      body: QuestTab(),
     );
   }
 }
