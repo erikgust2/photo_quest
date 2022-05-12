@@ -58,9 +58,9 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
 
   Future<void> _createMarkers() async {
     BitmapDescriptor searchIcon = BitmapDescriptor.defaultMarker;
-    _loadedItems.forEach((item) {
-      setState(() {
-        _markers.add(Marker(
+    setState(() {_markers.addAll(
+    _loadedItems.map((item) =>
+        Marker(
             icon: searchIcon,//add first marker
             markerId: MarkerId(item.itemTitle + item.getCoordinates().toString()),
             position: item.getCoordinates(), //position of marker
@@ -71,11 +71,9 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
                   _showMyDialog();
                 }
             )
-        )
-        );
-      });
-      });
-    }
+        )));
+    });
+        }
 
 
   Future<void> _showMyDialog() async {  //text box thing that pops up when a marker is clicked on
