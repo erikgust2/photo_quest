@@ -139,8 +139,8 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
   void getItems() async {
     //gets the items from handler
     var location = await handler.getLocation();
+    handler.getSearchItems(LatLng(location.latitude, location.longitude));
     setState(() {
-      handler.getSearchItems(LatLng(location.latitude, location.longitude));
       currentCoordinates = LatLng(location.latitude, location.longitude);
       _loadedItems = handler.loadedItems;
       _createMarkers();
@@ -176,7 +176,8 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
           });
         },
         onTap: (coordinate) {
-          handler.makeAdditionalQuery("", "", "20", coordinate);
+          handler.makeAdditionalQuery("", "", "20");
+          handler.getSearchItems(coordinate);
           setState(() {
             _loadedItems = handler.loadedItems;
             _createMarkers();

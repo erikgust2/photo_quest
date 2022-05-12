@@ -28,22 +28,15 @@ class QuestHandler {
   Location currentLocation = Location();
   late LatLng currentCoordinates;
 
-
-  QuestHandler();
-
-  Future<void> makeNewQuery(String query, String type, String quantity, LatLng coordinate) async{
-    searchType = type; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
-    searchQuery = query; //for example statues, churches, bones, some items have years associated
-    searchQuantity = quantity;
+  void makeNewQuery(String query, String type, String quantity) {
     loadedItems.clear();
-    getSearchItems(coordinate);
+    makeAdditionalQuery(query, type, quantity);
   }
 
-  Future<void> makeAdditionalQuery(String query, String type, String quantity, LatLng coordinate) async{
+  void makeAdditionalQuery(String query, String type, String quantity) {
     searchType = type; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
     searchQuery = query; //for example statues, churches, bones, some items have years associated
     searchQuantity = quantity;
-    getSearchItems(coordinate);
   }
 
   // The function that fetches data from the API
