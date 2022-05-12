@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'CollectionsPage.dart';
-import 'challengePage.dart';
+import 'QuestPage.dart';
 import 'questMap.dart';
 
 
@@ -30,7 +30,7 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final screens = [
-    const ChallengePage(),
+    const QuestPage(),
     const QuestMapPage(),
     const CollectionsPage(),
 

@@ -3,8 +3,8 @@ import 'package:photo_quest/QuestTab.dart';
 import 'SettingsNavDrawer.dart';
 import 'profilePage.dart';
 import 'QuestTab.dart';
-class ChallengePage extends StatelessWidget {
-  const ChallengePage({Key? key}) : super(key: key);
+class QuestPage extends StatelessWidget {
+  const QuestPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
