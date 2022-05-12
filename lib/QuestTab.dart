@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-
-class QuestJoined extends StatefulWidget {
-  const QuestJoined({Key? key}) : super(key: key);
+import 'QuestCompleted.dart';
+import 'QuestAvailable.dart';
+class QuestTab extends StatefulWidget {
+  const QuestTab({Key? key}) : super(key: key);
   @override
-  State<QuestJoined> createState() => _MyTabbedPageState();
+  State<QuestTab> createState() => _MyTabbedPageState();
 
 }
 
-class _MyTabbedPageState extends State<QuestJoined> with SingleTickerProviderStateMixin {
+class _MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateMixin {
   static const List<Tab> myTabs = <Tab>[
     Tab(text: 'LEFT'),
     Tab(text: 'RIGHT'),
@@ -48,7 +49,7 @@ class _MyTabbedPageState extends State<QuestJoined> with SingleTickerProviderSta
 
             ),
               child: const Align(alignment: Alignment.center,
-                child: Text("Active", style: TextStyle(color: Colors.black),)),
+                child: Text("Available", style: TextStyle(color: Colors.black),)),
             ),
             ),
             Tab(child: Container(decoration: BoxDecoration(
@@ -65,7 +66,8 @@ class _MyTabbedPageState extends State<QuestJoined> with SingleTickerProviderSta
       body: TabBarView(
           controller: _tabController,
           children: const [
-            Text('Active'), Text('Completed',)
+            QuestAvailable(),
+            QuestCompleted(),
           ]
       ),
     );
