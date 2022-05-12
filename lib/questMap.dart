@@ -173,7 +173,7 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
             },
             onTap: (coordinate) {
               setState(() {
-                handler.getSearchItems(coordinate);
+                handler.makeAdditionalQuery("", "", "20", coordinate);
                 _loadedItems = handler.loadedItems;
                 _createMarkers();
               });

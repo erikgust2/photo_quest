@@ -12,7 +12,7 @@ import 'package:geolocator/geolocator.dart';
 
 class QuestHandler {
   static const List<String> _SEARCH_TYPES = ["Föremål", "Byggnad", "Kulturlämning", "Konstverk", "Kulturmiljö", "Objekt"];
-  static final QuestHandler DEFAULT_INSTANCE = QuestHandler("", "", "");
+  static final QuestHandler DEFAULT_INSTANCE = QuestHandler();
 
   Set<SearchItem> loadedItems = {};//searchItems loaded after fetching data and parsing the XML
   String searchType = ""; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
@@ -29,13 +29,9 @@ class QuestHandler {
   late LatLng currentCoordinates;
 
 
-  QuestHandler(String query, String type, String quantity){
-    searchType = type; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
-    searchQuery = query; //for example statues, churches, bones, some items have years associated
-    searchQuantity = quantity;
-  }
+  QuestHandler();
 
-  void makeNewQuery(String query, String type, String quantity, LatLng coordinate){
+  Future<void> makeNewQuery(String query, String type, String quantity, LatLng coordinate) async{
     searchType = type; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
     searchQuery = query; //for example statues, churches, bones, some items have years associated
     searchQuantity = quantity;
@@ -43,7 +39,7 @@ class QuestHandler {
     getSearchItems(coordinate);
   }
 
-  void makeAdditionalQuery(String query, String type, String quantity, LatLng coordinate){
+  Future<void> makeAdditionalQuery(String query, String type, String quantity, LatLng coordinate) async{
     searchType = type; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
     searchQuery = query; //for example statues, churches, bones, some items have years associated
     searchQuantity = quantity;
