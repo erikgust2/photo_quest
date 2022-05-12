@@ -80,8 +80,6 @@ class QuestHandler {
     return _distanceInMeters;
   }
 
-
-
   Widget build(BuildContext context, SearchItem selectedItem) {
     return Scaffold(
         appBar: AppBar(

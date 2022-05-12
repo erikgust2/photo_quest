@@ -4,13 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:photo_quest/questHandler.dart';
 import 'package:photo_quest/searchItem.dart';
-import 'package:photo_quest/searcher.dart';
-import 'package:xml/xml.dart';
-import 'package:flutter/material.dart';
-import 'xmlParser.dart';
-import 'package:http/http.dart' as http;
 import 'dart:core';
-import 'package:geolocator/geolocator.dart';
 
 
 void main() => runApp(const QuestMapPage());
@@ -56,7 +50,7 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
 
   late QuestHandler handler;
 
-  Future<void> _createMarkers() async {
+  void _createMarkers() {
     BitmapDescriptor searchIcon = BitmapDescriptor.defaultMarker;
     setState(() {_markers.addAll(
     _loadedItems.map((item) =>
@@ -172,8 +166,8 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
               });
             },
             onTap: (coordinate) {
-              setState(() {
-                handler.makeAdditionalQuery("", "", "20", coordinate);
+              handler.makeAdditionalQuery("", "", "20", coordinate);
+        setState(() {
                 _loadedItems = handler.loadedItems;
                 _createMarkers();
               });
