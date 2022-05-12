@@ -51,9 +51,6 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
   void _createQuestMarkers() { ///reset markers for specific quests
     _markers.clear();
     _addQuestMarkers();
-    setState(() {
-      _markers.forEach((marker) {marker.onTap})
-    });
   }
 
   void _addQuestMarkers() { ///add markers without resetting
@@ -159,8 +156,7 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
   void initState() {
     super.initState();
     setState(() {
-      handler = QuestHandler.DEFAULT_INSTANCE; /// only used for demo purposes
-      getItems();
+      getItems();/// only used for demo purposes
     });
   }
 
