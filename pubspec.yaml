@@ -37,6 +37,7 @@ dependencies:
   dio: ^4.0.0
   geocoding: ^2.0.4
   flutter_polyline_points: ^0.2.6
+  location: ^4.3.0
   google_maps_flutter: ^2.0.2
   xml_parser: ^1.0.0
   xml: ^5.3.1
@@ -45,6 +46,7 @@ dependencies:
   #Google Sign In
   google_sign_in: ^5.0.3
   firebase_auth: ^1.1.4
+  geolocator: ^8.2.1
 
   #state management for Google Sign In
   provider: ^5.0.0

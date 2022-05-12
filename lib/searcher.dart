@@ -2,12 +2,8 @@
 class Searcher {
 
   static final Searcher INSTANCE = Searcher();
-  static const String SELECTION_SIZE = "20"; //how many items searched for, but the parser limits items
-                                            // to those with coordinates so less is actually returned.
-  static const String MAP_SIZE = "20";      //honestly i dont know what MAP_SIZE does
   static const String BASE_URL = "http://kulturarvsdata.se/ksamsok/api?method=search";
   static const String SIZE = "&hitsPerPage=";
-
 //static final String API_KEY = "&x-api=test";
   static const String API_KEY = "&x-api=test";
   static const String FROM = "&startRecord="; //unused
@@ -26,14 +22,14 @@ class Searcher {
    * Combines the supplied parameters to a finished query string, which then is used to do the actual search.
   */
 
-  String search(String query, String type, String coordinates) {
+  String search(String query, String type, String quantity, String coordinates) {
     bool isFirst = true;
       mQuery = "&query=";// @param query The text string supplied by the user
     if (query.isNotEmpty) {
         mQuery += "%22" +query.trim().replaceAll(" ", "%22+and+%22") +"%22";
         isFirst = false;
       }
-    if (type.isNotEmpty) {// @param type The chosen type: (Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
+    if (type.isNotEmpty && type != "type") {// @param type The chosen type: (Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
       if (!isFirst) {
         mQuery += "+and+";
       } else {
@@ -49,9 +45,10 @@ class Searcher {
       }// @param coordinates A geo rectangle of the screen  (boundingBox=/WGS84+ ”väst syd ost nord”)
       mQuery += "boundingBox=/WGS84%20%22" + coordinates;
     }
-
-    print(BASE_URL + SIZE + SELECTION_SIZE + API_KEY + mQuery); //double checks that URL is correct
-    return BASE_URL + SIZE + SELECTION_SIZE + API_KEY + mQuery;
+    String result = (BASE_URL + SIZE + quantity + API_KEY + mQuery).
+    replaceAll("ö", "%C3%B6").replaceAll("å", "%C3%A5").replaceAll("ä", "%C3%A4").
+    replaceAll("Ö", "%C3%B6").replaceAll("Å", "%C3%A5").replaceAll("Ä", "%C3%A4");
+    return BASE_URL + SIZE + quantity + API_KEY + mQuery;
   }
 
 }

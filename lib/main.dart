@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'mapPage.dart';
-import 'profilePage.dart';
-import 'questPage.dart';
-import 'challengePage.dart';
-
+import 'CollectionsPage.dart';
+import 'QuestPage.dart';
+import 'questMap.dart';
 
 
 void main() => runApp(const MyApp());
@@ -32,10 +30,10 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final screens = [
-    QuestPage(),
-    ChallengePage(),
-    MapPage(),
-    ProfilePage()
+    const QuestPage(),
+    const QuestMapPage(),
+    const CollectionsPage(),
+
   ];
 
   int _selectedIndex = 0;
@@ -61,16 +59,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             label: 'Quests',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shield_outlined),
-            label: 'Challenges',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.map),
             label: 'Map',
           ),
+
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.emoji_events),
+            label: 'Collections',
           ),
         ],
         currentIndex: _selectedIndex,

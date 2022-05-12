@@ -8,21 +8,11 @@ class SearchItem {
   String itemPlaceLabel = "";
   String itemCoordinates = "";
 
-  /// Gets and sets the items title. */
-  String getTitle() {
-    return itemTitle;
+  void setTitle (String title){
+    itemTitle = title.toUpperCase();
   }
 
-  void setTitle(title) {
-    itemTitle = title.trim();
-  }
-
-  /// Gets and sets the items description. */
-  String getDescription() {
-    return itemDescription;
-  }
-
-  void setDescription(description) {
+  void setDescription(String description) {
     if (itemDescription.isNotEmpty) {
       itemDescription += " " + description.trim();
     }
@@ -31,33 +21,18 @@ class SearchItem {
     }
   }
 
-  /// Gets and sets the items type. */
-  String getType() {
-    return itemType;
-  }
   void setType(String type) {
     itemType = type.trim();
-  }
-
-  /// Gets and sets the items time label. */
-  String getTimeLabel() {
-    return itemTimeLabel;
   }
 
   void setTimeLabel(String timeLabel) {
     itemTimeLabel = timeLabel.trim();
   }
 
-  /// Gets and sets the items place label. */
-  String getPlaceLabel() {
-    return itemPlaceLabel;
-  }
-
   void setPlaceLabel(String placeLabel) {
     itemPlaceLabel = placeLabel.trim();
   }
 
-  /// Gets and sets the items coordinates. */
   LatLng getCoordinates() {
     List coords = [];
     coords = itemCoordinates.split(",");
@@ -74,9 +49,9 @@ class SearchItem {
 
   @override
   String toString(){
-    return "\ntitle: " + getTitle().trim().replaceAll(',', '') + "\n description: " + getDescription().trimLeft() +
-        "\n place: " + getPlaceLabel() + "\n time: " + getTimeLabel() +
-        "\n type: "+ getType() + "\n coordinates: "+ getCoordinates().toString() + "\n";
+    return "\ntitle: " + itemTitle.trim().replaceAll(',', '') + "\n description: " + itemDescription.trimLeft() +
+        "\n place: " + itemPlaceLabel + "\n time: " + itemTimeLabel +
+        "\n type: "+ itemType + "\n coordinates: "+ getCoordinates().toString() + "\n";
   }
 
 }
