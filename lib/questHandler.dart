@@ -12,6 +12,8 @@ import 'package:geolocator/geolocator.dart';
 
 class QuestHandler {
   static const List<String> _SEARCH_TYPES = ["Föremål", "Byggnad", "Kulturlämning", "Konstverk", "Kulturmiljö", "Objekt"];
+  static final QuestHandler DEFAULT_INSTANCE = QuestHandler("", "", "");
+
   Set<SearchItem> loadedItems = {};//searchItems loaded after fetching data and parsing the XML
   String searchType = ""; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
   String searchQuery = ""; //for example statues, churches, bones, some items have years associated
@@ -21,10 +23,11 @@ class QuestHandler {
   String east = "";
   String north = "";
   double searchSize = 0.005; //1 km
-  Searcher searcher = Searcher.getInstance(); //singleton (I know singelton is generally supposed to be avoided
-  // but this class gets the URL
-  late LatLng currentCoordinates;
+  Searcher searcher = Searcher.getInstance(); //singleton, this class gets the URL
+
   Location currentLocation = Location();
+  late LatLng currentCoordinates;
+
 
   QuestHandler(String query, String type, String quantity){
     searchType = type; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)

@@ -39,20 +39,18 @@ class ChallengeMapScreen extends StatefulWidget {
 
 class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
 
-  Set<Marker> markers = {}; //markers of search items for google map
-
   static const _initialCameraPosition = CameraPosition(//this position is Central Stockholm
     target: LatLng(59.329353, 18.068776), zoom: 12,);
 
   GoogleMapController? mapController; //controller for Google map
 
+  Set<Marker> _markers = {}; //markers of search items for google map
+
+  Set<SearchItem> _loadedItems = {};//searchItems loaded after fetching data and parsing the XML
+
   var mapType = MapType.normal;
 
   late LatLng currentCoordinates;
-
-  //final List<String> _searchTypes = ["foremal", "byggnad","kulturlämning", "konstverk", "kulturmiljo", "objekt", "type"];
-
-  Set<SearchItem> _loadedItems = {};//searchItems loaded after fetching data and parsing the XML
 
   late SearchItem _selectedItem;// when a marker is clicked on, it becomes the selected item
 
@@ -62,7 +60,7 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
     BitmapDescriptor searchIcon = BitmapDescriptor.defaultMarker;
     _loadedItems.forEach((item) {
       setState(() {
-        markers.add(Marker(
+        _markers.add(Marker(
             icon: searchIcon,//add first marker
             markerId: MarkerId(item.itemTitle + item.getCoordinates().toString()),
             position: item.getCoordinates(), //position of marker
@@ -130,7 +128,7 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
     );
   }
 
-  void getItems() async{
+  void getItems() async{ //gets the items from handler
     var location = await handler.getLocation();
     setState(() {
       handler.getSearchItems(LatLng(location.latitude, location.longitude));
@@ -156,7 +154,7 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
   void initState(){
     super.initState();
     setState(() {
-      handler = QuestHandler("", "", "10");
+      handler = QuestHandler.DEFAULT_INSTANCE;
       getItems();
     });
   }
@@ -169,7 +167,7 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
         myLocationButtonEnabled: true,
         myLocationEnabled: true,
         mapType: mapType,
-        markers: markers,
+        markers: _markers,
         onMapCreated: (controller) {
         setState(() {
                 mapController = controller;
