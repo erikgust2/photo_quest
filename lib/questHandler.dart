@@ -14,11 +14,11 @@ class QuestHandler {
   static const List<String> _SEARCH_TYPES = ["Föremål", "Byggnad", "Kulturlämning", "Konstverk", "Kulturmiljö", "Objekt"];
   static final QuestHandler DEFAULT_INSTANCE = QuestHandler();
 
-  Set<SearchItem> loadedItems = {};//searchItems loaded after fetching data and parsing the XML
+  Set<SearchItem> loadedItems = {};///searchItems loaded after fetching data and parsing the XML
   String searchType = ""; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
   String searchQuery = ""; //for example statues, churches, bones, some items have years associated
-  String searchQuantity= "20"; //default size, can be modified for less items
-  String south = "";  // URL uses (boundingBox=/WGS84+ ”väst syd ost nord”)
+  String searchQuantity= "20"; ///default size, can be modified for less items
+  String south = "";  /// URL uses (boundingBox=/WGS84+ ”väst syd ost nord”)
   String west = "";
   String east = "";
   String north = "";
@@ -28,31 +28,61 @@ class QuestHandler {
   Location currentLocation = Location();
   late LatLng currentCoordinates;
 
-  void makeNewQuery(String query, String type, String quantity) {
-    loadedItems.clear();
-    makeAdditionalQuery(query, type, quantity);
+  late SearchItem currentQuest;
+
+  Set<SearchItem> makeQueryGetItems(String query, String type, String quantity) { /// main function to initialize the location and get the items in one go
+    makeQuery(query, type, quantity);
+    getSearchItems();
+    return Set.unmodifiable(loadedItems);
   }
 
-  void makeAdditionalQuery(String query, String type, String quantity) {
-    searchType = type; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
-    searchQuery = query; //for example statues, churches, bones, some items have years associated
+  void makeNewQuery(String query, String type, String quantity) {
+    loadedItems.clear();
+    makeQuery(query, type, quantity);
+  }
+
+  void makeQuery(String query, String type, String quantity) {
+    searchType = type; ///( föremål, byggnad, kulturlämning, konstverk, kulturmiljö, objekt)
+    searchQuery = query; ///for example statues, churches, bones, some items have years associated
     searchQuantity = quantity;
   }
 
-  // The function that fetches data from the API
+
+
+  void selectQuest(SearchItem item){ /// NEEDS BACKEND OF COMPLETED QUESTS FOR THE CURRENT USER
+    loadedItems.clear();
+    loadedItems.add(item);
+  }
+
+  void selectQuests(List<SearchItem> items){ /// NEEDS BACKEND OF COMPLETED QUESTS FOR THE CURRENT USER
+    loadedItems.clear();
+    loadedItems.addAll(items);
+  }
+
+  /// The function that fetches data from the API
   Future<void> _fetchData(dynamic URL) async {
     final response = await http.get(Uri.parse(URL));
     final document = XmlDocument.parse(response.body);
     XMLParser p = XMLParser();
     p.parse(document);
-    loadedItems.addAll(p.getItems()); //parser puts everything in the set after parsing into search items
+    loadedItems.addAll(p.getItems()); ///parser puts everything in the set after parsing into search items
   }
 
-  Future<void> getSearchItems(LatLng coordinate) async{
+  Future<void> getSearchItemsWithCoordinates(LatLng coordinate) async{
     west = coordinate.longitude.toString();
     south = coordinate.latitude.toString();
     east = (coordinate.longitude + searchSize).toString();
-    north = (coordinate.latitude + searchSize).toString();  //makes a box for items
+    north = (coordinate.latitude + searchSize).toString();  ///makes a box for items
+    String URL = searcher.search(searchQuery, searchType, searchQuantity, west + "%20"+ south + "%20" + east + "%20" + north);
+    _fetchData(URL);
+  }
+
+  Future<void> getSearchItems() async{
+    getLocation();
+    west = currentCoordinates.longitude.toString();
+    south = currentCoordinates.latitude.toString();
+    east = (currentCoordinates.longitude + searchSize).toString();
+    north = (currentCoordinates.latitude + searchSize).toString();  ///makes a box for items
     String URL = searcher.search(searchQuery, searchType, searchQuantity, west + "%20"+ south + "%20" + east + "%20" + north);
     _fetchData(URL);
   }
@@ -73,7 +103,7 @@ class QuestHandler {
     return _distanceInMeters;
   }
 
-  Widget build(BuildContext context, SearchItem selectedItem) {
+  Widget build(BuildContext context, SearchItem selectedItem) { /// LITERALLY JUST A USELESS WIDGET
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.blue[900],
@@ -101,7 +131,6 @@ class QuestHandler {
                 }).toList(),
                 onChanged: (item) {
                     searchType = item!;
-
                 },
               )
             ]

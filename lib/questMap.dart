@@ -33,17 +33,14 @@ class ChallengeMapScreen extends StatefulWidget {
 
 class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
 
+  static const _mapType = MapType.normal;
+
   static const _initialCameraPosition = CameraPosition( //this position is Central Stockholm
     target: LatLng(59.329353, 18.068776), zoom: 12,);
 
+  final Set<Marker> _markers = {}; //markers of search items for google map
+
   GoogleMapController? mapController; //controller for Google map
-
-  Set<Marker> _markers = {}; //markers of search items for google map
-
-  Set<SearchItem> _loadedItems = {
-  }; //searchItems loaded after fetching data and parsing the XML
-
-  var mapType = MapType.normal;
 
   late LatLng currentCoordinates;
 
@@ -51,11 +48,19 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
 
   late QuestHandler handler;
 
-  void _createMarkers() {
+  void _createQuestMarkers() { ///reset markers for specific quests
+    _markers.clear();
+    _addQuestMarkers();
+    setState(() {
+      _markers.forEach((marker) {marker.onTap})
+    });
+  }
+
+  void _addQuestMarkers() { ///add markers without resetting
     BitmapDescriptor searchIcon = BitmapDescriptor.defaultMarker;
     setState(() {
       _markers.addAll(
-          _loadedItems.map((item) =>
+          handler.loadedItems.map((item) =>
               Marker(
                   icon: searchIcon, //add first marker
                   markerId: MarkerId(
@@ -75,8 +80,7 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
   }
 
 
-  Future<void> _showMyDialog() async {
-    //text box thing that pops up when a marker is clicked on
+  Future<void> _showMyDialog() async { ///text box thing that pops up when a marker is clicked on
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -101,13 +105,12 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
                     .toString()
                     .split(".")
                     .first + " m")
-                /**SET UP SO DISTANCE IS SHOWN**/
               ],
             ),
           ),
           actions: <Widget>[
             ElevatedButton(
-                child: const Text('Save quest?'), //not implemented
+                child: const Text('Save quest?'), ///not implemented
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -119,7 +122,7 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
                 )
             ),
             ElevatedButton(
-                child: const Text('Cancel'), //closes window
+                child: const Text('Cancel'), ///closes window
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -136,14 +139,19 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
     );
   }
 
-  void getItems() async {
-    //gets the items from handler
+  void getLocationWithoutItems() async {///starts handler without loading markers
     var location = await handler.getLocation();
-    handler.getSearchItems(LatLng(location.latitude, location.longitude));
     setState(() {
       currentCoordinates = LatLng(location.latitude, location.longitude);
-      _loadedItems = handler.loadedItems;
-      _createMarkers();
+    });
+  }
+
+  void getItems() async {/// gets the items from handler and loads markers
+    var location = await handler.getLocation();
+    handler.getSearchItemsWithCoordinates(LatLng(location.latitude, location.longitude));
+    setState(() {
+      currentCoordinates = LatLng(location.latitude, location.longitude);
+      _addQuestMarkers();
     });
   }
 
@@ -151,7 +159,7 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
   void initState() {
     super.initState();
     setState(() {
-      handler = QuestHandler.DEFAULT_INSTANCE;
+      handler = QuestHandler.DEFAULT_INSTANCE; /// only used for demo purposes
       getItems();
     });
   }
@@ -163,7 +171,7 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
         zoomControlsEnabled: true,
         myLocationButtonEnabled: true,
         myLocationEnabled: true,
-        mapType: mapType,
+        mapType: _mapType,
         markers: _markers,
         onMapCreated: (controller) {
           setState(() {
@@ -176,11 +184,10 @@ class _ChallengeMapScreenState extends State<ChallengeMapScreen> {
           });
         },
         onTap: (coordinate) {
-          handler.makeAdditionalQuery("", "", "20");
-          handler.getSearchItems(coordinate);
+          handler.makeQuery("", "", "20");
+          handler.getSearchItemsWithCoordinates(coordinate);
           setState(() {
-            _loadedItems = handler.loadedItems;
-            _createMarkers();
+            _addQuestMarkers();
           });
         },
       ),
