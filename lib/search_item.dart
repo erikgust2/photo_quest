@@ -1,12 +1,17 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class SearchItem {
+  String itemID = "";
   String itemTitle = "";
   String itemDescription = "";
   String itemType = "";
   String itemTimeLabel = "";
   String itemPlaceLabel = "";
   String itemCoordinates = "";
+
+  void setID (String iD) {
+    itemID = iD;
+  }
 
   void setTitle (String title){
     itemTitle = title.toUpperCase();

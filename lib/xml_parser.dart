@@ -1,5 +1,5 @@
 
-import 'package:photo_quest/searchItem.dart';
+import 'package:photo_quest/search_item.dart';
 import 'package:xml/xml.dart';
 /*
 * Parses to the XML response from K-samsök. Other parameters may be included such as a count of how many records are found.
@@ -7,6 +7,7 @@ import 'package:xml/xml.dart';
 
 class XMLParser {
   static const String RECORD = "record";
+  static const String ID = "pres:id";
   static const String TITLE = "pres:itemLabel";
   static const String DESCRIPTION = "pres:description";
   static const String TYPE = "pres:type";
@@ -21,6 +22,7 @@ class XMLParser {
           final records = doc.findAllElements(RECORD);    //XML document divides into nodes and elements, in Samsök the heirarchy is "<record>
           for (var record in records) {
                     SearchItem item = SearchItem();
+                    record.findAllElements(ID).forEach((id) {item.setID(id.text);});
                     record.findAllElements(TYPE).forEach((type) {item.setType(type.text);}); //there's only one of these per record, so findAll only returns one
                     record.findAllElements(TITLE).forEach((title) {item.setTitle(title.text);});//same for the rest
                     record.findAllElements(DESCRIPTION).forEach((desc){item.setDescription(desc.text.replaceAll("\n", " ").replaceAll("  ", " ").trim());});
