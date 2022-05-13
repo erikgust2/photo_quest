@@ -14,12 +14,12 @@ class LoginWidget extends StatelessWidget{
         onPrimary: Colors.black,
         minimumSize: Size(double.infinity, 50),
       ),
-      icon: FaIcon(FontAwesomeIcons.google),
+      icon: FaIcon(FontAwesomeIcons.google), //FontAwesome innehåller google ikonen
       label: Text('Log in with Google'),
       onPressed: () {
-        final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
-        provider.googleLogin();
-        print(FirebaseAuth.instance.currentUser?.email);
+        final provider = Provider.of<GoogleSignInProvider>(context, listen: false);      //
+        provider.googleLogin();                                                          // detta används för att starta inloggningsprocessen
+        print(FirebaseAuth.instance.currentUser?.email);                                 //
       },
     );
 
