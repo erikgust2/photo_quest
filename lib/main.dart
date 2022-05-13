@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'CollectionsPage.dart';
 import 'QuestPage.dart';
-import 'questMap.dart';
+import 'quest_map.dart';
 
 
 void main() => runApp(const MyApp());
