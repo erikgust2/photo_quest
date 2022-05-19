@@ -40,6 +40,8 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
 
   Set<Marker> _markers = {}; //markers of search items for google map
 
+  Set<SearchItem> _loadedItems = {};
+
   GoogleMapController? mapController; //controller for Google map
 
   late LatLng currentCoordinates;
@@ -48,26 +50,6 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
 
   late QuestController questController;
 
-  void _resetQuestMarkers() { ///reset markers for specific quests
-    _markers.clear();
-    _addQuestMarkers();
-  }
-
-  void getLocation() async {///starts handler without loading markers
-    var location = await questController.getLocation();
-    setState(() {
-      currentCoordinates = LatLng(location.latitude, location.longitude);
-    });
-  }
-
-  void getItems() async {/// gets the items from handler and loads markers
-    var location = await questController.getLocation();
-    questController.getSearchItemsFromCoordinates(LatLng(location.latitude, location.longitude));
-    setState(() {
-      currentCoordinates = LatLng(location.latitude, location.longitude);
-      _addQuestMarkers();
-    });
-  }
 
   @override
   void initState() {
@@ -78,28 +60,53 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
     });
   }
 
-  void _addQuestMarkers() { ///add markers without resetting
+  Future<void> _createMarkers() async {
+    BitmapDescriptor searchIcon = BitmapDescriptor.defaultMarker;
     setState(() {
       _markers.addAll(
-          questController.loadedItems.map((item) =>
-              Marker(
-                  icon: BitmapDescriptor.defaultMarker, //add first marker
-                  markerId: MarkerId(item.itemID),
-                  position: item.getCoordinates(), //position of marker
-                  infoWindow: InfoWindow( //popup info
-                      title: item.itemTitle,
-                      onTap: () {
-                        _selectedItem = item;
-                        _showMyDialog();
-                      }
-                  )
-              )
-          )
-      );
+        _loadedItems.map((item) =>
+            Marker(
+                icon: searchIcon,//add first marker
+                markerId: MarkerId(item.itemID),
+                position: item.getCoordinates(), //position of marker
+                infoWindow: InfoWindow( //popup info
+                    title: item.itemTitle,
+                    onTap: () {
+                      _selectedItem = item;
+                      _showMyDialog();
+                    }
+                )
+            )));
     });
   }
 
-  ///DOESN'T WORK NEEDS TO SET MARKER GREEN
+  void getItems() async{ //gets the items from handler
+    var location = await questController.getLocation();
+    setState(() {
+      questController.getSearchItemsFromCoordinates(LatLng(location.latitude, location.longitude));
+      currentCoordinates = LatLng(location.latitude, location.longitude);
+      _loadedItems = questController.loadedItems;
+      _createMarkers();
+    });
+    questController.currentLocation.onLocationChanged.listen((LocationData loc){
+      setState(() {
+        questController.getSearchItemsFromCoordinates(LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0));
+        currentCoordinates = LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0);
+        _loadedItems = questController.loadedItems;
+        _createMarkers();
+      });
+    });
+  }
+
+  void getLocation() async {///starts handler without loading markers
+    var location = await questController.getLocation();
+    setState(() {
+      currentCoordinates = LatLng(location.latitude, location.longitude);
+    });
+  }
+
+
+  ///sets marker green and saves quest in controller
   void selectQuest(SearchItem item){
     questController.selectQuest(item);
     Marker greenMarker = Marker(
@@ -139,20 +146,14 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
         onMapCreated: (controller) {
           setState(() {
             mapController = controller;
-            questController.currentLocation.onLocationChanged.listen((LocationData loc) {
-              setState(() {
-                getItems();
-              });
-            });
           });
         },
         onTap: (coordinate) {
-          questController.makeQuery("", "", "20");
-          questController.getSearchItemsFromCoordinates(coordinate);
-          setState(() {
-            _addQuestMarkers();
-          });
-        },
+        questController.getSearchItemsFromCoordinates(coordinate);
+        setState(() {
+        _loadedItems = questController.loadedItems;
+        _createMarkers();
+        });},
       ),
     );
   }

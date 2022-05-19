@@ -66,7 +66,7 @@ class QuestController {
     loadedItems.addAll(p.getItems()); ///parser puts everything in the set after parsing into search items
   }
 
-  void getSearchItemsFromCoordinates(LatLng coordinate) { /// uses latlng argument to get items
+  Future<void> getSearchItemsFromCoordinates(LatLng coordinate) async { /// uses latlng argument to get items
     west = (coordinate.longitude - searchSize).toString();
     south = (coordinate.latitude - searchSize).toString();
     east = (coordinate.longitude + searchSize).toString();
@@ -75,7 +75,7 @@ class QuestController {
     _fetchData(URL);
   }
 
-  void getSearchItems() { /// uses current location to get items
+  Future<void> getSearchItems() async { /// uses current location to get items
     getLocation();
     west = (currentCoordinates.longitude - searchSize).toString();
     south = (currentCoordinates.latitude - searchSize).toString();
