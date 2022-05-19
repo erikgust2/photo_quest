@@ -23,7 +23,7 @@ class QuestController {
   String west = "";
   String east = "";
   String north = "";
-  double searchSize = 0.01; //1.11 km
+  double searchSize = 0.005; //1 km
   Searcher searcher = Searcher.getInstance(); //singleton, this class gets the URL
 
   Location currentLocation = Location();
