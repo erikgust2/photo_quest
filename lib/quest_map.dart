@@ -7,8 +7,6 @@ import 'package:photo_quest/search_item.dart';
 import 'dart:core';
 
 
-void main() => runApp(const QuestMapPage());
-
 class QuestMapPage extends StatelessWidget {
   const QuestMapPage({Key? key}) : super(key: key);
 
@@ -156,6 +154,12 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
         });},
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    mapController?.dispose();
+    super.dispose();
   }
 
   Future<void> _showMyDialog() async { ///text box thing that pops up when a marker is clicked on
