@@ -18,7 +18,7 @@ class QuestController {
   Set<SearchItem> currentQuests = {};
   String searchType = ""; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
   String searchQuery = ""; //for example statues, churches, bones, some items have years associated
-  String searchQuantity= "20"; ///default size, can be modified for less items
+  String searchQuantity= "10"; ///default size, can be modified for less items
   String south = "";  /// URL uses (boundingBox=/WGS84+ ”väst syd ost nord”)
   String west = "";
   String east = "";
