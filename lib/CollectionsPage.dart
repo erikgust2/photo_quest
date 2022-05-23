@@ -43,7 +43,7 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
             icon: Icon(Icons.person),
             onPressed: (){
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context)=> const ProfilePage()
+                  builder: (context)=> ProfilePage()
               )
               );
             },
