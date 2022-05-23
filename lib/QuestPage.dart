@@ -12,7 +12,12 @@ class QuestPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.pink[200],
-        title: Text('Quests'),
+        title: Column(children: [
+          Text('Quests',
+            style: TextStyle(color: Colors.white, fontSize: 22.0),),
+          Text('Countdown',
+              style: TextStyle(color: Colors.white, fontSize: 12.0),)
+        ],),
 
           actions: [
             Builder(builder: (context) => IconButton(

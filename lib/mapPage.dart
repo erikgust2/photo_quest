@@ -42,6 +42,7 @@ class MapScreen extends State<MapPage> {
       ),
       drawer: const SettingsNavBar(),
 
+
       body: GoogleMap(initialCameraPosition: _initialCameraPosition,
         zoomControlsEnabled: true,
         myLocationButtonEnabled: true,)
