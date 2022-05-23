@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:photo_quest/GoogleSignInProvider.dart';
 import 'CollectionsPage.dart';
+import 'GoogleSignIn.dart';
 import 'QuestPage.dart';
 import 'quest_map.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 
 
-void main() => runApp(const MyApp());
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -12,13 +21,17 @@ class MyApp extends StatelessWidget {
   static const String _title = 'PhotoQuest';
 
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: _title,
-      home: MyStatefulWidget(),
-        debugShowCheckedModeBanner: false
-    );
-  }
+  Widget build(BuildContext context) => ChangeNotifierProvider (
+    create: (context) => GoogleSignInProvider(),
+    child: MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: LoginWidget(),
+      debugShowCheckedModeBanner: false,
+    ),
+  );
 }
 
 class MyStatefulWidget extends StatefulWidget {
