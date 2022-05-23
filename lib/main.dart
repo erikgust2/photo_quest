@@ -57,14 +57,14 @@ class MyAppState extends State<MyApp> {
   );
 }
 
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+  State<MainScreen> createState() => MyStatefulWidget();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+class MyStatefulWidget extends State<MainScreen> {
   final screens = [
     const QuestPage(),
     const QuestMapPage(),

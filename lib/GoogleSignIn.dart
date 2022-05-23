@@ -23,7 +23,7 @@ class LoginWidget extends StatelessWidget{
         final provider = Provider.of<GoogleSignInProvider>(context, listen: false);      //
         provider.googleLogin();                                                          // detta används för att starta inloggningsprocessen
         print(FirebaseAuth.instance.currentUser?.email);
-        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const QuestPage()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>  const MainScreen()));
       },
     );
 
