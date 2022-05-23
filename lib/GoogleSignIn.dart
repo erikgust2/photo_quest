@@ -2,7 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:photo_quest/GoogleSignInProvider.dart';
+import 'package:photo_quest/QuestPage.dart';
+import 'package:photo_quest/main.dart';
 import 'package:provider/provider.dart';
+import 'package:photo_quest/QuestPage.dart';
 
 class LoginWidget extends StatelessWidget{
 
@@ -19,9 +22,11 @@ class LoginWidget extends StatelessWidget{
       onPressed: () {
         final provider = Provider.of<GoogleSignInProvider>(context, listen: false);      //
         provider.googleLogin();                                                          // detta används för att starta inloggningsprocessen
-        print(FirebaseAuth.instance.currentUser?.email);                                 //
+        print(FirebaseAuth.instance.currentUser?.email);
+        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const QuestPage()));
       },
     );
+
 
   }
 
