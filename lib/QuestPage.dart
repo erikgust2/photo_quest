@@ -4,6 +4,7 @@ import 'package:photo_quest/generated/l10n.dart';
 import 'SettingsNavDrawer.dart';
 import 'profilePage.dart';
 import 'QuestTab.dart';
+import 'goldenHour.dart';
 class QuestPage extends StatelessWidget {
   const QuestPage({Key? key}) : super(key: key);
 
@@ -13,7 +14,13 @@ class QuestPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.pink[200],
-        title: Text(S.of(context).questLabel),
+        title: Column(
+          children: [
+            Text(S.of(context).questLabel),
+            GoldenHourController(),
+          ],
+        ),
+
 
           actions: [
             Builder(builder: (context) => IconButton(
