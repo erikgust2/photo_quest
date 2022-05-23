@@ -1,4 +1,4 @@
-import 'dart:async';
+/*import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -66,4 +66,17 @@ class goldenHour {
 
     return Text("Golden hour countdown: " + countdownGoldenHour);
   }
+
 }
+class _connectGoldenHour {
+  Future refreshFriends() async {
+    Uri URIOne = Uri.parse(
+        'https://api.openweathermap.org/data/2.5/weather?lat=59.334591&lon=18.063240&appid=fee9eba736a1f6b300edbd1e6244a915');
+    final resOne = await http.get(URIOne);
+    var data = json.decode(resOne.body);
+
+    goldenHour.fromJson(data['sys']);
+  }
+
+}
+*/
