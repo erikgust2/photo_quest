@@ -50,7 +50,7 @@ class MyAppState extends State<MyApp> {
         Locale("sv")
       ],
       title: _title,
-      home: MyStatefulWidget(),
+      home: LoginWidget(),
       debugShowCheckedModeBanner: false,
       locale: _locale,
     ),
