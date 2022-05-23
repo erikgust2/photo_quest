@@ -4,9 +4,17 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'CollectionsPage.dart';
 import 'QuestPage.dart';
 import 'quest_map.dart';
+import 'package:provider/provider.dart';
+import 'GoogleSignIn.dart';
+import 'package:photo_quest/GoogleSignInProvider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 
-void main() => runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -27,8 +35,9 @@ class MyAppState extends State<MyApp> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context) => ChangeNotifierProvider  (
+    create: (context) => GoogleSignInProvider(),
+    child: MaterialApp(
 
       localizationsDelegates: [
         S.delegate,
@@ -41,21 +50,21 @@ class MyAppState extends State<MyApp> {
         Locale("sv")
       ],
       title: _title,
-      home: MyStatefulWidget(),
+      home: LoginWidget(),
       debugShowCheckedModeBanner: false,
       locale: _locale,
-    );
-  }
+    ),
+  );
 }
 
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+  State<MainScreen> createState() => MyStatefulWidget();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+class MyStatefulWidget extends State<MainScreen> {
   final screens = [
     const QuestPage(),
     const QuestMapPage(),
