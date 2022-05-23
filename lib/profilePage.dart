@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photo_quest/generated/l10n.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -7,11 +8,11 @@ class ProfilePage extends StatelessWidget {
     return  Scaffold(
 
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text(S.of(context).profileLabel),
         backgroundColor: Colors.pink[200],
 
       ),
-      body: Center(child: Text('This is the center of the profile Page')),
+      body: Center(child: Text(S.of(context).profilePlaceholder)),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_quest/generated/l10n.dart';
 
 class QuestAvailable extends StatelessWidget{
   const QuestAvailable({Key? key}) : super(key: key);
@@ -8,7 +9,7 @@ class QuestAvailable extends StatelessWidget{
   Widget build(BuildContext context){
     return Scaffold(
 
-      body: Text('Available'),
+      body: Text(S.of(context).availableLabel),
     );
   }
 
