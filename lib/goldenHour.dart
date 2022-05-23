@@ -67,3 +67,44 @@ class goldenHour {
     return Text("Golden hour countdown: " + countdownGoldenHour);
   }
 }
+
+class GoldenHourController extends StatefulWidget {
+  GoldenHourController({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<GoldenHourController> createState() => GoldenHourState();
+}
+
+
+class GoldenHourState extends State<GoldenHourController> {
+  var friend;
+
+  @override
+  void initState() {
+    refreshFriends();
+    super.initState();
+  }
+
+  Future refreshFriends() async {
+    Uri URIOne = Uri.parse(
+        'https://api.openweathermap.org/data/2.5/weather?lat=59.334591&lon=18.063240&appid=fee9eba736a1f6b300edbd1e6244a915');
+    final resOne = await http.get(URIOne);
+    var data = json.decode(resOne.body);
+    friend;
+    var _friendsTemp;
+    _friendsTemp = goldenHour.fromJson(data['sys']);
+
+    setState(() {
+      friend = _friendsTemp;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return  friend.buildTitle(context);
+
+  }
+}
