@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photo_quest/generated/l10n.dart';
 import 'QuestCompleted.dart';
 import 'QuestAvailable.dart';
 class QuestTab extends StatefulWidget {
@@ -48,16 +49,16 @@ class _MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateM
               borderRadius: BorderRadius.circular(50),
 
             ),
-              child: const Align(alignment: Alignment.center,
-                child: Text("Available", style: TextStyle(color: Colors.black),)),
+              child:  Align(alignment: Alignment.center,
+                child: Text(S.of(context).availableLabel, style: TextStyle(color: Colors.black),)),
             ),
             ),
             Tab(child: Container(decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
 
             ),
-              child: const Align(alignment: Alignment.center,
-                  child: Text("Completed", style: TextStyle(color: Colors.black),)),
+              child:  Align(alignment: Alignment.center,
+                  child: Text(S.of(context).completedLabel, style: TextStyle(color: Colors.black),)),
             ),
             ),
           ],

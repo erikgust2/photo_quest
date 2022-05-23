@@ -1,22 +1,49 @@
 import 'package:flutter/material.dart';
+import 'generated/l10n.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'CollectionsPage.dart';
 import 'QuestPage.dart';
 import 'quest_map.dart';
 
 
-void main() => runApp(const MyApp());
+void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  @override
+  MyAppState createState() => MyAppState();
 
-  static const String _title = 'PhotoQuest';
+  static MyAppState? of(BuildContext context) => context.findAncestorStateOfType<MyAppState>();
+}
+
+class MyAppState extends State<MyApp> {
+
+  String _title = 'PhotoQuest';
+  Locale _locale = Locale('en');
+
+  void setLocale(Locale value){
+    setState(() {
+      _locale = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale("en"),
+        Locale("sv")
+      ],
       title: _title,
       home: MyStatefulWidget(),
-        debugShowCheckedModeBanner: false
+      debugShowCheckedModeBanner: false,
+      locale: _locale,
     );
   }
 }
@@ -38,7 +65,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   int _selectedIndex = 0;
 
-  void _onItemTapped(int index) {
+  Future<void> _onItemTapped(int index) async {
     setState(() {
       _selectedIndex = index;
     });
@@ -53,19 +80,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.pink[100],
         type:BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
+        items:  <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.local_police_outlined),
-            label: 'Quests',
+            icon: const Icon(Icons.local_police_outlined),
+            label: S.of(context).questLabel, //Quest Label
           ),
-          BottomNavigationBarItem(
+           BottomNavigationBarItem(
             icon: Icon(Icons.map),
-            label: 'Map',
+            label: S.of(context).mapLabel, //Map Label
           ),
 
-          BottomNavigationBarItem(
+           BottomNavigationBarItem(
             icon: Icon(Icons.emoji_events),
-            label: 'Collections',
+            label: S.of(context).collectionsLabel, //Collections Label
           ),
         ],
         currentIndex: _selectedIndex,

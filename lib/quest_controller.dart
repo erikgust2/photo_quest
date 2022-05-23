@@ -27,7 +27,7 @@ class QuestController {
   Searcher searcher = Searcher.getInstance(); //singleton, this class gets the URL
 
   Location currentLocation = Location();
-  late LatLng currentCoordinates;
+  static late LatLng currentCoordinates;
 
 
   Set<SearchItem> makeQueryGetItems(String query, String type, String quantity) { /// main function to initialize the location and get the items in one go

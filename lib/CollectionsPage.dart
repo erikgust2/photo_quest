@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photo_quest/generated/l10n.dart';
 import 'package:photo_quest/profilePage.dart';
 import 'QuestTab.dart';
 import 'SettingsNavDrawer.dart';
@@ -34,7 +35,7 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink[200],
-        title: Text('Collections'),
+        title: Text(S.of(context).collectionsLabel),
         centerTitle: true,
 
         actions: [
@@ -61,7 +62,7 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
       body: TabBarView(
         controller: _tabController,
           children: [
-            Text("Discover"),
+            Text(S.of(context).discoverLabel),
             QuestTab()
           ]
       ),
