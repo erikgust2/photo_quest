@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:photo_quest/generated/l10n.dart';
+import 'LanguagePage.dart';
 
 class SettingsNavBar extends StatelessWidget{
   const SettingsNavBar({Key? key}) : super(key: key);
@@ -23,22 +25,27 @@ class SettingsNavBar extends StatelessWidget{
     children: [
       ListTile(
         leading: const Icon(Icons.language),
-        title: const Text('Language'),
-        onTap: () {},
+        title:  Text(S.of(context).languageLabel),
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context)=> const LanguagePage()
+          )
+          );
+        },
       ),
       ListTile(
         leading: const Icon(Icons.palette_outlined),
-        title: const Text('Colors'),
+        title: Text(S.of(context).colorsLabel),
         onTap: () {},
       ),
       ListTile(
         leading: const Icon(Icons.supervisor_account),
-        title: const Text('Account Settings'),
+        title: Text(S.of(context).accountSettingsLabel),
         onTap: () {},
       ),
       ListTile(
         leading: const Icon(Icons.article_outlined),
-        title: const Text('User Agreement'),
+        title: Text(S.of(context).userAgreementLabel),
         onTap: () {},
       ),
     ],

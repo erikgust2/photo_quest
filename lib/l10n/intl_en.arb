@@ -1,0 +1,31 @@
+
+{
+  "_locale" : "en",
+
+  "testText" : "testEN",
+
+  "questLabel" : "Quest",
+
+  "mapLabel" : "Map",
+
+  "collectionsLabel" : "Collections",
+
+  "availableLabel" : "Available",
+
+  "completedLabel" : "Completed",
+
+  "discoverLabel" : "Discover",
+
+  "profileLabel" : "Profile",
+
+  "languageLabel" : "Language",
+
+  "colorsLabel" : "Colors",
+
+  "accountSettingsLabel" : "Account Settings",
+
+  "userAgreementLabel" : "User Agreement",
+
+  "profilePlaceholder" : "This is the center of the Profile Page"
+
+}

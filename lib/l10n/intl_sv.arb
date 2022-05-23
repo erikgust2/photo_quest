@@ -1,0 +1,30 @@
+{
+  "_locale" : "sv",
+
+  "testText" : "testSV",
+
+  "questLabel" : "Uppdrag",
+
+  "mapLabel" : "Karta",
+
+  "collectionsLabel" : "Samlingar",
+
+  "availableLabel" : "Tillgängliga",
+
+  "completedLabel" : "Avklarade",
+
+  "discoverLabel" : "Upptäck",
+
+  "profileLabel" : "Profil",
+
+  "languageLabel" : "Språk",
+
+  "colorsLabel" : "Färger",
+
+  "accountSettingsLabel" : "Kontoinställningar",
+
+  "userAgreementLabel" : "Användaravtal",
+
+  "profilePlaceholder" : "Detta är mitten av profilsidan"
+
+}
