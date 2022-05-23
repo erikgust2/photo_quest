@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -10,7 +11,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 
-
+  final user = FirebaseAuth.instance.currentUser!;
 
   profilePicture() {
     //Returns CircleAvatar with editable profile photo
@@ -22,8 +23,8 @@ class _ProfilePageState extends State<ProfilePage> {
             CircleAvatar(
               backgroundColor: Colors.pinkAccent,
 
-              //This should be the path to the user's image on their google account
-              backgroundImage: NetworkImage('https://i.imgur.com/ZahwJjN.gif'),
+              backgroundImage: NetworkImage(user.photoURL!),
+              //NetworkImage('https://i.imgur.com/ZahwJjN.gif'),
               radius: 70,
             ),
 
@@ -49,9 +50,9 @@ class _ProfilePageState extends State<ProfilePage> {
         decoration: const BoxDecoration(
           color: Colors.purple,
         ),
-        child: const Text(
-            'Username & Email here',
-            style: TextStyle(
+        child: Text(
+            'Username: ' + user.displayName! + 'Email: ' + user.email.toString(),
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -60,7 +61,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  //Doesn't open a new page with the clicked image yet
   gallery() {
     //Returns a row on the bottom of the screen that is scrollable and contains the user's photos. When clicked they open
     //a new page with the clicked image
@@ -134,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink[100],
+        backgroundColor: Colors.pink[244],
         title: const Text("Profile"),
       ),
 
