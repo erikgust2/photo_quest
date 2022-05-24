@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -19,32 +20,19 @@ class goldenHour {
   );
 
   Widget buildTitle(BuildContext context) {
-    int sunriseTimeInt = (sunrise * 1000);
-    int sunsetTimeInt = (sunset * 1000);
+    DateTime sunriseTime = DateTime.fromMillisecondsSinceEpoch(sunrise * 1000);
+    int sunsetTimeInt = (sunset * 1000) - 3600000;
+    DateTime sunsetTime = DateTime.fromMillisecondsSinceEpoch(sunsetTimeInt);
 
     int timeNowInt = (DateTime.now().millisecondsSinceEpoch);
 
-    DateTime sunsetTime = DateTime.fromMillisecondsSinceEpoch(sunsetTimeInt);
-    DateTime sunriseTime = DateTime.fromMillisecondsSinceEpoch(sunriseTimeInt);
-    DateTime thisDate = DateTime.fromMillisecondsSinceEpoch(timeNowInt);
-    DateTime timeUntilSunset = sunsetTime.subtract(Duration(
-        hours: thisDate.hour,
-        minutes: thisDate.minute,
-        seconds: thisDate.second,
-        milliseconds: thisDate.millisecond,
-        microseconds: thisDate.microsecond));
-    DateTime timeUntilSunrise = sunriseTime.subtract(Duration(
-        hours: thisDate.hour,
-        minutes: thisDate.minute,
-        seconds: thisDate.second,
-        milliseconds: thisDate.millisecond,
-        microseconds: thisDate.microsecond));
     DateTime correctTime;
     if (timeNowInt < sunsetTimeInt) {
-      correctTime = timeUntilSunset;
+      correctTime = sunsetTime;
     } else {
-      correctTime = timeUntilSunrise;
+      correctTime = sunriseTime;
     }
+
     String hourZero = '';
     String minuteZero = '';
     String secondZero = '';
@@ -57,14 +45,14 @@ class goldenHour {
     if (correctTime.second < 10) {
       secondZero = '0';
     }
-    var countdownGoldenHour = hourZero +
+    var nextGoldenHour = hourZero +
         '${correctTime.hour}: ' +
         minuteZero +
         '${correctTime.minute}: ' +
         secondZero +
         '${correctTime.second}';
 
-    return Text("Golden hour countdown: " + countdownGoldenHour);
+    return Text("Next golden hour: " + nextGoldenHour.toString());
   }
 }
 
@@ -103,8 +91,6 @@ class GoldenHourState extends State<GoldenHourController> {
 
   @override
   Widget build(BuildContext context) {
-
     return  friend.buildTitle(context);
-
   }
 }
