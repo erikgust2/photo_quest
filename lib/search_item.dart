@@ -18,11 +18,13 @@ class SearchItem {
   }
 
   void setDescription(String description) {
-    if (itemDescription.isNotEmpty) {
-      itemDescription += " " + description.trim();
-    }
-    else {
-      itemDescription = description.trim();
+    if(!description.contains("För eventuell historik") && !description.contains("null")) {
+      if (itemDescription.isNotEmpty) {
+        itemDescription += " " + description.trim();
+      }
+      else {
+        itemDescription = description.trim();
+      }
     }
   }
 
