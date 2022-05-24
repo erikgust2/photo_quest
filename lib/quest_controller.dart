@@ -12,8 +12,8 @@ import 'package:geolocator/geolocator.dart';
 
 class QuestController {
   static const List<String> _SEARCH_TYPES = ["Föremål", "Byggnad", "Kulturlämning", "Konstverk", "Kulturmiljö", "Objekt"];
-  static final QuestController DEFAULT_INSTANCE = QuestController();
-
+  static QuestController _instance = QuestController._internal();
+  static late LatLng currentCoordinates;
   Set<SearchItem> loadedItems = {}; ///searchItems loaded after fetching data and parsing the XML
   Set<SearchItem> currentQuests = {};
   String searchType = ""; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
@@ -25,11 +25,16 @@ class QuestController {
   String north = "";
   double searchSize = 0.01; //2.22 km
   Searcher searcher = Searcher.getInstance(); //singleton, this class gets the URL
-
   Location currentLocation = Location();
-  static late LatLng currentCoordinates;
 
 
+  QuestController._internal(){
+    _instance = this;
+    getLocation();
+  }
+
+  factory QuestController() => _instance;
+  ///MAKE INTO FACTORY FOR BULLSHIT QEURIES
   Set<SearchItem> makeQueryGetItems(String query, String type, String quantity) { /// main function to initialize the location and get the items in one go
     makeQuery(query, type, quantity);
     getSearchItems();

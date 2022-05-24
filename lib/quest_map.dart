@@ -54,14 +54,14 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
   void initState() {
     super.initState();
     setState(() {
-      questController = QuestController.DEFAULT_INSTANCE;
+      questController = QuestController();
       getItems();/// only used for demo purposes
     });
   }
 
   void _createMarkers() async{
     BitmapDescriptor searchIcon = BitmapDescriptor.defaultMarker;
-    var markers = _markers;
+    Set<Marker> markers = _markers.toSet();
     markers.addAll(
         _loadedItems.skip(_markers.length).map((item) =>
             Marker(
@@ -79,20 +79,21 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
     setState(() {
       _markers = markers;
     });
+    print(_markers);
   }
 
   void getItems() async{ //gets the items from handler
     var location = await questController.getLocation();
+    questController.getSearchItemsFromCoordinates(LatLng(location.latitude, location.longitude));
+    currentCoordinates = LatLng(location.latitude, location.longitude);
     setState(() {
-      questController.getSearchItemsFromCoordinates(LatLng(location.latitude, location.longitude));
-      currentCoordinates = LatLng(location.latitude, location.longitude);
       _loadedItems = questController.loadedItems;
       _createMarkers();
     });
     questController.currentLocation.onLocationChanged.listen((LocationData loc){
+      questController.getSearchItemsFromCoordinates(LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0));
+      currentCoordinates = LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0);
       setState(() {
-        questController.getSearchItemsFromCoordinates(LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0));
-        currentCoordinates = LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0);
         _loadedItems = questController.loadedItems;
         _createMarkers();
       });
@@ -121,17 +122,13 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
               _showMyDialog();
             })
     );
-    for (Marker marker in _markers){
-      if (marker.markerId.value == item.itemID){
         setState(() {
-          _markers.remove(marker);
+          _markers.removeWhere((marker) => marker.markerId.value == item.itemID);
           _markers.add(greenMarker);
-        }
-        );
-        break;
+        });
       }
-    }
-  }
+
+
 
 
 
