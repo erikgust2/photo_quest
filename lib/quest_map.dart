@@ -6,7 +6,7 @@ import 'package:photo_quest/quest_controller.dart';
 import 'package:photo_quest/search_item.dart';
 import 'dart:core';
 
-void main() => runApp(const QuestMapPage());
+
 
 class QuestMapPage extends StatelessWidget {
   const QuestMapPage({Key? key}) : super(key: key);
@@ -61,7 +61,7 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
 
   void _createMarkers() async{
     BitmapDescriptor searchIcon = BitmapDescriptor.defaultMarker;
-    Set<Marker> markers = {};
+    var markers = _markers;
     markers.addAll(
         _loadedItems.skip(_markers.length).map((item) =>
             Marker(
