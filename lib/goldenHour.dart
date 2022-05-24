@@ -48,9 +48,7 @@ class goldenHour {
     var nextGoldenHour = hourZero +
         '${correctTime.hour}: ' +
         minuteZero +
-        '${correctTime.minute}: ' +
-        secondZero +
-        '${correctTime.second}';
+        '${correctTime.minute}';
 
     return Text("Next golden hour: " + nextGoldenHour.toString());
   }
