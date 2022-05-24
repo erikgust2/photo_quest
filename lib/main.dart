@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photo_quest/quest_controller.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'CollectionsPage.dart';
@@ -13,6 +14,7 @@ import 'package:firebase_core/firebase_core.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  QuestController().getLocation();
   runApp(MyApp());
 }
 
@@ -73,7 +75,15 @@ class MyStatefulWidget extends State<MainScreen> {
   ];
 
   int _selectedIndex = 0;
+  late QuestController questController;
 
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      QuestController().getSearchItems();
+    });
+  }
   Future<void> _onItemTapped(int index) async {
     setState(() {
       _selectedIndex = index;

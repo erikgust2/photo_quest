@@ -6,6 +6,8 @@ import 'package:photo_quest/quest_controller.dart';
 import 'package:photo_quest/search_item.dart';
 import 'dart:core';
 
+import 'SettingsNavDrawer.dart';
+
 
 
 class QuestMapPage extends StatelessWidget {
@@ -79,7 +81,6 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
     setState(() {
       _markers = markers;
     });
-    print(_markers);
   }
 
   void getItems() async{ //gets the items from handler
@@ -87,14 +88,14 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
     questController.getSearchItemsFromCoordinates(LatLng(location.latitude, location.longitude));
     currentCoordinates = LatLng(location.latitude, location.longitude);
     setState(() {
-      _loadedItems = questController.loadedItems;
+      _loadedItems = questController.loadedQuests;
       _createMarkers();
     });
     questController.currentLocation.onLocationChanged.listen((LocationData loc){
       questController.getSearchItemsFromCoordinates(LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0));
       currentCoordinates = LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0);
       setState(() {
-        _loadedItems = questController.loadedItems;
+        _loadedItems = questController.loadedQuests;
         _createMarkers();
       });
     });
@@ -149,10 +150,11 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
         onTap: (coordinate) {
         questController.getSearchItemsFromCoordinates(coordinate);
         setState(() {
-        _loadedItems = questController.loadedItems;
+        _loadedItems = questController.loadedQuests;
         _createMarkers();
         });},
       ),
+        drawer: const SettingsNavBar()
     );
   }
 

@@ -66,7 +66,7 @@ class _MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateM
       ),
       body: TabBarView(
           controller: _tabController,
-          children: const [
+          children: [
             QuestAvailable(),
             QuestCompleted(),
           ]

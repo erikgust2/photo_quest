@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:photo_quest/generated/l10n.dart';
 import 'package:photo_quest/profilePage.dart';
+import 'package:photo_quest/quest_controller.dart';
 import 'QuestTab.dart';
 import 'SettingsNavDrawer.dart';
 class CollectionsPage extends StatefulWidget {
@@ -59,13 +60,7 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
           ),
         )
       ),
-      body: TabBarView(
-        controller: _tabController,
-          children: [
-            Text(S.of(context).discoverLabel),
-            QuestTab()
-          ]
-      ),
+      body: QuestController().buildCollection(context),
       drawer: SettingsNavBar(),
     );
   }

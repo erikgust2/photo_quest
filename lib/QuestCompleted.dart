@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_quest/generated/l10n.dart';
+import 'package:photo_quest/quest_controller.dart';
 
 class QuestCompleted extends StatelessWidget{
   const QuestCompleted({Key? key}) : super(key: key);
@@ -9,7 +10,7 @@ class QuestCompleted extends StatelessWidget{
   Widget build(BuildContext context){
     return Scaffold(
 
-      body: Text(S.of(context).completedLabel),
+      body: QuestController().buildCompleted(context)
     );
   }
 
