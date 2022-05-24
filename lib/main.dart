@@ -75,15 +75,8 @@ class MyStatefulWidget extends State<MainScreen> {
   ];
 
   int _selectedIndex = 0;
-  late QuestController questController;
 
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      QuestController().getSearchItems();
-    });
-  }
+
   Future<void> _onItemTapped(int index) async {
     setState(() {
       _selectedIndex = index;
