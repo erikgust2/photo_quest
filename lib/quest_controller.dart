@@ -156,7 +156,7 @@ class QuestController {
             subtitle: Text(getDistance(item.getCoordinates(), currentCoordinates)
                 .toString()
                 .split(".")
-                .first + " m")
+                .first + " m" + " " + item.itemID)
         ))).toList()
         ,
     ),
