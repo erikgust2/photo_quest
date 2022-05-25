@@ -81,6 +81,8 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
             )));
     setState(() {
       _markers = markers;
+      _loadedItems.clear(); //Either of these could be redundant or useless
+      QuestController().loadedQuests.clear(); //Could be redundant or useless
     });
   }
 
