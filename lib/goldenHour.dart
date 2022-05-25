@@ -90,7 +90,7 @@ class GoldenHourState extends State<GoldenHourController> {
   @override
   Widget build(BuildContext context) {
     if(friend == null) {
-      return Text("00:00");
+      return Text("loading...");
     }
     return  friend.buildTitle(context);
   }
