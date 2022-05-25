@@ -146,8 +146,7 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
         onTap: (coordinate) {
           QuestController().getSearchItemsFromCoordinates(coordinate);
         setState(() {
-          _loadedItems.clear();
-          _loadedItems = QuestController().loadedQuests;
+        _loadedItems = QuestController().loadedQuests;
         _createMarkers();
         });},
       ),

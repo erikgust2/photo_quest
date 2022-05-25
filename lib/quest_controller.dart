@@ -75,6 +75,7 @@ class QuestController {
     final document = XmlDocument.parse(response.body);
     XMLParser p = XMLParser();
     p.parse(document);
+    loadedQuests.clear();
     loadedQuests.addAll(p.getItems()); ///parser puts everything in the set after parsing into search items
   }
 
