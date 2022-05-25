@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:photo_quest/search_item.dart';
+import 'package:photo_quest/quest_item.dart';
 import 'package:photo_quest/searcher.dart';
 import 'package:xml/xml.dart';
 import 'xml_parser.dart';
@@ -14,9 +14,9 @@ class QuestController {
   static const List<String> _SEARCH_TYPES = ["Föremål", "Byggnad", "Kulturlämning", "Konstverk", "Kulturmiljö", "Objekt", "Type"];
   static QuestController _instance = QuestController._internal();
   static late LatLng currentCoordinates;
-  Set<SearchItem> loadedQuests = {}; ///searchItems loaded after fetching data and parsing the XML
-  Set<SearchItem> currentQuests = {};
-  Set<SearchItem> completedQuests = {};
+  static Set<QuestItem> loadedQuests = {}; ///searchItems loaded after fetching data and parsing the XML
+  static Set<QuestItem> currentQuests = {};
+  static Set<QuestItem> completedQuests = {};
   String searchType = ""; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
   String searchQuery = ""; //for example statues, churches, bones, some items have years associated
   String searchQuantity= "50"; ///default size, can be modified for less items
@@ -59,12 +59,12 @@ class QuestController {
     searchQuantity = quantity;
   }
 
-  void selectQuest(SearchItem item){ /// NEEDS BACKEND OF COMPLETED QUESTS FOR THE CURRENT USER
+  void selectQuest(QuestItem item){ /// NEEDS BACKEND OF COMPLETED QUESTS FOR THE CURRENT USER
     loadedQuests.remove(item);
     currentQuests.add(item);
   }
 
-  void deleteQuest(SearchItem item){ /// NEEDS BACKEND OF COMPLETED QUESTS FOR THE CURRENT USER
+  void deleteQuest(QuestItem item){ /// NEEDS BACKEND OF COMPLETED QUESTS FOR THE CURRENT USER
     loadedQuests.remove(item);
     currentQuests.remove(item);
   }
@@ -75,7 +75,6 @@ class QuestController {
     final document = XmlDocument.parse(response.body);
     XMLParser p = XMLParser();
     p.parse(document);
-    loadedQuests.clear();
     loadedQuests.addAll(p.getItems()); ///parser puts everything in the set after parsing into search items
   }
 
@@ -149,14 +148,13 @@ class QuestController {
             ]
         ),
       body: ListView(
-
         children: loadedQuests.map((item) => Card(child: ListTile(
           isThreeLine: true,
             title : Text(item.itemTitle + "\n" + item.itemPlaceLabel + "\n" + item.itemTimeLabel),
             subtitle: Text(getDistance(item.getCoordinates(), currentCoordinates)
                 .toString()
                 .split(".")
-                .first + " m" + " " + item.itemID)
+                .first + " m")
         ))).toList()
         ,
     ),

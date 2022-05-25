@@ -52,7 +52,7 @@ class MyAppState extends State<MyApp> {
         Locale("sv")
       ],
       title: _title,
-      home: LoginWidget(),
+      home: MainScreen(),
       debugShowCheckedModeBanner: false,
       locale: _locale,
     ),

@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:photo_quest/quest_controller.dart';
-import 'package:photo_quest/search_item.dart';
+import 'package:photo_quest/quest_item.dart';
 import 'dart:core';
-
 import 'SettingsNavDrawer.dart';
 
 
@@ -41,13 +40,13 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
 
   Set<Marker> _markers = {}; //markers of search items for google map
 
-  Set<SearchItem> _loadedItems = {};
+  Set<QuestItem> _loadedItems = {};
 
   GoogleMapController? mapController; //controller for Google map
 
   late LatLng currentCoordinates;
 
-  late SearchItem _selectedItem; // when a marker is clicked on, it becomes the selected item
+  late QuestItem _selectedItem; // when a marker is clicked on, it becomes the selected item
 
 
   @override
@@ -87,11 +86,11 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
   void getItems() async{ //gets the items from handler
     if (mounted) {
       setState(() {
-        _loadedItems = QuestController().loadedQuests;
+        _loadedItems = QuestController.loadedQuests;
         _createMarkers();
       });
     }
-    QuestController().currentLocation.onLocationChanged.listen((LocationData loc){
+    /*QuestController().currentLocation.onLocationChanged.listen((LocationData loc){
       QuestController().getSearchItemsFromCoordinates(LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0));
       currentCoordinates = LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0);
       if (mounted) {
@@ -99,14 +98,14 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
           _loadedItems = QuestController().loadedQuests;
           _createMarkers();
         });
-      }
-    });
+
+    });}*/
   }
 
 
 
   ///sets marker green and saves quest in controller
-  void selectQuest(SearchItem item){
+  void selectQuest(QuestItem item){
     QuestController().selectQuest(item);
     Marker greenMarker = Marker(
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen), //add first marker
@@ -146,7 +145,7 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
         onTap: (coordinate) {
           QuestController().getSearchItemsFromCoordinates(coordinate);
         setState(() {
-        _loadedItems = QuestController().loadedQuests;
+        _loadedItems = QuestController.loadedQuests;
         _createMarkers();
         });},
       ),
@@ -157,7 +156,6 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
   @override
   void dispose() {
     mapController?.dispose();
-
     super.dispose();
   }
 

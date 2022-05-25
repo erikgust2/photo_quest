@@ -81,10 +81,11 @@ class GoldenHourState extends State<GoldenHourController> {
     var data = json.decode(resOne.body);
     var _friendsTemp;
     _friendsTemp = goldenHour.fromJson(data['sys']);
-
-    setState(() {
+    if (mounted) {
+      setState(() {
       friend = _friendsTemp;
     });
+    }
   }
 
   @override

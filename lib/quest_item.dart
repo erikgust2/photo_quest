@@ -1,6 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class SearchItem {
+class QuestItem {
   String itemID = "";
   String itemTitle = "";
   String itemDescription = "";
@@ -55,10 +55,21 @@ class SearchItem {
 
 
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is QuestItem &&
+            hashCode == other.hashCode;
+  }
+
+  @override int get hashCode => itemID.hashCode;
+
+  @override
   String toString(){
     return "\ntitle: " + itemTitle.trim().replaceAll(',', '') + "\n description: " + itemDescription.trimLeft() +
         "\n place: " + itemPlaceLabel + "\n time: " + itemTimeLabel +
         "\n type: "+ itemType + "\n coordinates: "+ getCoordinates().toString() + "\n";
   }
+
+
 
 }
