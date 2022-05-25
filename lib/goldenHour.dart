@@ -45,6 +45,7 @@ class goldenHour {
     if (correctTime.second < 10) {
       secondZero = '0';
     }
+
     var nextGoldenHour = hourZero +
         '${correctTime.hour}: ' +
         minuteZero +
@@ -78,7 +79,6 @@ class GoldenHourState extends State<GoldenHourController> {
         'https://api.openweathermap.org/data/2.5/weather?lat=59.334591&lon=18.063240&appid=fee9eba736a1f6b300edbd1e6244a915');
     final resOne = await http.get(URIOne);
     var data = json.decode(resOne.body);
-    friend;
     var _friendsTemp;
     _friendsTemp = goldenHour.fromJson(data['sys']);
 
@@ -89,6 +89,9 @@ class GoldenHourState extends State<GoldenHourController> {
 
   @override
   Widget build(BuildContext context) {
+    if(friend == null) {
+      return Text("00:00");
+    }
     return  friend.buildTitle(context);
   }
 }
