@@ -6,6 +6,7 @@ import 'package:photo_quest/quest_controller.dart';
 class QuestAvailable extends StatelessWidget{
   const QuestAvailable({Key? key}) : super(key: key);
 
+  ///IT'S SET TO ADD ON ITEMS THAT ALREADY EXISTS WHEN THE PAGE SWITCHES
   @override
   Widget build(BuildContext context){
     return Scaffold(

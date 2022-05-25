@@ -24,7 +24,7 @@ class QuestController {
   String west = "";
   String east = "";
   String north = "";
-  double searchSize = 0.1; //2.22 km
+  double searchSize = 0.01; //2.22 km
   Searcher searcher = Searcher.getInstance(); //singleton, this class gets the URL
   Location currentLocation = Location();
 
@@ -142,7 +142,7 @@ class QuestController {
                 onChanged: (item) {
                     searchType = item!;
                 },
-              )
+              ),
             ]
         ),
       body: ListView(
