@@ -24,7 +24,7 @@ class MapScreen extends State<MapPage> {
               icon: Icon(Icons.person),
               onPressed: (){
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context)=> const ProfilePage()
+                    builder: (context)=> ProfilePage()
                 )
                 );
               },

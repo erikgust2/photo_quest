@@ -11,33 +11,45 @@ import 'dart:core';
 import 'package:geolocator/geolocator.dart';
 
 class QuestController {
-  static const List<String> _SEARCH_TYPES = ["Föremål", "Byggnad", "Kulturlämning", "Konstverk", "Kulturmiljö", "Objekt"];
-  static final QuestController DEFAULT_INSTANCE = QuestController();
-
-  Set<SearchItem> loadedItems = {}; ///searchItems loaded after fetching data and parsing the XML
+  static const List<String> _SEARCH_TYPES = ["Föremål", "Byggnad", "Kulturlämning", "Konstverk", "Kulturmiljö", "Objekt", "Type"];
+  static QuestController _instance = QuestController._internal();
+  static late LatLng currentCoordinates;
+  Set<SearchItem> loadedQuests = {}; ///searchItems loaded after fetching data and parsing the XML
   Set<SearchItem> currentQuests = {};
+  Set<SearchItem> completedQuests = {};
   String searchType = ""; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
   String searchQuery = ""; //for example statues, churches, bones, some items have years associated
-  String searchQuantity= "10"; ///default size, can be modified for less items
+  String searchQuantity= "50"; ///default size, can be modified for less items
   String south = "";  /// URL uses (boundingBox=/WGS84+ ”väst syd ost nord”)
   String west = "";
   String east = "";
   String north = "";
-  double searchSize = 0.005; //1 km
+  double searchSize = 0.1; //2.22 km
   Searcher searcher = Searcher.getInstance(); //singleton, this class gets the URL
-
   Location currentLocation = Location();
-  static late LatLng currentCoordinates;
 
 
-  Set<SearchItem> makeQueryGetItems(String query, String type, String quantity) { /// main function to initialize the location and get the items in one go
+  QuestController._internal(){
+    _instance = this;
+    getLocation();
+  }
+
+  factory QuestController() => _instance;
+
+
+  ///MAKE INTO FACTORY FOR BULLSHIT QEURIES
+  void makeQueryGetItems(String query, String type, String quantity) { /// main function to initialize the location and get the items in one go
     makeQuery(query, type, quantity);
     getSearchItems();
-    return Set.unmodifiable(loadedItems);
+  }
+
+  void makeNewQueryGetItems(String query, String type, String quantity) { /// main function to initialize the location and get the items in one go
+    makeNewQuery(query, type, quantity);
+    getSearchItems();
   }
 
   void makeNewQuery(String query, String type, String quantity) {
-    loadedItems.clear();
+    loadedQuests.clear();
     makeQuery(query, type, quantity);
   }
 
@@ -48,12 +60,12 @@ class QuestController {
   }
 
   void selectQuest(SearchItem item){ /// NEEDS BACKEND OF COMPLETED QUESTS FOR THE CURRENT USER
-    loadedItems.remove(item);
+    loadedQuests.remove(item);
     currentQuests.add(item);
   }
 
   void deleteQuest(SearchItem item){ /// NEEDS BACKEND OF COMPLETED QUESTS FOR THE CURRENT USER
-    loadedItems.remove(item);
+    loadedQuests.remove(item);
     currentQuests.remove(item);
   }
 
@@ -63,7 +75,8 @@ class QuestController {
     final document = XmlDocument.parse(response.body);
     XMLParser p = XMLParser();
     p.parse(document);
-    loadedItems.addAll(p.getItems()); ///parser puts everything in the set after parsing into search items
+    loadedQuests.clear();
+    loadedQuests.addAll(p.getItems()); ///parser puts everything in the set after parsing into search items
   }
 
   Future<void> getSearchItemsFromCoordinates(LatLng coordinate) async { /// uses latlng argument to get items
@@ -101,8 +114,8 @@ class QuestController {
     return _distanceInMeters;
   }
 
-  /// ***LITERALLY JUST A USELESS WIDGET***
-  Widget build(BuildContext context, SearchItem selectedItem) {
+
+  Widget buildAvailable(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.blue[900],
@@ -110,18 +123,19 @@ class QuestController {
               decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
                   labelText: 'Enter query?',
-                  labelStyle: TextStyle(color: Colors.white)
+                  labelStyle: TextStyle(color: Colors.black)
               ),
               onFieldSubmitted: (String search) {
-                searchQuery = search;   //uses an empty string if nothing is written as the query, type is still undefined
+                searchQuery = search;
+                makeNewQuery(searchQuery, searchType, searchQuantity);//uses an empty string if nothing is written as the query, type is still undefined
               },
             ),
             actions:[             //attempt at creating a selection box for types, currently non-functional
               DropdownButton<String>(
-                value: "type",
+                value: "Type",
                 icon: const Icon(Icons.search),
                 elevation: 16,
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
                 items: _SEARCH_TYPES.map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -134,16 +148,57 @@ class QuestController {
               )
             ]
         ),
-      body: ListBody(
-        children: <Widget>[
-          Text(selectedItem.itemTitle),
-          if(selectedItem.itemDescription.isNotEmpty && selectedItem.itemDescription != "null" && !selectedItem.itemDescription.contains("För eventuell historik se under Dokument"))
-            Text(selectedItem.itemDescription), //needs to be in separate dropdownbutton, descriptions are sometimes very long
-          Text(selectedItem.itemPlaceLabel),
-          Text(selectedItem.itemTimeLabel),
-        Text(getDistance(selectedItem.getCoordinates(), currentCoordinates).toString().split(".").first + " m") /**SET UP SO DISTANCE IS SHOWN**/
-    ],
+      body: ListView(
+
+        children: loadedQuests.map((item) => Card(child: ListTile(
+          isThreeLine: true,
+            title : Text(item.itemTitle + "\n" + item.itemPlaceLabel + "\n" + item.itemTimeLabel),
+            subtitle: Text(getDistance(item.getCoordinates(), currentCoordinates)
+                .toString()
+                .split(".")
+                .first + " m" + " " + item.itemID)
+        ))).toList()
+        ,
     ),
       );
+  }
+
+  Widget buildCompleted(BuildContext context) {
+    return Scaffold(
+      body: ListView(
+        children: completedQuests.map((item) => Card(child: ListTile(
+            isThreeLine: true,
+            title : Text(item.itemTitle + "\n" + item.itemPlaceLabel + "\n" + item.itemTimeLabel),
+            subtitle: Text(getDistance(item.getCoordinates(), currentCoordinates)
+                .toString()
+                .split(".")
+                .first + " m")
+        ))).toList()
+        ,
+      ),
+    );
+  }
+
+  Widget buildCollection(BuildContext context) {
+    return Scaffold(
+      body: ListView(
+        children:  <Widget> [
+          Card(child: ListTile(
+            enabled: true,
+            title : Text("CHURCHES"),
+            trailing: Icon(Icons.church),
+              onTap: () {makeNewQueryGetItems("kyrka", "byggnad", searchQuantity);}
+      )),
+          Card(child: ListTile(
+            title : Text("BONES"),
+              trailing: Icon(Icons.accessibility),
+            onTap: () {makeNewQueryGetItems("ben", "", searchQuantity);}
+          )),
+          Card(child: ListTile(
+            title : Text("BUILDINGS"),
+              trailing: Icon(Icons.home),
+              onTap: () {makeNewQueryGetItems("", "byggnad", searchQuantity);}
+          ))]
+    ));
   }
 }

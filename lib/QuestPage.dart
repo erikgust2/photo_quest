@@ -4,8 +4,10 @@ import 'package:photo_quest/generated/l10n.dart';
 import 'SettingsNavDrawer.dart';
 import 'profilePage.dart';
 import 'QuestTab.dart';
+import 'goldenHour.dart';
 class QuestPage extends StatelessWidget {
   const QuestPage({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +24,19 @@ class QuestPage extends StatelessWidget {
         ],),
 
         //title: Text(S.of(context).questLabel),
-
+        title: Column(
+          children: [
+            Text(S.of(context).questLabel),
+            GoldenHourController(),
+          ],
+        ),
 
           actions: [
             Builder(builder: (context) => IconButton(
               icon: Icon(Icons.person),
               onPressed: (){
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context)=> const ProfilePage()
+                    builder: (context)=> ProfilePage()
                 )
                 );
               },

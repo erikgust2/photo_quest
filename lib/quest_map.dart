@@ -6,6 +6,9 @@ import 'package:photo_quest/quest_controller.dart';
 import 'package:photo_quest/search_item.dart';
 import 'dart:core';
 
+import 'SettingsNavDrawer.dart';
+
+
 
 class QuestMapPage extends StatelessWidget {
   const QuestMapPage({Key? key}) : super(key: key);
@@ -26,7 +29,7 @@ class QuestMapScreen extends StatefulWidget {
   const QuestMapScreen({Key? key}) : super(key: key);
 
   @override
-  _QuestMapScreenState createState() => _QuestMapScreenState();
+  _QuestMapScreenState createState() =>  _QuestMapScreenState();
 }
 
 class _QuestMapScreenState extends State<QuestMapScreen> {
@@ -46,23 +49,24 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
 
   late SearchItem _selectedItem; // when a marker is clicked on, it becomes the selected item
 
-  late QuestController questController;
-
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      questController = QuestController.DEFAULT_INSTANCE;
-      getItems();/// only used for demo purposes
-    });
+    if (mounted) {
+      setState(() {
+        getItems();
+
+        /// only used for demo purposes
+      });
+    }
   }
 
-  Future<void> _createMarkers() async {
+  void _createMarkers() async{
     BitmapDescriptor searchIcon = BitmapDescriptor.defaultMarker;
-    setState(() {
-      _markers.addAll(
-        _loadedItems.map((item) =>
+    Set<Marker> markers = _markers.toSet();
+    markers.addAll(
+        _loadedItems.skip(_markers.length).map((item) =>
             Marker(
                 icon: searchIcon,//add first marker
                 markerId: MarkerId(item.itemID),
@@ -75,38 +79,35 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
                     }
                 )
             )));
+    setState(() {
+      _markers = markers;
     });
   }
 
   void getItems() async{ //gets the items from handler
-    var location = await questController.getLocation();
-    setState(() {
-      questController.getSearchItemsFromCoordinates(LatLng(location.latitude, location.longitude));
-      currentCoordinates = LatLng(location.latitude, location.longitude);
-      _loadedItems = questController.loadedItems;
-      _createMarkers();
-    });
-    questController.currentLocation.onLocationChanged.listen((LocationData loc){
+    if (mounted) {
       setState(() {
-        questController.getSearchItemsFromCoordinates(LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0));
-        currentCoordinates = LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0);
-        _loadedItems = questController.loadedItems;
+        _loadedItems = QuestController().loadedQuests;
         _createMarkers();
       });
+    }
+    QuestController().currentLocation.onLocationChanged.listen((LocationData loc){
+      QuestController().getSearchItemsFromCoordinates(LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0));
+      currentCoordinates = LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0);
+      if (mounted) {
+        setState(() {
+          _loadedItems = QuestController().loadedQuests;
+          _createMarkers();
+        });
+      }
     });
   }
 
-  void getLocation() async {///starts handler without loading markers
-    var location = await questController.getLocation();
-    setState(() {
-      currentCoordinates = LatLng(location.latitude, location.longitude);
-    });
-  }
 
 
   ///sets marker green and saves quest in controller
   void selectQuest(SearchItem item){
-    questController.selectQuest(item);
+    QuestController().selectQuest(item);
     Marker greenMarker = Marker(
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen), //add first marker
         markerId: MarkerId(item.itemID),
@@ -118,17 +119,13 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
               _showMyDialog();
             })
     );
-    for (Marker marker in _markers){
-      if (marker.markerId.value == item.itemID){
         setState(() {
-          _markers.remove(marker);
+          _markers.removeWhere((marker) => marker.markerId.value == item.itemID);
           _markers.add(greenMarker);
-        }
-        );
-        break;
+        });
       }
-    }
-  }
+
+
 
 
 
@@ -147,18 +144,20 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
           });
         },
         onTap: (coordinate) {
-        questController.getSearchItemsFromCoordinates(coordinate);
+          QuestController().getSearchItemsFromCoordinates(coordinate);
         setState(() {
-        _loadedItems = questController.loadedItems;
+        _loadedItems = QuestController().loadedQuests;
         _createMarkers();
         });},
       ),
+        drawer: const SettingsNavBar()
     );
   }
 
   @override
   void dispose() {
     mapController?.dispose();
+
     super.dispose();
   }
 
@@ -175,7 +174,7 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
                 Text(_selectedItem.itemTitle),
                 Text(_selectedItem.itemPlaceLabel),
                 Text(_selectedItem.itemTimeLabel),
-                Text(questController
+                Text(QuestController()
                     .getDistance(
                     _selectedItem.getCoordinates(), currentCoordinates)
                     .toString()

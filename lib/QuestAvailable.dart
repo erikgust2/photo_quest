@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_quest/generated/l10n.dart';
+import 'package:photo_quest/quest_controller.dart';
 
 import 'quest_list.dart';
 
@@ -10,9 +11,11 @@ class QuestAvailable extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      
+
       body: QuestList(),
-      //body: Text(S.of(context).availableLabel),
+      body: Text(S.of(context).availableLabel),
+
+        body: QuestController().buildAvailable(context)
     );
   }
 

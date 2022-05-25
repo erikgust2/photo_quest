@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -19,32 +20,19 @@ class goldenHour {
   );
 
   Widget buildTitle(BuildContext context) {
-    int sunriseTimeInt = (sunrise * 1000);
-    int sunsetTimeInt = (sunset * 1000);
+    DateTime sunriseTime = DateTime.fromMillisecondsSinceEpoch(sunrise * 1000);
+    int sunsetTimeInt = (sunset * 1000) - 3600000;
+    DateTime sunsetTime = DateTime.fromMillisecondsSinceEpoch(sunsetTimeInt);
 
     int timeNowInt = (DateTime.now().millisecondsSinceEpoch);
 
-    DateTime sunsetTime = DateTime.fromMillisecondsSinceEpoch(sunsetTimeInt);
-    DateTime sunriseTime = DateTime.fromMillisecondsSinceEpoch(sunriseTimeInt);
-    DateTime thisDate = DateTime.fromMillisecondsSinceEpoch(timeNowInt);
-    DateTime timeUntilSunset = sunsetTime.subtract(Duration(
-        hours: thisDate.hour,
-        minutes: thisDate.minute,
-        seconds: thisDate.second,
-        milliseconds: thisDate.millisecond,
-        microseconds: thisDate.microsecond));
-    DateTime timeUntilSunrise = sunriseTime.subtract(Duration(
-        hours: thisDate.hour,
-        minutes: thisDate.minute,
-        seconds: thisDate.second,
-        milliseconds: thisDate.millisecond,
-        microseconds: thisDate.microsecond));
     DateTime correctTime;
     if (timeNowInt < sunsetTimeInt) {
-      correctTime = timeUntilSunset;
+      correctTime = sunsetTime;
     } else {
-      correctTime = timeUntilSunrise;
+      correctTime = sunriseTime;
     }
+
     String hourZero = '';
     String minuteZero = '';
     String secondZero = '';
@@ -57,13 +45,53 @@ class goldenHour {
     if (correctTime.second < 10) {
       secondZero = '0';
     }
-    var countdownGoldenHour = hourZero +
+
+    var nextGoldenHour = hourZero +
         '${correctTime.hour}: ' +
         minuteZero +
-        '${correctTime.minute}: ' +
-        secondZero +
-        '${correctTime.second}';
+        '${correctTime.minute}';
 
-    return Text("Golden hour countdown: " + countdownGoldenHour);
+    return Text("Next golden hour: " + nextGoldenHour.toString());
+  }
+}
+
+class GoldenHourController extends StatefulWidget {
+  GoldenHourController({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<GoldenHourController> createState() => GoldenHourState();
+}
+
+
+class GoldenHourState extends State<GoldenHourController> {
+  var friend;
+
+  @override
+  void initState() {
+    refreshFriends();
+    super.initState();
+  }
+
+  Future refreshFriends() async {
+    Uri URIOne = Uri.parse(
+        'https://api.openweathermap.org/data/2.5/weather?lat=59.334591&lon=18.063240&appid=fee9eba736a1f6b300edbd1e6244a915');
+    final resOne = await http.get(URIOne);
+    var data = json.decode(resOne.body);
+    var _friendsTemp;
+    _friendsTemp = goldenHour.fromJson(data['sys']);
+
+    setState(() {
+      friend = _friendsTemp;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if(friend == null) {
+      return Text("loading...");
+    }
+    return  friend.buildTitle(context);
   }
 }
