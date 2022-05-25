@@ -35,6 +35,8 @@ class QuestController {
   }
 
   factory QuestController() => _instance;
+
+
   ///MAKE INTO FACTORY FOR BULLSHIT QEURIES
   void makeQueryGetItems(String query, String type, String quantity) { /// main function to initialize the location and get the items in one go
     makeQuery(query, type, quantity);
@@ -146,6 +148,7 @@ class QuestController {
             ]
         ),
       body: ListView(
+
         children: loadedQuests.map((item) => Card(child: ListTile(
           isThreeLine: true,
             title : Text(item.itemTitle + "\n" + item.itemPlaceLabel + "\n" + item.itemTimeLabel),

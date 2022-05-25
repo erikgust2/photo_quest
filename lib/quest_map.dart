@@ -29,7 +29,7 @@ class QuestMapScreen extends StatefulWidget {
   const QuestMapScreen({Key? key}) : super(key: key);
 
   @override
-  _QuestMapScreenState createState() => _QuestMapScreenState();
+  _QuestMapScreenState createState() =>  _QuestMapScreenState();
 }
 
 class _QuestMapScreenState extends State<QuestMapScreen> {
@@ -49,16 +49,17 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
 
   late SearchItem _selectedItem; // when a marker is clicked on, it becomes the selected item
 
-  late QuestController questController;
-
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      questController = QuestController();
-      getItems();/// only used for demo purposes
-    });
+    if (mounted) {
+      setState(() {
+        getItems();
+
+        /// only used for demo purposes
+      });
+    }
   }
 
   void _createMarkers() async{
@@ -84,34 +85,29 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
   }
 
   void getItems() async{ //gets the items from handler
-    var location = await questController.getLocation();
-    questController.getSearchItemsFromCoordinates(LatLng(location.latitude, location.longitude));
-    currentCoordinates = LatLng(location.latitude, location.longitude);
-    setState(() {
-      _loadedItems = questController.loadedQuests;
-      _createMarkers();
-    });
-    questController.currentLocation.onLocationChanged.listen((LocationData loc){
-      questController.getSearchItemsFromCoordinates(LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0));
-      currentCoordinates = LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0);
+    if (mounted) {
       setState(() {
-        _loadedItems = questController.loadedQuests;
+        _loadedItems = QuestController().loadedQuests;
         _createMarkers();
       });
+    }
+    QuestController().currentLocation.onLocationChanged.listen((LocationData loc){
+      QuestController().getSearchItemsFromCoordinates(LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0));
+      currentCoordinates = LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0);
+      if (mounted) {
+        setState(() {
+          _loadedItems = QuestController().loadedQuests;
+          _createMarkers();
+        });
+      }
     });
   }
 
-  void getLocation() async {///starts handler without loading markers
-    var location = await questController.getLocation();
-    setState(() {
-      currentCoordinates = LatLng(location.latitude, location.longitude);
-    });
-  }
 
 
   ///sets marker green and saves quest in controller
   void selectQuest(SearchItem item){
-    questController.selectQuest(item);
+    QuestController().selectQuest(item);
     Marker greenMarker = Marker(
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen), //add first marker
         markerId: MarkerId(item.itemID),
@@ -148,9 +144,9 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
           });
         },
         onTap: (coordinate) {
-        questController.getSearchItemsFromCoordinates(coordinate);
+          QuestController().getSearchItemsFromCoordinates(coordinate);
         setState(() {
-        _loadedItems = questController.loadedQuests;
+        _loadedItems = QuestController().loadedQuests;
         _createMarkers();
         });},
       ),
@@ -161,6 +157,7 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
   @override
   void dispose() {
     mapController?.dispose();
+
     super.dispose();
   }
 
@@ -177,7 +174,7 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
                 Text(_selectedItem.itemTitle),
                 Text(_selectedItem.itemPlaceLabel),
                 Text(_selectedItem.itemTimeLabel),
-                Text(questController
+                Text(QuestController()
                     .getDistance(
                     _selectedItem.getCoordinates(), currentCoordinates)
                     .toString()
