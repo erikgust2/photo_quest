@@ -81,7 +81,6 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
             )));
     setState(() {
       _markers = markers;
-      _loadedItems.clear(); //
     });
   }
 
@@ -147,7 +146,8 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
         onTap: (coordinate) {
           QuestController().getSearchItemsFromCoordinates(coordinate);
         setState(() {
-        _loadedItems = QuestController().loadedQuests;
+          _loadedItems.clear();
+          _loadedItems = QuestController().loadedQuests;
         _createMarkers();
         });},
       ),
