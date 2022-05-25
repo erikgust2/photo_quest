@@ -6,8 +6,10 @@ import 'package:photo_quest/QuestPage.dart';
 import 'package:photo_quest/main.dart';
 import 'package:provider/provider.dart';
 import 'package:photo_quest/QuestPage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginWidget extends StatelessWidget{
+
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +21,40 @@ class LoginWidget extends StatelessWidget{
       ),
       icon: FaIcon(FontAwesomeIcons.google), //FontAwesome innehåller google ikonen
       label: Text('Log in with Google'),
-      onPressed: () {
+      onPressed: () async {
         final provider = Provider.of<GoogleSignInProvider>(context, listen: false);      //
         provider.googleLogin();                                                          // detta används för att starta inloggningsprocessen
         print(FirebaseAuth.instance.currentUser?.email);
+
+        final user = FirebaseAuth.instance.currentUser!;
+        CollectionReference users = FirebaseFirestore.instance.collection('users');
+        bool userExists = await checkIfUserExists(user.uid);
+
+        if(!userExists){
+          createNewUser(user, users);         //skapar en ny user i firestore om det inte redan finns en
+        }
+
         Navigator.of(context).push(MaterialPageRoute(builder: (context)=>  const MainScreen()));
       },
     );
 
 
+  }
+
+  void createNewUser(User user, CollectionReference users){
+    users.doc(user.uid).set({'userID': user.uid});
+  }
+
+  Future<bool> checkIfUserExists(String docId) async {
+    try {
+      // Get reference to Firestore collection
+      var collectionRef = FirebaseFirestore.instance.collection('users');
+
+      var doc = await collectionRef.doc(docId).get();
+      return doc.exists;
+    } catch (e) {
+      throw e;
+    }
   }
 
 
