@@ -42,7 +42,7 @@ class LoginWidget extends StatelessWidget{
   }
 
   void createNewUser(User user, CollectionReference users){
-    users.doc(user.uid).set({'userID': user.uid});
+    users.doc(user.uid).set({'userID': user.uid, 'email': user.email});
   }
 
   Future<bool> checkIfUserExists(String docId) async {
