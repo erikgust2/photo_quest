@@ -7,7 +7,7 @@ import 'MapNodeList.dart';
 
 
 class QuestBox extends StatefulWidget{
-  QuestBox({Key? key}) : super(key: key);
+  const QuestBox({Key? key}) : super(key: key);
   State<QuestBox> createState() => QuestBoxState();
 
 }
@@ -26,7 +26,9 @@ class QuestBoxState extends State<QuestBox> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      itemCount: nodes.length,
         itemBuilder: (BuildContext context, int index) {
+
             return Card(
               child: Container(
                 /*decoration: const BoxDecoration(

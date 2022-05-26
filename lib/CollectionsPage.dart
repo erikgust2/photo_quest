@@ -4,6 +4,7 @@ import 'package:photo_quest/profilePage.dart';
 import 'package:photo_quest/quest_controller.dart';
 import 'QuestTab.dart';
 import 'SettingsNavDrawer.dart';
+import 'goldenHour.dart';
 class CollectionsPage extends StatefulWidget {
    const CollectionsPage({Key? key}) : super(key: key);
   @override
@@ -34,10 +35,15 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context).collectionsLabel),
-        centerTitle: true,
-
+        appBar: AppBar(
+            centerTitle: true,
+            title: Column(children: [
+              Text(S.of(context).completedLabel,
+                style: TextStyle(color: Colors.white, fontSize: 22.0),),
+              //Text('Countdown',
+              //style: TextStyle(color: Colors.white, fontSize: 12.0),),
+            ],
+            ),
         actions: [
           Builder(builder: (context) => IconButton(
             icon: Icon(Icons.person),

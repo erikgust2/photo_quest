@@ -8,7 +8,6 @@ import 'MapNode.dart';
 import 'MapNodeList.dart';
 import 'SettingsNavDrawer.dart';
 import 'generated/l10n.dart';
-import 'goldenHour.dart';
 
 
 
@@ -28,33 +27,24 @@ class _NodeMapScreenState extends State<NodeMapPage> {
 
   Set<Marker> _markers = {}; //markers of search items for google map
 
-  Set<MapNode> _loadedNodes = {};
+  List<MapNode> _loadedNodes = [];
 
   GoogleMapController? mapController; //controller for Google map
 
-  Location currentLocation = Location();
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
-    getItems();
-    }
+    setState(() {
+      _loadedNodes = MapNodeList().getMapNodes();
+      _createMarkers();
+    });
+  }
 
   @override
   void dispose() {
     mapController?.dispose();
     super.dispose();
-  }
-
-
-  void getItems() async {
-    //gets the items from handler
-    if (mounted) {
-      setState(() {
-        _loadedNodes = MapNodeList().getMapNodes().toSet();
-        _createMarkers();
-      });
-    }
   }
 
   void _createMarkers() async{
@@ -64,7 +54,7 @@ class _NodeMapScreenState extends State<NodeMapPage> {
         _loadedNodes.skip(_markers.length).map((node) =>
             Marker(
                 icon: searchIcon,//add first marker
-                markerId: MarkerId(node.name),
+                markerId: MarkerId(node.name+node.type),
                 position: node.getCoordinates(), //position of marker
                 infoWindow: InfoWindow( //popup info
                     title: node.name,
@@ -75,6 +65,7 @@ class _NodeMapScreenState extends State<NodeMapPage> {
             )));
     setState(() {
       _markers = markers;
+      print(markers);
     });
   }
 
@@ -88,7 +79,6 @@ class _NodeMapScreenState extends State<NodeMapPage> {
     style: TextStyle(color: Colors.white, fontSize: 22.0),),
     //Text('Countdown',
     //style: TextStyle(color: Colors.white, fontSize: 12.0),),
-    GoldenHourController(),
     ],
     )),
         body: GoogleMap(initialCameraPosition: _initialCameraPosition,

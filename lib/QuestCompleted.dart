@@ -18,16 +18,6 @@ class QuestCompleted extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-        centerTitle: true,
-        title: Column(children: [
-        Text(S.of(context).completedLabel,
-    style: TextStyle(color: Colors.white, fontSize: 22.0),),
-    //Text('Countdown',
-    //style: TextStyle(color: Colors.white, fontSize: 12.0),),
-    GoldenHourController(),
-    ],
-    )),
       body: ListView(
         children: nodes.map((item) =>
             Card(
