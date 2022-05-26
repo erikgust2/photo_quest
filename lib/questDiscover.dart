@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:photo_quest/quest.dart';
+
+import 'MapNode.dart';
+
 
 
 class QuestDiscover {
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  static List<Quest> quests = [
+  static List<MapNode> quests = [
      //input quests
   ];
 
@@ -37,10 +39,10 @@ class MyHomePage extends StatelessWidget {
       body: ListView.builder(
         itemCount: quests.length,
         itemBuilder: (context, index) {
-          final Quest quest = quests[index];
+          final MapNode quest = quests[index];
           return ListTile(
-            title: Text(quest.questDescription),
-            subtitle: Text(quest.questDescription),
+            title: Text(quest.name),
+            subtitle: Text(quest.description),
           );
         },
       ),
