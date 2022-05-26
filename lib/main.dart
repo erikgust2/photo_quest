@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'GoogleSignIn.dart';
 import 'package:photo_quest/GoogleSignInProvider.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'CustomThemes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,10 +29,17 @@ class MyAppState extends State<MyApp> {
 
   String _title = 'PhotoQuest';
   Locale _locale = Locale('en');
+  ThemeData _theme = lightTheme;
 
   void setLocale(Locale value){
     setState(() {
       _locale = value;
+    });
+  }
+
+  void setTheme(ThemeData value){
+    setState(() {
+      _theme = value;
     });
   }
 
@@ -52,6 +59,7 @@ class MyAppState extends State<MyApp> {
         Locale("sv")
       ],
       title: _title,
+      theme: _theme,
       home: LoginWidget(),
       debugShowCheckedModeBanner: false,
       locale: _locale,
