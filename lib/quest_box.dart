@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photo_quest/QuestCompleted.dart';
+import 'MapNode.dart';
 import 'MapNodesMap.dart';
 import 'MapNodeList.dart';
 
@@ -12,11 +13,21 @@ class QuestBox extends StatefulWidget{
 }
 class QuestBoxState extends State<QuestBox> {
 
+  List<MapNode> nodes = [];
+  @override
+  void initState(){
+    super.initState();
+    setState(() {
+      nodes = MapNodeList().getMapNodes();
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
-        children: MapNodeList().getMapNodes().map((item) =>
-            Card(
+    return ListView.builder(
+        itemBuilder: (BuildContext context, int index) {
+            return Card(
               child: Container(
                 /*decoration: const BoxDecoration(
                   image: DecorationImage(
@@ -30,10 +41,10 @@ class QuestBoxState extends State<QuestBox> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     ListTile(
-                      title: Text(item.name,
+                      title: Text(nodes[index].name,
                         style: TextStyle(fontSize: 25, color: Colors.black),
                         textAlign: TextAlign.center,),
-                      subtitle: Text(item.description + "\n" + MapNodeList().getDistance(MapNodeList.currentCoordinates, item.getCoordinates()),
+                      subtitle: Text(nodes[index].description + "\n" + MapNodeList().getDistance(MapNodeList.currentCoordinates, nodes[index].getCoordinates()),
                         style: TextStyle(fontSize: 12, color: Colors.black),
                         textAlign: TextAlign.center,),
                     ),
@@ -46,8 +57,7 @@ class QuestBoxState extends State<QuestBox> {
                                 .black),),
                           onPressed: () {
                               setState(() {
-                              MapNodeList().remove(item);
-                              QuestCompleted().addItem(item);
+                              MapNodeList().complete(nodes[index]);
 
                             },
                             );
@@ -65,11 +75,8 @@ class QuestBoxState extends State<QuestBox> {
                             style: TextStyle(fontSize: 15, color: Colors
                                 .black),),
                           onPressed: () {
-                            MapNodeList().select(item);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const NodeMapPage()),
-                            );
+                            MapNodeList().select(nodes[index]);
+                            const NodeMapPage();
                           },
                             style: TextButton.styleFrom(
                                 padding: const EdgeInsets.all(12.0),
@@ -84,9 +91,8 @@ class QuestBoxState extends State<QuestBox> {
                   ],
                 ),
               ),
-            )
-        ).toList()
-    );
+            );}
+        );
   }
 }
 

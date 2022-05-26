@@ -7,32 +7,19 @@ import 'dart:core';
 import 'MapNode.dart';
 import 'MapNodeList.dart';
 import 'SettingsNavDrawer.dart';
+import 'generated/l10n.dart';
+import 'goldenHour.dart';
 
 
 
-class NodeMapPage extends StatelessWidget {
+class NodeMapPage extends StatefulWidget {
   const NodeMapPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      // Hide the debug banner
-      debugShowCheckedModeBanner: false,
-      title: 'searchPage',
-      home: NodeMapScreen(),
-    );
-  }
-}
-
-
-class NodeMapScreen extends StatefulWidget {
-  const NodeMapScreen({Key? key}) : super(key: key);
 
   @override
   _NodeMapScreenState createState() =>  _NodeMapScreenState();
 }
 
-class _NodeMapScreenState extends State<NodeMapScreen> {
+class _NodeMapScreenState extends State<NodeMapPage> {
 
   static const _mapType = MapType.normal;
 
@@ -45,19 +32,13 @@ class _NodeMapScreenState extends State<NodeMapScreen> {
 
   GoogleMapController? mapController; //controller for Google map
 
-  Set<MapNode> _selectedNodes = {};// when a marker is clicked on, it becomes the selected item
-
   Location currentLocation = Location();
 
   @override
   void initState() {
     super.initState();
-    if (mounted) {
-      setState(() {
-        getItems();
-      });
+    getItems();
     }
-  }
 
   @override
   void dispose() {
@@ -97,10 +78,19 @@ class _NodeMapScreenState extends State<NodeMapScreen> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+        centerTitle: true,
+        title: Column(children: [
+        Text(S.of(context).mapLabel,
+    style: TextStyle(color: Colors.white, fontSize: 22.0),),
+    //Text('Countdown',
+    //style: TextStyle(color: Colors.white, fontSize: 12.0),),
+    GoldenHourController(),
+    ],
+    )),
         body: GoogleMap(initialCameraPosition: _initialCameraPosition,
           zoomControlsEnabled: true,
           myLocationButtonEnabled: true,

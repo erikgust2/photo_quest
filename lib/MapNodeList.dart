@@ -1,6 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:photo_quest/QuestCompleted.dart';
 import 'MapNode.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -84,8 +85,10 @@ class MapNodeList {
     return created;
   }
 
-  void remove(MapNode value){
-    nodes.remove(value);
+  void complete(MapNode node){
+    QuestCompleted.nodes.add(node);
+    nodes.remove(node);
+    selectedNodes.remove(node);
   }
 
   List<MapNode> getMapNodes() {
@@ -94,5 +97,10 @@ class MapNodeList {
       return selectedNodes.toList();
     }
     return nodes.toList();
+  }
+
+  dispose(){
+    nodes.clear();
+    selectedNodes.clear();
   }
 }

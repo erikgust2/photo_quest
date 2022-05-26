@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:photo_quest/MapNodesMap.dart';
 import 'package:photo_quest/quest_controller.dart';
+import 'MapNodeList.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'CollectionsPage.dart';
@@ -14,6 +16,7 @@ import 'CustomThemes.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await MapNodeList().refreshFriends();
   runApp(MyApp());
 }
 
@@ -80,7 +83,7 @@ class MainScreen extends StatefulWidget {
 class MyStatefulWidget extends State<MainScreen> {
   final screens = [
     const QuestPage(),
-    const QuestMapPage(),
+    const NodeMapPage(),
     const CollectionsPage(),
 
   ];
@@ -88,6 +91,11 @@ class MyStatefulWidget extends State<MainScreen> {
   int _selectedIndex = 0;
 
 
+  @override
+  void dispose(){
+    MapNodeList().dispose();
+    super.dispose();
+  }
   Future<void> _onItemTapped(int index) async {
     setState(() {
       _selectedIndex = index;

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 
 import 'MapNode.dart';
+import 'generated/l10n.dart';
+import 'goldenHour.dart';
 
 
 
@@ -10,15 +12,23 @@ class QuestCompleted extends StatelessWidget{
 
   static List<MapNode> nodes = [];
 
-  void addItem(MapNode value){
+  const QuestCompleted({Key? key}) : super(key: key);
 
-      nodes.add(value);
-
-  }
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Scaffold(
+        appBar: AppBar(
+        centerTitle: true,
+        title: Column(children: [
+        Text(S.of(context).completedLabel,
+    style: TextStyle(color: Colors.white, fontSize: 22.0),),
+    //Text('Countdown',
+    //style: TextStyle(color: Colors.white, fontSize: 12.0),),
+    GoldenHourController(),
+    ],
+    )),
+      body: ListView(
         children: nodes.map((item) =>
             Card(
               child: Container(
@@ -80,7 +90,7 @@ class QuestCompleted extends StatelessWidget{
               ),
             )
         ).toList()
-    );
+    ));
   }
 
 }
