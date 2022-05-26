@@ -10,6 +10,6 @@ class QuestList extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(toolbarHeight: 0,),
         body:  QuestBox()
-        );
+    );
   }
-}
+  }
