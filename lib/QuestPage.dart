@@ -17,11 +17,10 @@ class QuestPage extends StatelessWidget {
         backgroundColor: Colors.pink[200],
 
         title: Column(children: [
-          Text('Quests',
+          Text(S.of(context).questLabel,
             style: TextStyle(color: Colors.white, fontSize: 22.0),),
-          Text('Countdown',
-              style: TextStyle(color: Colors.white, fontSize: 12.0),),
-            Text(S.of(context).questLabel),
+          //Text('Countdown',
+              //style: TextStyle(color: Colors.white, fontSize: 12.0),),
             GoldenHourController(),
           ],
         ),

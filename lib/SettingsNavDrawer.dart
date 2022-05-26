@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photo_quest/ColorsPage.dart';
 import 'package:photo_quest/generated/l10n.dart';
 import 'LanguagePage.dart';
 
@@ -36,7 +37,11 @@ class SettingsNavBar extends StatelessWidget{
       ListTile(
         leading: const Icon(Icons.palette_outlined),
         title: Text(S.of(context).colorsLabel),
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context)=> const ColorsPage()
+          )
+          );},
       ),
       ListTile(
         leading: const Icon(Icons.supervisor_account),
