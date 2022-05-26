@@ -60,7 +60,7 @@ class MyAppState extends State<MyApp> {
       ],
       title: _title,
       theme: _theme,
-      home: LoginWidget(),
+      home: QuestPage(),
       debugShowCheckedModeBanner: false,
       locale: _locale,
     ),
