@@ -30,9 +30,20 @@ class MapNode {
 
   @override
   String toString() {
-    // TODO: implement toString
     return name + " " + type  + " " + description  + " " + coordinate;
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is MapNode){
+      return identical(name, other.name);
+    }
+    return super == other;
+  }
+
+  @override
+  int get hashCode => name.hashCode;
+
 }
 
 

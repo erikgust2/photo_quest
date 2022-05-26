@@ -21,14 +21,16 @@ class MapNodeList {
         'https://storm-elderly-conchoraptor.glitch.me/friends');
     final resOne = await http.get(URIOne);
     var data = json.decode(resOne.body);
-    for (int i = 0; i < 15; i++) {
-      nodes.add(MapNode.fromJson(data[i]));
+    if (nodes.isEmpty) {
+      for (int i = 0; i < 15; i++) {
+        nodes.add(MapNode.fromJson(data[i]));
+      }
     }
     print(nodes);
   }
 
-  Set<MapNode> getMapNodes() {
+  List<MapNode> getMapNodes() {
     refreshFriends();
-    return nodes;
+    return nodes.toList();
   }
 }
