@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
 
+import 'MapNodeList.dart';
+
 
 class QuestBox extends StatelessWidget {
-  const QuestBox({Key? key}) : super(key: key);
+  QuestBox({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    return ListView(
+        children: MapNodeList().getMapNodes().map((item) =>
+            Card(child: ListTile(
+                isThreeLine: true,
+                title: Text(
+                    item.name + "\n" + item.type + "\n" + item.description),
+                subtitle: Text(item.coordinate)
+            ))).toList()
+    );
+
+    /*
     return Center(
       child: Card(
             child: Container(
@@ -44,6 +57,7 @@ class QuestBox extends StatelessWidget {
         ),
       ),
     );
+  }*/
   }
 }
 

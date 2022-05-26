@@ -9,14 +9,7 @@ class QuestList extends StatelessWidget {
   Widget build (BuildContext context) {
     return Scaffold(
         appBar: AppBar(toolbarHeight: 0,),
-        body: ListView.builder
-          (
-            itemCount: 10, //senare itemscount?
-            itemBuilder: (BuildContext context, int index) {
-              return const QuestBox();
-            }
-        )
-
-    );
+        body:  QuestBox()
+        );
   }
 }

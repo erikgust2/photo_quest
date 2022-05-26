@@ -12,7 +12,7 @@ import 'package:geolocator/geolocator.dart';
 
 class QuestController {
   static const List<String> _SEARCH_TYPES = ["Föremål", "Byggnad", "Kulturlämning", "Konstverk", "Kulturmiljö", "Objekt", "Type"];
-  static QuestController _instance = QuestController._internal();
+
   static late LatLng currentCoordinates;
   Set<SearchItem> loadedQuests = {}; ///searchItems loaded after fetching data and parsing the XML
   Set<SearchItem> currentQuests = {};
@@ -28,7 +28,7 @@ class QuestController {
   Searcher searcher = Searcher.getInstance(); //singleton, this class gets the URL
   Location currentLocation = Location();
 
-
+  static QuestController _instance = QuestController._internal();
   QuestController._internal(){
     _instance = this;
     getLocation();
@@ -149,7 +149,6 @@ class QuestController {
             ]
         ),
       body: ListView(
-
         children: loadedQuests.map((item) => Card(child: ListTile(
           isThreeLine: true,
             title : Text(item.itemTitle + "\n" + item.itemPlaceLabel + "\n" + item.itemTimeLabel),
