@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:photo_quest/quest.dart';
+import 'package:photo_quest/QuestCompleted.dart';
 
 import 'MapNodeList.dart';
 
@@ -45,9 +45,12 @@ class QuestBoxState extends State<QuestBox> {
                             style: TextStyle(fontSize: 15, color: Colors
                                 .black),),
                           onPressed: () {
-                            setState(() {
+                              setState(() {
                               MapNodeList().remove(item);
-                            });
+                              QuestCompleted().addItem(item);
+
+                            },
+                            );
                           },
                             style: TextButton.styleFrom(
                                 padding: const EdgeInsets.all(12.0),
