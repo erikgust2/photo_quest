@@ -13,9 +13,6 @@ class QuestAvailable extends StatelessWidget{
     return Scaffold(
 
       body: QuestList(),
-      body: Text(S.of(context).availableLabel),
-
-        body: QuestController().buildAvailable(context)
     );
   }
 
