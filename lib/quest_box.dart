@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:photo_quest/quest.dart';
 
 import 'MapNodeList.dart';
 
 
-class QuestBox extends StatelessWidget {
+
+class QuestBox extends StatefulWidget{
   QuestBox({Key? key}) : super(key: key);
+  State<QuestBox> createState() => QuestBoxState();
+
+}
+class QuestBoxState extends State<QuestBox> {
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +45,9 @@ class QuestBox extends StatelessWidget {
                             style: TextStyle(fontSize: 15, color: Colors
                                 .black),),
                           onPressed: () {
-                            /* ... */
+                            setState(() {
+                              MapNodeList().remove(item);
+                            });
                           },
                             style: TextButton.styleFrom(
                                 padding: const EdgeInsets.all(12.0),

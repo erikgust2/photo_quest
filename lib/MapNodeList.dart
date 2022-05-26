@@ -29,6 +29,11 @@ class MapNodeList {
     print(nodes);
   }
 
+
+  void remove(MapNode value){
+    nodes.remove(value);
+  }
+
   List<MapNode> getMapNodes() {
     refreshFriends();
     return nodes.toList();

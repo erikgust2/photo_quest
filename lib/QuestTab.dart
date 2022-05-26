@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:photo_quest/CustomThemes.dart';
 import 'package:photo_quest/generated/l10n.dart';
+import 'package:photo_quest/quest_list.dart';
 import 'QuestCompleted.dart';
 import 'QuestAvailable.dart';
 import 'main.dart';
@@ -84,7 +85,7 @@ class MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateMi
       body: TabBarView(
           controller: _tabController,
           children: [
-            QuestAvailable(),
+            QuestList(),
             QuestCompleted(),
           ]
       ),
