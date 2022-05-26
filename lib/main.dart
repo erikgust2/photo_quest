@@ -64,7 +64,7 @@ class MyAppState extends State<MyApp> {
       ],
       title: _title,
       theme: _theme,
-      home: QuestPage(),
+      home: LoginWidget(),
       debugShowCheckedModeBanner: false,
       locale: _locale,
     ),
