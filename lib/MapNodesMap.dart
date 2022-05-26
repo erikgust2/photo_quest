@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:photo_quest/profilePage.dart';
 import 'dart:core';
 
 import 'MapNode.dart';
@@ -80,7 +81,27 @@ class _NodeMapScreenState extends State<NodeMapPage> {
     //Text('Countdown',
     //style: TextStyle(color: Colors.white, fontSize: 12.0),),
     ],
-    )),
+    ),
+            actions: [
+              Builder(builder: (context) => IconButton(
+                icon: Icon(Icons.person),
+                onPressed: (){
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context)=> ProfilePage()
+                  )
+                  );
+                },
+              )
+
+              )
+            ],
+            leading: Builder(
+              builder: (context) => IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () => Scaffold.of(context).openDrawer(),
+              ),
+            )
+        ),
         body: GoogleMap(initialCameraPosition: _initialCameraPosition,
           zoomControlsEnabled: true,
           myLocationButtonEnabled: true,
