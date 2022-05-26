@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:photo_quest/generated/l10n.dart';
 import 'package:photo_quest/profilePage.dart';
-import 'package:photo_quest/quest_controller.dart';
-import 'QuestTab.dart';
+import 'MapNodeList.dart';
 import 'SettingsNavDrawer.dart';
-import 'goldenHour.dart';
 class CollectionsPage extends StatefulWidget {
    const CollectionsPage({Key? key}) : super(key: key);
   @override
@@ -65,8 +63,31 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
           ),
         )
       ),
-      body: QuestController().buildCollection(context),
+      body: buildCollection(context),
       drawer: SettingsNavBar(),
     );
+  }
+
+  Widget buildCollection(BuildContext context) {
+    return Scaffold(
+        body: ListView(
+            children:  <Widget> [
+              Card(child: ListTile(
+                  enabled: true,
+                  title : Text("CHURCHES"),
+                  trailing: const Icon(Icons.church),
+                  onTap: () {MapNodeList().selectAll("kyrka");}
+              )),
+              Card(child: ListTile(
+                  title : Text("PARKS"),
+                  trailing: const Icon(Icons.wb_sunny_rounded),
+                  onTap: () {MapNodeList().selectAll("park");}
+              )),
+              Card(child: ListTile(
+                  title : Text("BUILDINGS"),
+                  trailing: const Icon(Icons.home),
+                  onTap: () {MapNodeList().selectAll("byggnad");}
+              ))]
+        ));
   }
 }

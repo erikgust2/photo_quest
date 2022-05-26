@@ -38,7 +38,7 @@ class MapNodeList {
         coord2.latitude,
         coord2.longitude
     );
-    return _distanceInMeters.toString() + " m";
+    return "distance: " + _distanceInMeters.toString() + " m";
   }
 
   Future refreshFriends() async {
@@ -61,6 +61,7 @@ class MapNodeList {
   }
 
   void selectAll(String searchType){
+    selectedNodes.clear();
     selectedNodes.addAll(nodes.where((node) => node.type == searchType));
   }
 

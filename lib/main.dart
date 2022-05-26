@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:photo_quest/MapNodesMap.dart';
-import 'package:photo_quest/quest_controller.dart';
 import 'MapNodeList.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'CollectionsPage.dart';
 import 'QuestPage.dart';
-import 'quest_map.dart';
 import 'package:provider/provider.dart';
 import 'GoogleSignIn.dart';
 import 'package:photo_quest/GoogleSignInProvider.dart';
