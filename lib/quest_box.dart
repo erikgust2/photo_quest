@@ -73,7 +73,7 @@ class QuestBoxState extends State<QuestBox> {
                         ),
                         const SizedBox(width: 8),
                         ElevatedButton(
-                          child: const Text('VIEW ON MAP',
+                          child: const Text('VIEW ON MAP', ///DOESN'T WORK NEED TO FIX
                             style: TextStyle(fontSize: 15, color: Colors
                                 .black),),
                           onPressed: () {
