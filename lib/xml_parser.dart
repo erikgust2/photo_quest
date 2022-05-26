@@ -14,14 +14,14 @@ class XMLParser {
   static const String DATE = "pres:timeLabel";
   static const String PLACE = "pres:placeLabel";
   static const String COORDINATES = "gml:coordinates";
-  Set<SearchItem> items = {};
+  Set<MapNode> items = {};
 
   void parse(XmlDocument doc) {
     List<XmlNode> input = doc.children;
         if (input.isNotEmpty) {
           final records = doc.findAllElements(RECORD);    //XML document divides into nodes and elements, in Samsök the heirarchy is "<record>
           for (var record in records) {
-                    SearchItem item = SearchItem();
+                    MapNode item = MapNode();
                     record.findAllElements(ID).forEach((id) {item.setID(id.text);});
                     record.findAllElements(TYPE).forEach((type) {item.setType(type.text);}); //there's only one of these per record, so findAll only returns one
                     record.findAllElements(TITLE).forEach((title) {item.setTitle(title.text);});//same for the rest
@@ -34,7 +34,7 @@ class XMLParser {
                  }
         }
       }
-  Set<SearchItem> getItems(){
+  Set<MapNode> getItems(){
     return items;
   }
   }

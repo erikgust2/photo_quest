@@ -8,6 +8,9 @@
 //String welcomeToJson(List<Welcome> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:photo_quest/MapNodeList.dart';
+
 class MapNode {
   MapNode({
     required this.name,
@@ -27,6 +30,16 @@ class MapNode {
     coordinate: json["coordinate"],
     description: json["description"],
   );
+
+  LatLng getCoordinates() {
+    List coords = [];
+    coords = coordinate.split(", ");
+    double longitude = double.parse(coords[0]);
+    double latitude = double.parse(coords[1]);
+    LatLng coordinates = LatLng(latitude, longitude);
+    return coordinates;
+  }
+
 
   @override
   String toString() {

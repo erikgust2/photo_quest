@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photo_quest/QuestCompleted.dart';
-
+import 'MapNodesMap.dart';
 import 'MapNodeList.dart';
 
 
@@ -33,7 +33,7 @@ class QuestBoxState extends State<QuestBox> {
                       title: Text(item.name,
                         style: TextStyle(fontSize: 25, color: Colors.black),
                         textAlign: TextAlign.center,),
-                      subtitle: Text(item.description,
+                      subtitle: Text(item.description + "\n" + MapNodeList().getDistance(MapNodeList.currentCoordinates, item.getCoordinates()),
                         style: TextStyle(fontSize: 12, color: Colors.black),
                         textAlign: TextAlign.center,),
                     ),
@@ -65,7 +65,11 @@ class QuestBoxState extends State<QuestBox> {
                             style: TextStyle(fontSize: 15, color: Colors
                                 .black),),
                           onPressed: () {
-                            /* ... */
+                            MapNodeList().select(item);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const NodeMapPage()),
+                            );
                           },
                             style: TextButton.styleFrom(
                                 padding: const EdgeInsets.all(12.0),

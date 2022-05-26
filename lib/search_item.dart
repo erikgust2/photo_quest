@@ -1,6 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class SearchItem {
+class MapNode {
   String itemID = "";
   String itemTitle = "";
   String itemDescription = "";

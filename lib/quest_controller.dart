@@ -1,11 +1,13 @@
 
-import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+
 import 'package:photo_quest/search_item.dart';
 import 'package:photo_quest/searcher.dart';
 import 'package:xml/xml.dart';
 import 'xml_parser.dart';
+
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'dart:core';
 import 'package:geolocator/geolocator.dart';
@@ -13,10 +15,10 @@ import 'package:geolocator/geolocator.dart';
 class QuestController {
   static const List<String> _SEARCH_TYPES = ["Föremål", "Byggnad", "Kulturlämning", "Konstverk", "Kulturmiljö", "Objekt", "Type"];
 
-  static late LatLng currentCoordinates;
-  Set<SearchItem> loadedQuests = {}; ///searchItems loaded after fetching data and parsing the XML
-  Set<SearchItem> currentQuests = {};
-  Set<SearchItem> completedQuests = {};
+
+  Set<MapNode> loadedQuests = {}; ///searchItems loaded after fetching data and parsing the XML
+  Set<MapNode> currentQuests = {};
+  Set<MapNode> completedQuests = {};
   String searchType = ""; //( Föremål, Byggnad, Kulturlämning, Konstverk, Kulturmiljö, Objekt)
   String searchQuery = ""; //for example statues, churches, bones, some items have years associated
   String searchQuantity= "50"; ///default size, can be modified for less items
@@ -26,7 +28,27 @@ class QuestController {
   String north = "";
   double searchSize = 0.1; //2.22 km
   Searcher searcher = Searcher.getInstance(); //singleton, this class gets the URL
+
+  static late LatLng currentCoordinates;
   Location currentLocation = Location();
+
+  Future<LatLng> getLocation() async {
+    var location = await currentLocation.getLocation();
+    currentCoordinates = LatLng(location.latitude ?? 0.0, location.longitude ?? 0.0);
+    return currentCoordinates;
+  }
+
+  double getDistance (LatLng coord1, LatLng coord2) {
+    var _distanceInMeters = Geolocator.distanceBetween(
+        coord1.latitude,
+        coord1.longitude,
+        coord2.latitude,
+        coord2.longitude
+    );
+    return _distanceInMeters;
+  }
+
+
 
   static QuestController _instance = QuestController._internal();
   QuestController._internal(){
@@ -59,12 +81,12 @@ class QuestController {
     searchQuantity = quantity;
   }
 
-  void selectQuest(SearchItem item){ /// NEEDS BACKEND OF COMPLETED QUESTS FOR THE CURRENT USER
+  void selectQuest(MapNode item){ /// NEEDS BACKEND OF COMPLETED QUESTS FOR THE CURRENT USER
     loadedQuests.remove(item);
     currentQuests.add(item);
   }
 
-  void deleteQuest(SearchItem item){ /// NEEDS BACKEND OF COMPLETED QUESTS FOR THE CURRENT USER
+  void deleteQuest(MapNode item){ /// NEEDS BACKEND OF COMPLETED QUESTS FOR THE CURRENT USER
     loadedQuests.remove(item);
     currentQuests.remove(item);
   }
@@ -98,21 +120,7 @@ class QuestController {
     _fetchData(URL);
   }
 
-  Future<LatLng> getLocation() async {
-    var location = await currentLocation.getLocation();
-    currentCoordinates = LatLng(location.latitude ?? 0.0, location.longitude ?? 0.0);
-    return currentCoordinates;
-  }
 
-  double getDistance (LatLng coord1, LatLng coord2) {
-    var _distanceInMeters = Geolocator.distanceBetween(
-        coord1.latitude,
-        coord1.longitude,
-        coord2.latitude,
-        coord2.longitude
-    );
-    return _distanceInMeters;
-  }
 
 
   Widget buildAvailable(BuildContext context) {

@@ -41,13 +41,13 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
 
   Set<Marker> _markers = {}; //markers of search items for google map
 
-  Set<SearchItem> _loadedItems = {};
+  Set<MapNode> _loadedItems = {};
 
   GoogleMapController? mapController; //controller for Google map
 
   late LatLng currentCoordinates;
 
-  late SearchItem _selectedItem; // when a marker is clicked on, it becomes the selected item
+  late MapNode _selectedItem; // when a marker is clicked on, it becomes the selected item
 
 
   @override
@@ -106,7 +106,7 @@ class _QuestMapScreenState extends State<QuestMapScreen> {
 
 
   ///sets marker green and saves quest in controller
-  void selectQuest(SearchItem item){
+  void selectQuest(MapNode item){
     QuestController().selectQuest(item);
     Marker greenMarker = Marker(
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen), //add first marker
