@@ -11,7 +11,6 @@ class LanguagePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(S.of(context).languageLabel),
         centerTitle: true,
-        backgroundColor: Colors.pink[200],
 
       ),
       body: Column(children: [

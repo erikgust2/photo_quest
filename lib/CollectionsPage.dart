@@ -35,7 +35,6 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink[200],
         title: Text(S.of(context).collectionsLabel),
         centerTitle: true,
 

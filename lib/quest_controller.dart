@@ -118,7 +118,7 @@ class QuestController {
   Widget buildAvailable(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.blue[900],
+
             title: TextFormField(
               decoration: const InputDecoration(
                   border: UnderlineInputBorder(),

@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:photo_quest/CustomThemes.dart';
 import 'package:photo_quest/generated/l10n.dart';
 import 'QuestCompleted.dart';
 import 'QuestAvailable.dart';
+import 'main.dart';
 class QuestTab extends StatefulWidget {
   const QuestTab({Key? key}) : super(key: key);
   @override
-  State<QuestTab> createState() => _MyTabbedPageState();
+  State<QuestTab> createState() => MyTabbedPageState();
 
 }
 
-class _MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateMixin {
+
+class MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateMixin {
   static const List<Tab> myTabs = <Tab>[
     Tab(text: 'LEFT'),
     Tab(text: 'RIGHT'),
   ];
 
   late TabController _tabController;
+  Color _backgroundColor = Color(0xFFFFFFFF);
 
   @override
   void initState() {
@@ -29,15 +33,28 @@ class _MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateM
     super.dispose();
   }
 
+  Color backgroundColor(){
+    if(MyApp.of(context)?.getTheme() == lightTheme)
+      return new Color(0xFFFFFFFF);
+    return new Color(0xFF000000);
+  }
+
+  void setColor(){
+    setState(() {
+      _backgroundColor = backgroundColor();
+    });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.5,
-        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
         title: TabBar(
           unselectedLabelColor: Colors.black,
-
           indicator: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
             

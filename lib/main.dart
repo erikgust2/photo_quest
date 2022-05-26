@@ -37,6 +37,10 @@ class MyAppState extends State<MyApp> {
     });
   }
 
+  ThemeData getTheme(){
+    return _theme;
+  }
+
   void setTheme(ThemeData value){
     setState(() {
       _theme = value;
@@ -98,7 +102,6 @@ class MyStatefulWidget extends State<MainScreen> {
       body: screens [_selectedIndex],
 
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.pink[100],
         type:BottomNavigationBarType.fixed,
         items:  <BottomNavigationBarItem>[
           BottomNavigationBarItem(
