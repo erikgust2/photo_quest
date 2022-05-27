@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:photo_quest/generated/l10n.dart';
 import 'main.dart';
-import 'CustomThemes.dart';
+import 'themes.dart';
 class ColorsPage extends StatelessWidget {
   const ColorsPage({Key? key}) : super(key: key);
   @override

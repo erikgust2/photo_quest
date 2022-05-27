@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:photo_quest/generated/l10n.dart';
-import 'package:photo_quest/profilePage.dart';
-import 'MapNodeList.dart';
-import 'SettingsNavDrawer.dart';
+import 'package:photo_quest/profile.dart';
+import 'quest_list.dart';
+import 'settings_drawer.dart';
 class CollectionsPage extends StatefulWidget {
    const CollectionsPage({Key? key}) : super(key: key);
   @override

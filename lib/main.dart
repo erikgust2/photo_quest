@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:photo_quest/MapNodesMap.dart';
-import 'MapNodeList.dart';
+import 'package:photo_quest/quest_map.dart';
+import 'quest_list.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'CollectionsPage.dart';
-import 'QuestPage.dart';
+import 'quest_collections.dart';
+import 'quest_list_view.dart';
 import 'package:provider/provider.dart';
-import 'GoogleSignIn.dart';
-import 'package:photo_quest/GoogleSignInProvider.dart';
+import 'google_sign_in.dart';
+import 'package:photo_quest/google_sign_in_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'CustomThemes.dart';
+import 'themes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

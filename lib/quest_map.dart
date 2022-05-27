@@ -1,11 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:photo_quest/profilePage.dart';
+import 'package:photo_quest/profile.dart';
 import 'dart:core';
-import 'MapNode.dart';
-import 'MapNodeList.dart';
-import 'SettingsNavDrawer.dart';
+import 'quest.dart';
+import 'quest_list.dart';
+import 'settings_drawer.dart';
 import 'generated/l10n.dart';
 
 

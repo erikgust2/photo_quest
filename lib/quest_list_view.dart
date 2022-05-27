@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:photo_quest/QuestTab.dart';
+import 'package:photo_quest/quest_tab.dart';
 import 'package:photo_quest/generated/l10n.dart';
-import 'SettingsNavDrawer.dart';
-import 'profilePage.dart';
-import 'QuestTab.dart';
-import 'goldenHour.dart';
+import 'settings_drawer.dart';
+import 'profile.dart';
+import 'quest_tab.dart';
+import 'golden_hour.dart';
 class QuestPage extends StatelessWidget {
   const QuestPage({Key? key}) : super(key: key);
 

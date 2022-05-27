@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:photo_quest/SettingsNavDrawer.dart';
+import 'package:photo_quest/settings_drawer.dart';
 
 
 class ProfilePage extends StatefulWidget {

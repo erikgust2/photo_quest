@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class goldenHour {
-  goldenHour({
+class GoldenHour {
+  GoldenHour({
     required this.sunset,
     required this.sunrise,
   });
@@ -14,7 +12,7 @@ class goldenHour {
   int sunset;
   int sunrise;
 
-  factory goldenHour.fromJson(Map<String, dynamic> json) => goldenHour(
+  factory GoldenHour.fromJson(Map<String, dynamic> json) => GoldenHour(
     sunrise: json["sunrise"],
     sunset: json["sunset"],
   );
@@ -80,7 +78,7 @@ class GoldenHourState extends State<GoldenHourController> {
     final resOne = await http.get(URIOne);
     var data = json.decode(resOne.body);
     var _friendsTemp;
-    _friendsTemp = goldenHour.fromJson(data['sys']);
+    _friendsTemp = GoldenHour.fromJson(data['sys']);
     if(mounted) {
       setState(() {
         friend = _friendsTemp;

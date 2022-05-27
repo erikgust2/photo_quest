@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:photo_quest/generated/l10n.dart';
 import 'package:photo_quest/quest_box.dart';
-import 'QuestCompleted.dart';
+import 'completed_quests.dart';
 class QuestTab extends StatefulWidget {
   const QuestTab({Key? key}) : super(key: key);
   @override
