@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const VANILLA_ICE = Color.fromRGBO(244, 143, 177, 1);
+const VANILLA_ICE = Color.fromRGBO(255, 160, 190, 1);
 const PANSY_PURPLE = Color.fromRGBO(134, 22, 87, 1 );
 const OLD_LACE = Color.fromRGBO(247, 243, 277, 1);
 const WINTERGREEN_DREAM = Color.fromRGBO(79, 132, 117, 1);

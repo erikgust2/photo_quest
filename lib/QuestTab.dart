@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:photo_quest/CustomThemes.dart';
 import 'package:photo_quest/generated/l10n.dart';
 import 'package:photo_quest/quest_box.dart';
 import 'QuestCompleted.dart';
-import 'main.dart';
 class QuestTab extends StatefulWidget {
   const QuestTab({Key? key}) : super(key: key);
   @override
@@ -19,7 +17,6 @@ class MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateMi
   ];
 
   late TabController _tabController;
-  Color _backgroundColor = Color(0xFFFFFFFF);
 
   @override
   void initState() {
@@ -33,17 +30,8 @@ class MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateMi
     super.dispose();
   }
 
-  Color backgroundColor(){
-    if(MyApp.of(context)?.getTheme() == lightTheme)
-      return Color(0xFFFFFFFF);
-    return Color(0xFF000000);
-  }
 
-  void setColor(){
-    setState(() {
-      _backgroundColor = backgroundColor();
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +44,7 @@ class MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateMi
           indicator: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
             
-            color: Colors.pink[100]
+            color: Colors.pink[300]
           ),
           controller: _tabController,
           tabs: [
@@ -65,7 +53,7 @@ class MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateMi
 
             ),
               child:  Align(alignment: Alignment.center,
-                child: Text(S.of(context).availableLabel, style: TextStyle(color: Colors.black),)),
+                child: Text(S.of(context).availableLabel, style: TextStyle(color: Colors.white),)),
             ),
             ),
             Tab(child: Container(decoration: BoxDecoration(
@@ -73,7 +61,7 @@ class MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateMi
 
             ),
               child:  Align(alignment: Alignment.center,
-                  child: Text(S.of(context).completedLabel, style: TextStyle(color: Colors.black),)),
+                  child: Text(S.of(context).completedLabel, style: TextStyle(color: Colors.white),)),
             ),
             ),
           ],
