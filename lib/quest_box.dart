@@ -28,7 +28,10 @@ class QuestBoxState extends State<QuestBox> {
     return ListView.builder(
       itemCount: nodes.length,
         itemBuilder: (BuildContext context, int index) {
-
+          Image image = Image.asset(nodes[index].getImage(), height: 100,
+            width: 100,
+            fit: BoxFit.fitWidth,
+              alignment: Alignment.topCenter);
             return Card(
               child: Container(
                 /*decoration: const BoxDecoration(
@@ -49,6 +52,7 @@ class QuestBoxState extends State<QuestBox> {
                       subtitle: Text(nodes[index].description + "\n" + MapNodeList().getDistance(MapNodeList.currentCoordinates, nodes[index].getCoordinates()),
                         style: TextStyle(fontSize: 12, color: Colors.black),
                         textAlign: TextAlign.center,),
+                    trailing: image,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +64,6 @@ class QuestBoxState extends State<QuestBox> {
                           onPressed: () {
                               setState(() {
                               MapNodeList().complete(nodes[index]);
-
                             },
                             );
                           },

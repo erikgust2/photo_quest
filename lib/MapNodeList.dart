@@ -23,7 +23,10 @@ class MapNodeList {
   static Set<MapNode> selectedNodes = {};
 
   static dynamic currentCoordinates;
+
   Location currentLocation = Location();
+
+
 
   Future<LatLng> getLocation() async {
     var location = await currentLocation.getLocation();
@@ -38,7 +41,7 @@ class MapNodeList {
         coord2.latitude,
         coord2.longitude
     );
-    return "distance: " + _distanceInMeters.toString() + " m";
+    return "distance: " + _distanceInMeters.toString().split(".").first + " m";
   }
 
   Future refreshFriends() async {

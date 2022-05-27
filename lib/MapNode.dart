@@ -9,7 +9,7 @@
 
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:photo_quest/MapNodeList.dart';
+
 
 class MapNode {
   MapNode({
@@ -40,6 +40,27 @@ class MapNode {
     return coordinates;
   }
 
+  String getImage(){
+    String images = "assets/images/";
+    switch (name)
+    {
+      case "Bostadshus":{return images + "bostadshus.jpg";}
+    case "Slott":{return images + "slott.jpg";}
+    case "Rikstadshuset":{return images + "riksdag.jpg";}
+    case "Stuga":{return images + "stuga.jpg";}
+    case "Solna kyrka":{return images + "solna.jpg";}
+    case "Hagalunds kyrka":{return images + "hagalund.jpg";}
+    case "Sofia kyrka":{return images + "sofia.jpg";}
+    case "Riddarholms kyrkan":{return images + "riddar.jpg";}
+    case "Ulriksdals slottskapell":{return images + "ulrik.jpg";}
+    case "Some park":{return images + "some.jpg";}
+    case "Hagaparken":{return images + "haga.jpg";}
+    case "Humlegården":{return images + "humlan.jpg";}
+    case "Vasa parken":{return images + "vasapark.jpg";}
+    case "Vanadis parken":{return images + "vanadis.jpg";}
+    }
+    return images+"notfound.png";
+  }
 
   @override
   String toString() {
