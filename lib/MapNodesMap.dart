@@ -165,8 +165,10 @@ class _NodeMapScreenState extends State<NodeMapPage> {
               ElevatedButton(
                   child: const Text("OK"), ///closes window
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    initState();
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context)=> const NodeMapPage()
+                    )
+                    );
                   },
                   style: TextButton.styleFrom(
                       padding: const EdgeInsets.all(12.0),
