@@ -46,13 +46,17 @@ class _NodeMapScreenState extends State<NodeMapPage> {
     super.dispose();
   }
 
+  BitmapDescriptor _getMarker(MapNode node){
+    if(MapNodeList().checkSelected(node)) return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
+    return BitmapDescriptor.defaultMarker;
+  }
+  
   void _createMarkers() async{
-    BitmapDescriptor searchIcon = BitmapDescriptor.defaultMarker;
     Set<Marker> markers = _markers.toSet();
     markers.addAll(
         _loadedNodes.skip(_markers.length).map((node) =>
             Marker(
-                icon: searchIcon,//add first marker
+                icon: _getMarker(node),//add first marker
                 markerId: MarkerId(node.name+node.type),
                 position: node.getCoordinates(), //position of marker
                 infoWindow: InfoWindow( //popup info
@@ -64,7 +68,6 @@ class _NodeMapScreenState extends State<NodeMapPage> {
             )));
     setState(() {
       _markers = markers;
-      print(markers);
     });
   }
 
