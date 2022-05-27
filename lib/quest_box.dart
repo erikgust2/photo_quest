@@ -28,31 +28,24 @@ class QuestBoxState extends State<QuestBox> {
     return ListView.builder(
       itemCount: nodes.length,
         itemBuilder: (BuildContext context, int index) {
-          Image image = Image.asset(nodes[index].getImage(), height: 100,
-            width: 100,
-            fit: BoxFit.fitWidth,
-              alignment: Alignment.topCenter);
+          Image image = Image.asset(nodes[index].getImage(), height: 70,
+            width: 70,);
             return Card(
               child: Container(
-                /*decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("https://lh5.googleusercontent.com/p/AF1QipPldMa-x_UbdPtpn8xWH9V_7cVvogX2YqKMxZ0Z=w408-h544-k-no"),
+                decoration: BoxDecoration(image: DecorationImage(image: image.image,
                     fit: BoxFit.fitWidth,
-                    alignment: Alignment.topCenter,
-                  ),
-                ),*/
+                    alignment: Alignment.center)),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     ListTile(
                       title: Text(nodes[index].name,
-                        style: TextStyle(fontSize: 25, color: Colors.black),
+                        style: TextStyle(fontSize: 25, color: Colors.white),
                         textAlign: TextAlign.center,),
                       subtitle: Text(nodes[index].description + "\n" + MapNodeList().getDistance(MapNodeList.currentCoordinates, nodes[index].getCoordinates()),
-                        style: TextStyle(fontSize: 12, color: Colors.black),
+                        style: TextStyle(fontSize: 12, color: Colors.white),
                         textAlign: TextAlign.center,),
-                    trailing: image,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

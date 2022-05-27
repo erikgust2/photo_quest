@@ -14,6 +14,7 @@ import 'CustomThemes.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await MapNodeList().getLocation();
   await MapNodeList().refreshFriends();
   runApp(MyApp());
 }
