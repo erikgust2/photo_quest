@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photo_quest/QuestCompleted.dart';
+import 'package:photo_quest/main.dart';
 import 'MapNode.dart';
 import 'MapNodesMap.dart';
 import 'MapNodeList.dart';
@@ -69,12 +70,15 @@ class QuestBoxState extends State<QuestBox> {
                         ),
                         const SizedBox(width: 8),
                         ElevatedButton(
-                          child: const Text('VIEW ON MAP', ///DOESN'T WORK NEED TO FIX
+                          child: const Text('SELECT QUEST',
                             style: TextStyle(fontSize: 15, color: Colors
                                 .black),),
                           onPressed: () {
                             MapNodeList().select(nodes[index]);
-                            const NodeMapPage();
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context)=> const NodeMapPage()
+                            )
+                            );
                           },
                             style: TextButton.styleFrom(
                                 padding: const EdgeInsets.all(12.0),

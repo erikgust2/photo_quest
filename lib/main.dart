@@ -95,7 +95,7 @@ class MyStatefulWidget extends State<MainScreen> {
     MapNodeList().dispose();
     super.dispose();
   }
-  Future<void> _onItemTapped(int index) async {
+  Future<void> onItemTapped(int index) async {
     setState(() {
       _selectedIndex = index;
     });
@@ -126,7 +126,7 @@ class MyStatefulWidget extends State<MainScreen> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.white70,
-        onTap: _onItemTapped,
+        onTap: onItemTapped,
       ),
     );
   }

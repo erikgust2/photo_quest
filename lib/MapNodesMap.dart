@@ -121,12 +121,13 @@ class _NodeMapScreenState extends State<NodeMapPage> {
 
   Widget acceptButton(BuildContext context, MapNode node) {
     if (!MapNodeList().checkSelected(node)){
+      String message = 'Accept quest?';
       return ElevatedButton(
-          child: const Text('Accept quest?'), ///not implemented
+          child: Text(message),
           onPressed: () {
             MapNodeList().select(node);
-            _createMarkers();
             Navigator.of(context).pop();
+            _showFeedback("Quest Accepted!");
           },
           style: TextButton.styleFrom(
               padding: const EdgeInsets.all(12.0),
@@ -136,12 +137,13 @@ class _NodeMapScreenState extends State<NodeMapPage> {
           )
       );
     }
+    String message = 'Cancel quest?';
     return ElevatedButton(
-        child: const Text('Cancel quest?'), ///not implemented
+        child: Text(message),
         onPressed: () {
           MapNodeList().deselect(node);
-          _createMarkers();
           Navigator.of(context).pop();
+          _showFeedback("Quest Canceled.");
         },
         style: TextButton.styleFrom(
             padding: const EdgeInsets.all(12.0),
@@ -152,7 +154,33 @@ class _NodeMapScreenState extends State<NodeMapPage> {
     );
   }
 
-  Future<void> _showMyDialog(MapNode node) async { ///text box thing that pops up when a marker is clicked on
+  void _showFeedback(String message) async{
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(message),
+            actions: <Widget>[
+              ElevatedButton(
+                  child: const Text("OK"), ///closes window
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    initState();
+                  },
+                  style: TextButton.styleFrom(
+                      padding: const EdgeInsets.all(12.0),
+                      primary: Colors.black,
+                      textStyle: const TextStyle(fontSize: 15),
+                      backgroundColor: Colors.green
+                  )
+              ),
+            ],
+          );
+  });
+  }
+
+  void _showMyDialog(MapNode node) async { ///text box thing that pops up when a marker is clicked on
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
