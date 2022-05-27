@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:photo_quest/quest_controller.dart';
+import 'package:photo_quest/MapNodesMap.dart';
+import 'MapNodeList.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'CollectionsPage.dart';
 import 'QuestPage.dart';
-import 'quest_map.dart';
 import 'package:provider/provider.dart';
 import 'GoogleSignIn.dart';
 import 'package:photo_quest/GoogleSignInProvider.dart';
@@ -14,7 +14,8 @@ import 'CustomThemes.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  QuestController().getLocation();
+  await MapNodeList().getLocation();
+  await MapNodeList().refreshFriends();
   runApp(MyApp());
 }
 
@@ -35,6 +36,10 @@ class MyAppState extends State<MyApp> {
     setState(() {
       _locale = value;
     });
+  }
+
+  ThemeData getTheme(){
+    return _theme;
   }
 
   void setTheme(ThemeData value){
@@ -77,7 +82,7 @@ class MainScreen extends StatefulWidget {
 class MyStatefulWidget extends State<MainScreen> {
   final screens = [
     const QuestPage(),
-    const QuestMapPage(),
+    const NodeMapPage(),
     const CollectionsPage(),
 
   ];
@@ -85,7 +90,12 @@ class MyStatefulWidget extends State<MainScreen> {
   int _selectedIndex = 0;
 
 
-  Future<void> _onItemTapped(int index) async {
+  @override
+  void dispose(){
+    MapNodeList().dispose();
+    super.dispose();
+  }
+  Future<void> onItemTapped(int index) async {
     setState(() {
       _selectedIndex = index;
     });
@@ -98,7 +108,6 @@ class MyStatefulWidget extends State<MainScreen> {
       body: screens [_selectedIndex],
 
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.pink[100],
         type:BottomNavigationBarType.fixed,
         items:  <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -117,7 +126,7 @@ class MyStatefulWidget extends State<MainScreen> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.white70,
-        onTap: _onItemTapped,
+        onTap: onItemTapped,
       ),
     );
   }

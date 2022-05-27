@@ -14,9 +14,7 @@ class QuestPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.pink[200],
-
-        title: Column(children: [
+          title: Column(children: [
           Text(S.of(context).questLabel,
             style: TextStyle(color: Colors.white, fontSize: 22.0),),
           //Text('Countdown',

@@ -10,6 +10,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class LoginWidget extends StatelessWidget{
+  const LoginWidget({Key? key}) : super(key: key);
+
 
 
   @override

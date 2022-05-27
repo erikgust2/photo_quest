@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:photo_quest/generated/l10n.dart';
+import 'package:photo_quest/quest_box.dart';
 import 'QuestCompleted.dart';
-import 'QuestAvailable.dart';
 class QuestTab extends StatefulWidget {
   const QuestTab({Key? key}) : super(key: key);
   @override
-  State<QuestTab> createState() => _MyTabbedPageState();
+  State<QuestTab> createState() => MyTabbedPageState();
 
 }
 
-class _MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateMixin {
+
+class MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateMixin {
   static const List<Tab> myTabs = <Tab>[
     Tab(text: 'LEFT'),
     Tab(text: 'RIGHT'),
@@ -29,19 +30,21 @@ class _MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateM
     super.dispose();
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.5,
-        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
         title: TabBar(
           unselectedLabelColor: Colors.black,
-
           indicator: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
             
-            color: Colors.pink[100]
+            color: Colors.pink[300]
           ),
           controller: _tabController,
           tabs: [
@@ -50,7 +53,7 @@ class _MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateM
 
             ),
               child:  Align(alignment: Alignment.center,
-                child: Text(S.of(context).availableLabel, style: TextStyle(color: Colors.black),)),
+                child: Text(S.of(context).availableLabel, style: TextStyle(color: Colors.white),)),
             ),
             ),
             Tab(child: Container(decoration: BoxDecoration(
@@ -58,7 +61,7 @@ class _MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateM
 
             ),
               child:  Align(alignment: Alignment.center,
-                  child: Text(S.of(context).completedLabel, style: TextStyle(color: Colors.black),)),
+                  child: Text(S.of(context).completedLabel, style: TextStyle(color: Colors.white),)),
             ),
             ),
           ],
@@ -66,8 +69,8 @@ class _MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateM
       ),
       body: TabBarView(
           controller: _tabController,
-          children: [
-            QuestAvailable(),
+          children: const [
+            QuestBox(),
             QuestCompleted(),
           ]
       ),
