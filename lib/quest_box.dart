@@ -54,6 +54,7 @@ class QuestBox extends StatelessWidget {
     imageFile = picture as XFile;
     //});
     Navigator.of(context).pop();
+    _uploadPhoto(imageFile);
   }
 
   _openCamera(BuildContext context) async {
@@ -63,7 +64,8 @@ class QuestBox extends StatelessWidget {
     imageFile = picture as XFile;
     //});
     Navigator.of(context).pop();
-    return imageFile;
+    _uploadPhoto(imageFile);
+    //return imageFile;
   }
 
   /*Widget _decideImageView(){
@@ -127,7 +129,7 @@ class QuestBox extends StatelessWidget {
                 const SizedBox(width: 8),
                 TextButton(
                   child: const Text('VIEW ON MAP'),
-                  onPressed: () {_uploadPhoto(imageFile);},
+                  onPressed: () {/*...*/},
 
                 ),
                 const SizedBox(width: 8),
