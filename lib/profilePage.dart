@@ -3,8 +3,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:photo_quest/SettingsNavDrawer.dart';
+
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({Key? key}) : super(key: key);
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -13,19 +17,19 @@ class _ProfilePageState extends State<ProfilePage> {
 
   final user = FirebaseAuth.instance.currentUser!;
 
-  profilePicture() {
+  Widget buildProfilePicture() {
     //Returns CircleAvatar with editable profile photo
-    return Container(
-      alignment: Alignment.topCenter,
-      child: Stack(
-          alignment: Alignment.center,
+    return Padding(
+        padding: const EdgeInsets.all(40.0),
+        child: Stack(
+        fit: StackFit.expand,
+        alignment: Alignment.bottomCenter,
           children:  [
             CircleAvatar(
               backgroundColor: Colors.pinkAccent,
-
-              backgroundImage: NetworkImage(user.photoURL!),
-              //NetworkImage('https://i.imgur.com/ZahwJjN.gif'),
-              radius: 70,
+              backgroundImage: //NetworkImage(user.photoURL!),
+              NetworkImage('https://i.imgur.com/ZahwJjN.gif'),
+              radius: 50,
             ),
 
             //An invisible clickable button the size of the avatar above that opens camera/gallery prompt
@@ -34,58 +38,27 @@ class _ProfilePageState extends State<ProfilePage> {
                   //should communicate with camera.dart, not functional yet
                  // _showChoiceDialog(context);
                 },
-                child: const Positioned(
-                    child: CircleAvatar(
+                child: CircleAvatar(
                       backgroundColor: Colors.transparent,
-                      radius: 70,
-                    ))
-            ),
+                      radius: 40,
+                    )),
           ]
-      ),
-    );
+      ));
   }
 
-  profileInfo() {
-    return Container(
-        decoration: const BoxDecoration(
-          color: Colors.purple,
-        ),
-        child: Text(
-            'Username: ' + user.displayName! + 'Email: ' + user.email.toString(),
+  Widget buildProfileInfo() {
+    return  Text(
+            'Username: ' + user.displayName! + "\n" + 'Email: ' + user.email.toString(),
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: 15,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             )
-        )
-    );
-  }
-
-  gallery() {
-    //Returns a row on the bottom of the screen that is scrollable and contains the user's photos. When clicked they open
-    //a new page with the clicked image
-
-    return Container(
-      alignment: Alignment.bottomCenter,
-      height: 450,
-      color: Colors.white,
-      child:
-      GridView.count(
-        crossAxisCount: 2,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-        padding: const EdgeInsets.all(8),
-        //mainAxisAlignment: MainAxisAlignment.center,
-        //crossAxisAlignment: CrossAxisAlignment.start,
-
-        //children should be the user's list of photos
-        children: _getImages(tempList),
-      ),
-    );
+        );
   }
 
   //temporary list to test _getImages()
-  List<Image> tempList = [
+  List<Image> images = [
     Image.network('https://www.gravatar.com/avatar/12d378e6a9788ab9c94bbafe242b82b4?s=256&d=identicon&r=PG'),
     Image.network('https://www.gravatar.com/avatar/12d378e6a9788ab9c94bbafe242b82b4?s=256&d=identicon&r=PG'),
     Image.network('https://www.gravatar.com/avatar/12d378e6a9788ab9c94bbafe242b82b4?s=256&d=identicon&r=PG'),
@@ -97,22 +70,6 @@ class _ProfilePageState extends State<ProfilePage> {
     Image.network('https://www.gravatar.com/avatar/b6fac6fc9baf619e8e52f77b44a2b6ca?s=256&d=identicon&r=PG'),
   ];
 
-  List<Widget> _getImages(List<Image> userPhotos) {
-    final List<Widget> images = <Widget>[];
-
-    //loop through the user's photos and place them in the images list
-    for (int i = 0; i < userPhotos.length; i++){
-      images.add(GridTile(
-          child: GestureDetector(
-            onTap: () {
-              _onClickedImage(userPhotos[i]);
-            },
-            child: Image(image: userPhotos[i].image, fit: BoxFit.cover,),
-          )
-      ),);
-    }
-    return images;
-  }
 
   //should take an int i to be used in _getImages, to apply that image to the new page
   void _onClickedImage(Image image) {
@@ -125,47 +82,46 @@ class _ProfilePageState extends State<ProfilePage> {
 
   //does not work in current implementation because I'm not sending the correct image to this method
   void _deletePhoto(Image image){
-    print(tempList.length);
-    tempList.remove(image);
-    print(tempList.length);
+    print(images.length);
+    images.remove(image);
+    print(images.length);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.pink[244],
-        title: const Text("Profile"),
-      ),
-
-      //This column is for the profile photo and profile info
-      body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-
-            //This stack puts the profile picture and profile info on top of the backgroundImage.
-            Stack(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(220.0),
+      child:  AppBar(
+              title: Text("Profile"),
+              backgroundColor: Colors.pink[244],
+              flexibleSpace: buildProfilePicture(),
+              bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(200.0),
+              child: buildProfileInfo()
+      ))),body: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200,
+              childAspectRatio: 3 / 2,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20),
+          itemCount: images.length,
+          itemBuilder: (BuildContext ctx, index) {
+            Image image = images[index];
+            return Stack(
+                fit: StackFit.expand,
                 children: [
-                  Image(
-                    height: MediaQuery.of(context).size.height /3,
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                        'https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max'
-                    ),
+                  Container(
+                    alignment: Alignment.topCenter,
+                    child: Text("image: " + index.toString()),
+                    decoration: BoxDecoration(
+                        color: Colors.pinkAccent,
+                        borderRadius: BorderRadius.circular(15),
+                    image: DecorationImage(image: image.image)),
                   ),
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        profilePicture(),
-                        profileInfo(),
-                      ]
-                  )
-                ]
-            ),
-            gallery(),
-          ]
-      ),
+                ]);
+          }),
+      drawer: SettingsNavBar(),
     );
   }
 }
