@@ -143,7 +143,7 @@ class _NodeMapScreenState extends State<NodeMapPage> {
         onPressed: () {
           MapNodeList().deselect(node);
           Navigator.of(context).pop();
-          _showFeedback("Quest Canceled.");
+          _showFeedback("Quest Cancelled.");
         },
         style: TextButton.styleFrom(
             padding: const EdgeInsets.all(12.0),
