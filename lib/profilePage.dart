@@ -1,8 +1,11 @@
+//import 'dart:html';
+//import 'package:google_maps_flutter/google_maps_flutter.dart';
+//import 'package:image_picker/image_picker.dart';
+//import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -11,6 +14,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 
+  //if this is null, shit is bad
   final user = FirebaseAuth.instance.currentUser!;
 
   profilePicture() {
@@ -24,21 +28,21 @@ class _ProfilePageState extends State<ProfilePage> {
               backgroundColor: Colors.pinkAccent,
 
               backgroundImage: NetworkImage(user.photoURL!),
-              //NetworkImage('https://i.imgur.com/ZahwJjN.gif'),
+              //backgroundImage: NetworkImage('https://i.imgur.com/ZahwJjN.gif'),
               radius: 70,
             ),
 
             //An invisible clickable button the size of the avatar above that opens camera/gallery prompt
             GestureDetector(
                 onTap: (){
-                  //should communicate with camera.dart, not functional yet
                  // _showChoiceDialog(context);
-                },
+                  },
                 child: const Positioned(
                     child: CircleAvatar(
                       backgroundColor: Colors.transparent,
                       radius: 70,
-                    ))
+                    )
+                )
             ),
           ]
       ),
@@ -51,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
           color: Colors.purple,
         ),
         child: Text(
-            'Username: ' + user.displayName! + 'Email: ' + user.email.toString(),
+            'Username: ' + user.displayName! + '\n' + 'Email: ' + user.email.toString(),
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -134,7 +138,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink[244],
+        backgroundColor: Colors.pink[200],
         title: const Text("Profile"),
       ),
 
@@ -202,7 +206,7 @@ class _OpenPhotoRouteState extends State<OpenPhotoRoute> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: showAppBar ? AppBar(
-          backgroundColor: Colors.pink[100],
+          backgroundColor: Colors.pink[200],
           title: const Text('Image name here'),
           actions: [
             PopupMenuButton(
@@ -225,11 +229,10 @@ class _OpenPhotoRouteState extends State<OpenPhotoRoute> {
         backgroundColor: Colors.black,
         body: GestureDetector(
           onTap: (){
-            //show appBar here and hide it by default
+            //show the app-bar
             setState(() {
               showAppBar = !showAppBar;
             });
-            print("hey");
           },
           child:
           Container(

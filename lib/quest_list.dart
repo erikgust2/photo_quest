@@ -13,7 +13,7 @@ class QuestList extends StatelessWidget {
           (
             itemCount: 10, //senare itemscount?
             itemBuilder: (BuildContext context, int index) {
-              return const QuestBox();
+              return QuestBox();
             }
         )
 
