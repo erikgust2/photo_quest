@@ -29,7 +29,7 @@ class QuestNodeList {
   Location currentLocation = Location();
 
   final user = FirebaseAuth.instance.currentUser!;
-  CollectionReference completedQuests = FirebaseFirestore.instance.collection('users');
+  CollectionReference completedQuests = FirebaseFirestore.instance.collection('completedQuests');
 
   Future<List> getCompletedList() async {
     DocumentReference docRef = completedQuests.doc(user.uid);
