@@ -29,10 +29,10 @@ class QuestNodeList {
   Location currentLocation = Location();
 
   final user = FirebaseAuth.instance.currentUser!;
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  CollectionReference completedQuests = FirebaseFirestore.instance.collection('users');
 
   Future<List> getCompletedList() async {
-    DocumentReference docRef = users.doc(user.uid).collection('completedQuests').doc(user.uid);
+    DocumentReference docRef = completedQuests.doc(user.uid);
     DocumentSnapshot snapshot = await docRef.get();
     List completed = snapshot.get('completed');
 
@@ -41,7 +41,7 @@ class QuestNodeList {
 
 
   addCompletedList(int newInt) async {
-    DocumentReference docRef = users.doc(user.uid).collection('completedQuests').doc(user.uid);
+    DocumentReference docRef = completedQuests.doc(user.uid);
     DocumentSnapshot snapshot = await docRef.get();
     List completed = snapshot.get('completed');
     completed.add(newInt);
