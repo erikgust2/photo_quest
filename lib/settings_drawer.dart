@@ -8,6 +8,7 @@ class SettingsNavBar extends StatelessWidget{
   @override
   Widget build(BuildContext context) => Drawer(
     child: SingleChildScrollView(
+      clipBehavior: Clip.hardEdge,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget> [

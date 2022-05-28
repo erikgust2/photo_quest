@@ -68,6 +68,10 @@ class MapNodeList {
     selectedNodes.addAll(nodes.where((node) => node.type == searchType));
   }
 
+  void deselectAll(String searchType){
+    selectedNodes.removeWhere((element) => element.type == searchType);
+  }
+
   void deselect(MapNode node){
     if (selectedNodes.length == 1) {
       selectedNodes.clear();
@@ -90,7 +94,8 @@ class MapNodeList {
   }
 
   void complete(MapNode node){
-    QuestCompleted.nodes.add(node);
+    if (!QuestCompleted().checkCompleted(node)){
+    QuestCompleted.nodes.add(node);}
     nodes.remove(node);
     selectedNodes.remove(node);
   }
