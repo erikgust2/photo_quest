@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_quest/completed_quests.dart';
 import 'quest.dart';
 import 'quest_map.dart';
 import 'quest_list.dart';
@@ -106,6 +107,8 @@ class QuestBox extends StatefulWidget{
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -140,8 +143,10 @@ class QuestBox extends StatefulWidget{
                           onPressed: () {
                             _showChoiceDialog(context, nodes[index].name);
                               setState(() {
-                              QuestNodeList().complete(nodes[index]);
-                            },
+                                QuestNodeList().addCompletedList(nodes[index]);
+                                QuestCompleted.nodes.add(nodes[index]);
+                                nodes.remove(nodes[index]);
+                              },
                             );
                           },
                             style: TextButton.styleFrom(

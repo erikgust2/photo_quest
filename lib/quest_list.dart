@@ -20,19 +20,21 @@ class QuestNodeList {
 
   factory QuestNodeList() => _instance;
 
-  static Set<QuestNode> nodes = {};
+  static Set<QuestNode> availableQuests = {};
 
   static Set<QuestNode> selectedNodes = {};
+
+  static Set<QuestNode> completedQuests = {};
 
   static dynamic currentCoordinates;
 
   Location currentLocation = Location();
 
   final user = FirebaseAuth.instance.currentUser!;
-  CollectionReference completedQuests = FirebaseFirestore.instance.collection('completedQuests');
+  CollectionReference completedIDs = FirebaseFirestore.instance.collection('completedQuests');
 
   Future<List> getCompletedList() async {
-    DocumentReference docRef = completedQuests.doc(user.uid);
+    DocumentReference docRef = completedIDs.doc(user.uid);
     DocumentSnapshot snapshot = await docRef.get();
     List completed = snapshot.get('completed');
 
@@ -40,14 +42,14 @@ class QuestNodeList {
   }
 
 
-  addCompletedList(int newInt) async {
-    DocumentReference docRef = completedQuests.doc(user.uid);
+  addCompletedList(QuestNode node) async {
+    DocumentReference docRef = completedIDs.doc(user.uid);
     DocumentSnapshot snapshot = await docRef.get();
     List completed = snapshot.get('completed');
-    completed.add(newInt);
+    completed.add(node.id);
     docRef.set({'completed': completed});
+    availableQuests.remove(node);
   }
-
 
   Future<LatLng> getLocation() async {
     var location = await currentLocation.getLocation();
@@ -66,6 +68,7 @@ class QuestNodeList {
   }
 
   Future refreshFriends() async {
+    List list = await getCompletedList();
     getLocation();
     Uri URIOne = Uri.parse(
         'https://storm-elderly-conchoraptor.glitch.me/friends');
@@ -74,10 +77,13 @@ class QuestNodeList {
       for (int i = 0; i < 15; i++) {
         QuestNode node = QuestNode.fromJson(data[i]);
         if (!checkCreated(node)) {
-          nodes.add(node);
+          if(!list.contains(node.id)) {
+            availableQuests.add(node);
+          } else {
+            completedQuests.add(node);
+          }
         }
       }
-
   }
 
   void select(QuestNode node){
@@ -86,7 +92,7 @@ class QuestNodeList {
 
   void selectAll(String searchType){
     selectedNodes.clear();
-    selectedNodes.addAll(nodes.where((node) => node.type == searchType));
+    selectedNodes.addAll(availableQuests.where((node) => node.type == searchType));
   }
 
   void deselectAll(String searchType){
@@ -96,7 +102,7 @@ class QuestNodeList {
   void deselect(QuestNode node){
     if (selectedNodes.length == 1) {
       selectedNodes.clear();
-      nodes.clear();
+      availableQuests.clear();
       refreshFriends();
     }
     selectedNodes.remove(node);
@@ -110,14 +116,14 @@ class QuestNodeList {
 
   bool checkCreated(QuestNode node){
     bool created = false;
-    nodes.forEach((item) {if (item.id == node.id) created = true;});
+    availableQuests.forEach((item) {if (item.id == node.id) created = true;});
     return created;
   }
 
   void complete(QuestNode node){
     if (!QuestCompleted().checkCompleted(node)){
     QuestCompleted.nodes.add(node);}
-    nodes.remove(node);
+    availableQuests.remove(node);
     selectedNodes.remove(node);
   }
 
@@ -126,11 +132,15 @@ class QuestNodeList {
     if (selectedNodes.isNotEmpty){
       return selectedNodes.toList();
     }
-    return nodes.toList();
+    return availableQuests.toList();
+  }
+
+  List<QuestNode> getCompletedQuests(){
+    return completedQuests.toList();
   }
 
   dispose(){
-    nodes.clear();
+    availableQuests.clear();
     selectedNodes.clear();
   }
 }
