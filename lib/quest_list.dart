@@ -51,6 +51,11 @@ class QuestNodeList {
     availableQuests.remove(node);
   }
 
+  clearCompletedList() async {
+    DocumentReference docRef = completedIDs.doc(user.uid);
+    docRef.set({'completed': []});
+  }
+
   Future<LatLng> getLocation() async {
     var location = await currentLocation.getLocation();
     currentCoordinates = LatLng(location.latitude ?? 0.0, location.longitude ?? 0.0);
