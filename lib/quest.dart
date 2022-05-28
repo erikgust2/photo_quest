@@ -11,8 +11,8 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
-class QuestNode {
-  QuestNode({
+class MapNode {
+  MapNode({
     required this.name,
     required this.type,
     required this.coordinate,
@@ -28,7 +28,7 @@ class QuestNode {
   String image;
   String id;
 
-  factory QuestNode.fromJson(Map<String, dynamic> json) => QuestNode(
+  factory MapNode.fromJson(Map<String, dynamic> json) => MapNode(
     name: json["name"],
     type: json["type"],
     coordinate: json["coordinate"],
@@ -58,7 +58,7 @@ class QuestNode {
 
   @override
   bool operator ==(Object other) {
-    if (other is QuestNode){
+    if (other is MapNode){
       return identical(id, other.id);
     }
     return super == other;

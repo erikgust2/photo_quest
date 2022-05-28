@@ -7,7 +7,7 @@ import 'quest.dart';
 
 class QuestCompleted extends StatelessWidget{
 
-  static List<QuestNode> nodes = [];
+  static List<MapNode> nodes = [];
 
   const QuestCompleted({Key? key}) : super(key: key);
   bool checkCompleted(MapNode node){

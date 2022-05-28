@@ -14,8 +14,8 @@ import 'themes.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await QuestNodeList().getLocation();
-  await QuestNodeList().refreshFriends();
+  await MapNodeList().getLocation();
+  await MapNodeList().refreshFriends();
   runApp(MyApp());
 }
 
@@ -94,7 +94,7 @@ class MyStatefulWidget extends State<MainScreen> {
 
   @override
   void dispose(){
-    QuestNodeList().dispose();
+    MapNodeList().dispose();
     super.dispose();
   }
   Future<void> onItemTapped(int index) async {

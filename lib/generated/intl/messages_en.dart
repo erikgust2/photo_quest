@@ -35,7 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "profileLabel": MessageLookupByLibrary.simpleMessage("Profile"),
         "profilePlaceholder": MessageLookupByLibrary.simpleMessage(
             "This is the center of the Profile Page"),
-        "questLabel": MessageLookupByLibrary.simpleMessage("Quests"),
+        "questLabel": MessageLookupByLibrary.simpleMessage("Quest"),
         "testText": MessageLookupByLibrary.simpleMessage("testEN"),
         "userAgreementLabel":
             MessageLookupByLibrary.simpleMessage("User Agreement")
