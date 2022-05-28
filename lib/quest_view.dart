@@ -96,13 +96,13 @@ class QuestBox extends StatefulWidget{
     }
   }
 
-  List<MapNode> nodes = [];
+  List<QuestNode> nodes = [];
 
   @override
   void initState(){
     super.initState();
     setState(() {
-      nodes = MapNodeList().getMapNodes();
+      nodes = QuestNodeList().getQuestNodes();
     });
   }
 
@@ -126,7 +126,7 @@ class QuestBox extends StatefulWidget{
                       title: Text(nodes[index].name,
                         style: TextStyle(fontSize: 25, color: Colors.white),
                         textAlign: TextAlign.center,),
-                      subtitle: Text(nodes[index].description + "\n" + MapNodeList().getDistance(MapNodeList.currentCoordinates, nodes[index].getCoordinates()),
+                      subtitle: Text(nodes[index].description + "\n" + QuestNodeList().getDistance(QuestNodeList.currentCoordinates, nodes[index].getCoordinates()),
                         style: TextStyle(fontSize: 12, color: Colors.white),
                         textAlign: TextAlign.center,),
                     ),
@@ -140,7 +140,7 @@ class QuestBox extends StatefulWidget{
                           onPressed: () {
                             _showChoiceDialog(context, nodes[index].name);
                               setState(() {
-                              MapNodeList().complete(nodes[index]);
+                              QuestNodeList().complete(nodes[index]);
                             },
                             );
                           },
@@ -157,7 +157,7 @@ class QuestBox extends StatefulWidget{
                             style: TextStyle(fontSize: 15, color: Colors
                                 .black),),
                           onPressed: () {
-                            MapNodeList().select(nodes[index]);
+                            QuestNodeList().select(nodes[index]);
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context)=> const NodeMapPage()
                             )

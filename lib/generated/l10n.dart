@@ -70,10 +70,10 @@ class S {
     );
   }
 
-  /// `Quest`
+  /// `Quests`
   String get questLabel {
     return Intl.message(
-      'Quest',
+      'Quests',
       name: 'questLabel',
       desc: '',
       args: [],
