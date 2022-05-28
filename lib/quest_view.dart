@@ -159,7 +159,7 @@ class QuestBox extends StatefulWidget{
                           onPressed: () {
                             QuestNodeList().select(nodes[index]);
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context)=> const NodeMapPage()
+                                builder: (context)=> const QuestMapPage()
                             )
                             );
                           },
