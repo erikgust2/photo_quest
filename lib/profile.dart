@@ -182,12 +182,12 @@ class _OpenPhotoRouteState extends State<OpenPhotoRoute> {
         floatingActionButtonLocation: FloatingActionButtonLocation.miniStartFloat,
         floatingActionButton: FloatingActionButton(mini: true, child: const Icon(Icons.arrow_back), backgroundColor: Colors.pinkAccent,
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context)=> const ProfilePage()));
+            Navigator.of(context).pop();
+            initState();
           },),
         appBar: showAppBar ? AppBar(
           backgroundColor: Colors.pink[100],
-          title: const Text('Image name here'),
+          title: const Text('Image'),
           actions: [
             PopupMenuButton(
                 itemBuilder: (context){
