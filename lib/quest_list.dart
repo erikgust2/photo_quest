@@ -41,12 +41,11 @@ class QuestNodeList {
 
 
   addCompletedList(int newInt) async {
-    CollectionReference cQ = FirebaseFirestore.instance.collection('completedQuests');
-
-    DocumentSnapshot snapshot = await cQ.doc(user.uid).get();
+    DocumentReference docRef = users.doc(user.uid).collection('completedQuests').doc(user.uid);
+    DocumentSnapshot snapshot = await docRef.get();
     List completed = snapshot.get('completed');
     completed.add(newInt);
-    cQ.doc(user.uid).set({'completed': completed});
+    docRef.set({'completed': completed});
   }
 
 
