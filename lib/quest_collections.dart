@@ -3,6 +3,7 @@ import 'package:photo_quest/generated/l10n.dart';
 import 'package:photo_quest/profile.dart';
 import 'package:photo_quest/quest_list_view.dart';
 
+import 'main.dart';
 import 'quest_list.dart';
 import 'settings_drawer.dart';
 class CollectionsPage extends StatefulWidget {
@@ -101,9 +102,7 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                                   QuestNodeList().selectAll("kyrka");
                                 });
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context)=> const QuestPage()
-                                )
-                                );
+                                    builder: (context)=> const MainScreen()));
                               },
                               style: TextButton.styleFrom(
                                   padding: const EdgeInsets.all(12.0),
@@ -160,9 +159,7 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                                   QuestNodeList().selectAll("park");
                                 });
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context)=> const QuestPage()
-                                )
-                                );
+                                    builder: (context)=> const MainScreen()));
                               },
                               style: TextButton.styleFrom(
                                   padding: const EdgeInsets.all(12.0),
@@ -219,9 +216,7 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                                   QuestNodeList().selectAll("byggnad");
                                 });
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context)=> const QuestPage()
-                                )
-                                );
+                                    builder: (context)=> const MainScreen()));
                               },
                               style: TextButton.styleFrom(
                                   padding: const EdgeInsets.all(12.0),

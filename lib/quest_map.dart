@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:photo_quest/profile.dart';
+import 'package:photo_quest/quest_list_view.dart';
 import 'dart:core';
+import 'main.dart';
 import 'quest.dart';
 import 'quest_list.dart';
 import 'settings_drawer.dart';
@@ -106,7 +108,8 @@ class _QuestMapScreenState extends State<QuestMapPage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.miniStartFloat,
         floatingActionButton: FloatingActionButton(mini: true, child: const Icon(Icons.arrow_back), backgroundColor: Colors.pinkAccent,
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context)=> const MainScreen()));
           },),
         body: GoogleMap(initialCameraPosition: _initialCameraPosition,
           zoomControlsEnabled: true,
