@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:photo_quest/settings_drawer.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 
 class ProfilePage extends StatefulWidget {
@@ -84,8 +85,23 @@ class _ProfilePageState extends State<ProfilePage> {
     print(images.length);
   }
 
+  refreshImages() async{
+    // images.clear();
+
+    final storageRef = FirebaseStorage.instance.ref().child('users/' + user.uid);
+    final listResult = await storageRef.listAll();
+
+    for(var item in listResult.items){
+      final url = await item.getDownloadURL();
+      images.add(Image.network(url));
+    }
+    print(images);
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    refreshImages();
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(220.0),
