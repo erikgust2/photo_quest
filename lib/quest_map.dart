@@ -26,7 +26,7 @@ class _NodeMapScreenState extends State<NodeMapPage> {
 
   Set<Marker> _markers = {}; //markers of search items for google map
 
-  List<MapNode> _loadedNodes = [];
+  List<QuestNode> _loadedNodes = [];
 
   GoogleMapController? mapController; //controller for Google map
 
@@ -35,7 +35,7 @@ class _NodeMapScreenState extends State<NodeMapPage> {
   void initState(){
     super.initState();
     setState(() {
-      _loadedNodes = MapNodeList().getMapNodes();
+      _loadedNodes = QuestNodeList().getQuestNodes();
       _createMarkers();
     });
   }
@@ -46,8 +46,8 @@ class _NodeMapScreenState extends State<NodeMapPage> {
     super.dispose();
   }
 
-  BitmapDescriptor _getMarker(MapNode node){
-    if(MapNodeList().checkSelected(node)) return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
+  BitmapDescriptor _getMarker(QuestNode node){
+    if(QuestNodeList().checkSelected(node)) return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
     return BitmapDescriptor.defaultMarker;
   }
   
@@ -119,13 +119,13 @@ class _NodeMapScreenState extends State<NodeMapPage> {
     );
   }
 
-  Widget acceptButton(BuildContext context, MapNode node) {
-    if (!MapNodeList().checkSelected(node)){
+  Widget acceptButton(BuildContext context, QuestNode node) {
+    if (!QuestNodeList().checkSelected(node)){
       String message = 'Accept quest?';
       return ElevatedButton(
           child: Text(message),
           onPressed: () {
-            MapNodeList().select(node);
+            QuestNodeList().select(node);
             Navigator.of(context).pop();
             _showFeedback("Quest Accepted!");
           },
@@ -141,7 +141,7 @@ class _NodeMapScreenState extends State<NodeMapPage> {
     return ElevatedButton(
         child: Text(message),
         onPressed: () {
-          MapNodeList().deselect(node);
+          QuestNodeList().deselect(node);
           Navigator.of(context).pop();
           _showFeedback("Quest Cancelled.");
         },
@@ -182,7 +182,7 @@ class _NodeMapScreenState extends State<NodeMapPage> {
   });
   }
 
-  void _showMyDialog(MapNode node) async { ///text box thing that pops up when a marker is clicked on
+  void _showMyDialog(QuestNode node) async { ///text box thing that pops up when a marker is clicked on
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -194,9 +194,9 @@ class _NodeMapScreenState extends State<NodeMapPage> {
               children: <Widget>[
                 Text(node.name),
                 Text(node.type),
-                Text(MapNodeList()
+                Text(QuestNodeList()
                     .getDistance(
-                    node.getCoordinates(), MapNodeList.currentCoordinates)
+                    node.getCoordinates(), QuestNodeList.currentCoordinates)
                     .toString()
                     .split(".")
                     .first + " m")

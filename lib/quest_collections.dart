@@ -76,17 +76,17 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                   enabled: true,
                   title : Text("CHURCHES"),
                   trailing: const Icon(Icons.church),
-                  onTap: () {MapNodeList().selectAll("kyrka");}
+                  onTap: () {QuestNodeList().selectAll("kyrka");}
               )),
               Card(child: ListTile(
                   title : Text("PARKS"),
                   trailing: const Icon(Icons.wb_sunny_rounded),
-                  onTap: () {MapNodeList().selectAll("park");}
+                  onTap: () {QuestNodeList().selectAll("park");}
               )),
               Card(child: ListTile(
                   title : Text("BUILDINGS"),
                   trailing: const Icon(Icons.home),
-                  onTap: () {MapNodeList().selectAll("byggnad");}
+                  onTap: () {QuestNodeList().selectAll("byggnad");}
               ))]
         ));
   }

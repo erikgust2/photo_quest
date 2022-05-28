@@ -8,21 +8,22 @@ import 'dart:convert';
 import 'dart:core';
 
 
-class MapNodeList {
+class QuestNodeList {
 
-  static MapNodeList _instance = MapNodeList._internal();
-  MapNodeList._internal(){
+  static QuestNodeList _instance = QuestNodeList._internal();
+  QuestNodeList._internal(){
     _instance = this;
     getLocation();
   }
 
-  factory MapNodeList() => _instance;
+  factory QuestNodeList() => _instance;
 
-  static Set<MapNode> nodes = {};
+  static Set<QuestNode> nodes = {};
 
-  static Set<MapNode> selectedNodes = {};
+  static Set<QuestNode> selectedNodes = {};
 
   static dynamic currentCoordinates;
+
 
   Location currentLocation = Location();
 
@@ -51,7 +52,7 @@ class MapNodeList {
     final resOne = await http.get(URIOne);
     var data = json.decode(resOne.body);
       for (int i = 0; i < 15; i++) {
-        MapNode node = MapNode.fromJson(data[i]);
+        QuestNode node = QuestNode.fromJson(data[i]);
         if (!checkCreated(node)) {
           nodes.add(node);
         }
@@ -59,7 +60,7 @@ class MapNodeList {
 
   }
 
-  void select(MapNode node){
+  void select(QuestNode node){
     selectedNodes.add(node);
   }
 
@@ -68,7 +69,7 @@ class MapNodeList {
     selectedNodes.addAll(nodes.where((node) => node.type == searchType));
   }
 
-  void deselect(MapNode node){
+  void deselect(QuestNode node){
     if (selectedNodes.length == 1) {
       selectedNodes.clear();
       nodes.clear();
@@ -77,25 +78,25 @@ class MapNodeList {
     selectedNodes.remove(node);
   }
 
-  bool checkSelected(MapNode node){
+  bool checkSelected(QuestNode node){
     bool selected = false;
     selectedNodes.forEach((item) {if (item.id == node.id) selected = true;});
     return selected;
   }
 
-  bool checkCreated(MapNode node){
+  bool checkCreated(QuestNode node){
     bool created = false;
     nodes.forEach((item) {if (item.id == node.id) created = true;});
     return created;
   }
 
-  void complete(MapNode node){
+  void complete(QuestNode node){
     QuestCompleted.nodes.add(node);
     nodes.remove(node);
     selectedNodes.remove(node);
   }
 
-  List<MapNode> getMapNodes() {
+  List<QuestNode> getQuestNodes() {
     refreshFriends();
     if (selectedNodes.isNotEmpty){
       return selectedNodes.toList();
