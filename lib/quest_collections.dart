@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:photo_quest/generated/l10n.dart';
 import 'package:photo_quest/profile.dart';
-import 'package:photo_quest/quest_map.dart';
+import 'package:photo_quest/quest_list_view.dart';
+
 import 'quest_list.dart';
 import 'settings_drawer.dart';
 class CollectionsPage extends StatefulWidget {
@@ -97,10 +98,10 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                                     .black),),
                               onPressed: () {
                                 setState(() {
-                                  MapNodeList().selectAll("kyrka");
+                                  QuestNodeList().selectAll("kyrka");
                                 });
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context)=> const NodeMapPage()
+                                    builder: (context)=> const QuestPage()
                                 )
                                 );
                               },
@@ -116,7 +117,7 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                                 style: TextStyle(fontSize: 15, color: Colors
                                     .black),),
                               onPressed: () {
-                                MapNodeList().deselectAll("kyrka");
+                                QuestNodeList().deselectAll("kyrka");
                               },
                               style: TextButton.styleFrom(
                                   padding: const EdgeInsets.all(12.0),
@@ -156,10 +157,10 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                                     .black),),
                               onPressed: () {
                                 setState(() {
-                                  MapNodeList().selectAll("park");
+                                  QuestNodeList().selectAll("park");
                                 });
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context)=> const NodeMapPage()
+                                    builder: (context)=> const QuestPage()
                                 )
                                 );
                               },
@@ -175,7 +176,7 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                                 style: TextStyle(fontSize: 15, color: Colors
                                     .black),),
                               onPressed: () {
-                                MapNodeList().deselectAll("park");
+                                QuestNodeList().deselectAll("park");
                               },
                               style: TextButton.styleFrom(
                                   padding: const EdgeInsets.all(12.0),
@@ -215,10 +216,10 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                                     .black),),
                               onPressed: () {
                                 setState(() {
-                                  MapNodeList().selectAll("byggnad");
+                                  QuestNodeList().selectAll("byggnad");
                                 });
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context)=> const NodeMapPage()
+                                    builder: (context)=> const QuestPage()
                                 )
                                 );
                               },
@@ -235,7 +236,7 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                                 style: TextStyle(fontSize: 15, color: Colors
                                     .black),),
                               onPressed: () {
-                                MapNodeList().deselectAll("byggnad");
+                                QuestNodeList().deselectAll("byggnad");
                               },
                               style: TextButton.styleFrom(
                                   padding: const EdgeInsets.all(12.0),

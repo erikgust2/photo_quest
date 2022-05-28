@@ -10,7 +10,7 @@ class QuestCompleted extends StatelessWidget{
   static List<QuestNode> nodes = [];
 
   const QuestCompleted({Key? key}) : super(key: key);
-  bool checkCompleted(MapNode node){
+  bool checkCompleted(QuestNode node){
     bool created = false;
     nodes.forEach((item) {if (item.id == node.id) created = true;});
     return created;
