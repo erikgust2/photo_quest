@@ -43,7 +43,7 @@ class QuestNodeList {
   }
 
 
-  Future<void> addCompletedList(QuestNode node) async {
+  addCompletedList(QuestNode node) async {
     DocumentReference docRef = completedIDs.doc(user.uid);
     DocumentSnapshot snapshot = await docRef.get();
     List completed = snapshot.get('completed');
