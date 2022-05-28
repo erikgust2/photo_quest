@@ -1,8 +1,10 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -12,6 +14,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
 
   final user = FirebaseAuth.instance.currentUser!;
+
+  List<Image> imageList = <Image>[];
 
   profilePicture() {
     //Returns CircleAvatar with editable profile photo
@@ -62,8 +66,12 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   gallery() {
-    //Returns a row on the bottom of the screen that is scrollable and contains the user's photos. When clicked they open
-    //a new page with the clicked image
+    refreshImages();
+
+    // for(String s in imageList){
+    //   tempList.add(Image.network(s));
+    // }
+
 
     return Container(
       alignment: Alignment.bottomCenter,
@@ -79,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage> {
         //crossAxisAlignment: CrossAxisAlignment.start,
 
         //children should be the user's list of photos
-        children: _getImages(tempList),
+        children: _getImages(imageList),
       ),
     );
   }
@@ -96,6 +104,19 @@ class _ProfilePageState extends State<ProfilePage> {
     Image.network('https://www.gravatar.com/avatar/12d378e6a9788ab9c94bbafe242b82b4?s=256&d=identicon&r=PG'),
     Image.network('https://www.gravatar.com/avatar/b6fac6fc9baf619e8e52f77b44a2b6ca?s=256&d=identicon&r=PG'),
   ];
+
+  refreshImages() async{
+    // imageList.clear();
+
+    final storageRef = FirebaseStorage.instance.ref().child('users/' + user.uid);
+    final listResult = await storageRef.listAll();
+
+    for(var item in listResult.items){
+      final url = await item.getDownloadURL();
+      imageList.add(Image.network(url));
+    }
+    print(imageList);
+  }
 
   List<Widget> _getImages(List<Image> userPhotos) {
     final List<Widget> images = <Widget>[];
