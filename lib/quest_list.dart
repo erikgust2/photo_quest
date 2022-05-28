@@ -26,7 +26,6 @@ class QuestNodeList {
 
   static dynamic currentCoordinates;
 
-
   Location currentLocation = Location();
 
   final user = FirebaseAuth.instance.currentUser!;
@@ -91,6 +90,10 @@ class QuestNodeList {
     selectedNodes.addAll(nodes.where((node) => node.type == searchType));
   }
 
+  void deselectAll(String searchType){
+    selectedNodes.removeWhere((element) => element.type == searchType);
+  }
+
   void deselect(QuestNode node){
     if (selectedNodes.length == 1) {
       selectedNodes.clear();
@@ -113,7 +116,8 @@ class QuestNodeList {
   }
 
   void complete(QuestNode node){
-    QuestCompleted.nodes.add(node);
+    if (!QuestCompleted().checkCompleted(node)){
+    QuestCompleted.nodes.add(node);}
     nodes.remove(node);
     selectedNodes.remove(node);
   }

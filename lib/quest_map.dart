@@ -10,14 +10,14 @@ import 'generated/l10n.dart';
 
 
 
-class NodeMapPage extends StatefulWidget {
-  const NodeMapPage({Key? key}) : super(key: key);
+class QuestMapPage extends StatefulWidget {
+  const QuestMapPage({Key? key}) : super(key: key);
 
   @override
-  _NodeMapScreenState createState() =>  _NodeMapScreenState();
+  _QuestMapScreenState createState() =>  _QuestMapScreenState();
 }
 
-class _NodeMapScreenState extends State<NodeMapPage> {
+class _QuestMapScreenState extends State<QuestMapPage> {
 
   static const _mapType = MapType.normal;
 
@@ -166,7 +166,7 @@ class _NodeMapScreenState extends State<NodeMapPage> {
                   child: const Text("OK"), ///closes window
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context)=> const NodeMapPage()
+                        builder: (context)=> const QuestMapPage()
                     )
                     );
                   },

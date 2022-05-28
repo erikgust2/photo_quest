@@ -84,7 +84,7 @@ class MainScreen extends StatefulWidget {
 class MyStatefulWidget extends State<MainScreen> {
   final screens = [
     const QuestPage(),
-    const NodeMapPage(),
+    const QuestMapPage(),
     const CollectionsPage(),
 
   ];
