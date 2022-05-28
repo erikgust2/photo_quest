@@ -67,7 +67,9 @@ class MyAppState extends State<MyApp> {
       theme: _theme,
       home: LoginWidget(),
       debugShowCheckedModeBanner: false,
+
       locale: _locale,
+
     ),
   );
 }
