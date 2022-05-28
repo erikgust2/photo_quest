@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:photo_quest/settings_drawer.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+import 'main.dart';
+
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -112,7 +114,14 @@ class _ProfilePageState extends State<ProfilePage> {
               bottom: PreferredSize(
                   preferredSize: const Size.fromHeight(200.0),
                   child: buildProfileInfo()
-              ))),body: GridView.builder(
+              ))),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniStartFloat,
+      floatingActionButton: FloatingActionButton(mini: true, child: const Icon(Icons.arrow_back), backgroundColor: Colors.pinkAccent,
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context)=> const MainScreen()));
+        },),
+      body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 200,
             childAspectRatio: 3 / 2,
