@@ -17,7 +17,8 @@ class MapNode {
     required this.type,
     required this.coordinate,
     required this.description,
-    required this.image
+    required this.image,
+    required this.id
   });
 
   String name;
@@ -25,13 +26,15 @@ class MapNode {
   String coordinate;
   String description;
   String image;
+  String id;
 
   factory MapNode.fromJson(Map<String, dynamic> json) => MapNode(
     name: json["name"],
     type: json["type"],
     coordinate: json["coordinate"],
     description: json["description"],
-    image: json["image"]
+    image: json["image"],
+    id: json["id"]
   );
 
   LatLng getCoordinates() {
@@ -56,7 +59,7 @@ class MapNode {
   @override
   bool operator ==(Object other) {
     if (other is MapNode){
-      return identical(name, other.name);
+      return identical(id, other.id);
     }
     return super == other;
   }

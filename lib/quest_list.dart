@@ -79,13 +79,13 @@ class MapNodeList {
 
   bool checkSelected(MapNode node){
     bool selected = false;
-    selectedNodes.forEach((item) {if (item.name == node.name) selected = true;});
+    selectedNodes.forEach((item) {if (item.id == node.id) selected = true;});
     return selected;
   }
 
   bool checkCreated(MapNode node){
     bool created = false;
-    nodes.forEach((item) {if (item.name == node.name) created = true;});
+    nodes.forEach((item) {if (item.id == node.id) created = true;});
     return created;
   }
 
