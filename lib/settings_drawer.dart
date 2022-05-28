@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:photo_quest/ColorsPage.dart';
+import 'package:photo_quest/colors.dart';
 import 'package:photo_quest/generated/l10n.dart';
-import 'LanguagePage.dart';
+import 'languages.dart';
 
 class SettingsNavBar extends StatelessWidget{
   const SettingsNavBar({Key? key}) : super(key: key);

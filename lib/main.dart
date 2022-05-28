@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:photo_quest/MapNodesMap.dart';
-import 'MapNodeList.dart';
+import 'package:photo_quest/quest_map.dart';
+import 'quest_list.dart';
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'CollectionsPage.dart';
-import 'QuestPage.dart';
+import 'quest_collections.dart';
+import 'quest_list_view.dart';
 import 'package:provider/provider.dart';
-import 'GoogleSignIn.dart';
-import 'package:photo_quest/GoogleSignInProvider.dart';
+import 'google_sign_in.dart';
+import 'package:photo_quest/google_sign_in_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'CustomThemes.dart';
+import 'themes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await MapNodeList().getLocation();
-  await MapNodeList().refreshFriends();
+  await QuestNodeList().getLocation();
+  await QuestNodeList().refreshFriends();
   runApp(MyApp());
 }
 
@@ -67,7 +67,9 @@ class MyAppState extends State<MyApp> {
       theme: _theme,
       home: LoginWidget(),
       debugShowCheckedModeBanner: false,
+
       locale: _locale,
+
     ),
   );
 }
@@ -92,10 +94,10 @@ class MyStatefulWidget extends State<MainScreen> {
 
   @override
   void dispose(){
-    MapNodeList().dispose();
+    QuestNodeList().dispose();
     super.dispose();
   }
-  Future<void> _onItemTapped(int index) async {
+  Future<void> onItemTapped(int index) async {
     setState(() {
       _selectedIndex = index;
     });
@@ -126,7 +128,7 @@ class MyStatefulWidget extends State<MainScreen> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.white70,
-        onTap: _onItemTapped,
+        onTap: onItemTapped,
       ),
     );
   }

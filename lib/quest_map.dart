@@ -1,11 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:photo_quest/profilePage.dart';
+import 'package:photo_quest/profile.dart';
 import 'dart:core';
-import 'MapNode.dart';
-import 'MapNodeList.dart';
-import 'SettingsNavDrawer.dart';
+import 'quest.dart';
+import 'quest_list.dart';
+import 'settings_drawer.dart';
 import 'generated/l10n.dart';
 
 
@@ -26,7 +26,7 @@ class _NodeMapScreenState extends State<NodeMapPage> {
 
   Set<Marker> _markers = {}; //markers of search items for google map
 
-  List<MapNode> _loadedNodes = [];
+  List<QuestNode> _loadedNodes = [];
 
   GoogleMapController? mapController; //controller for Google map
 
@@ -35,7 +35,7 @@ class _NodeMapScreenState extends State<NodeMapPage> {
   void initState(){
     super.initState();
     setState(() {
-      _loadedNodes = MapNodeList().getMapNodes();
+      _loadedNodes = QuestNodeList().getQuestNodes();
       _createMarkers();
     });
   }
@@ -46,13 +46,17 @@ class _NodeMapScreenState extends State<NodeMapPage> {
     super.dispose();
   }
 
+  BitmapDescriptor _getMarker(QuestNode node){
+    if(QuestNodeList().checkSelected(node)) return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
+    return BitmapDescriptor.defaultMarker;
+  }
+  
   void _createMarkers() async{
-    BitmapDescriptor searchIcon = BitmapDescriptor.defaultMarker;
     Set<Marker> markers = _markers.toSet();
     markers.addAll(
         _loadedNodes.skip(_markers.length).map((node) =>
             Marker(
-                icon: searchIcon,//add first marker
+                icon: _getMarker(node),//add first marker
                 markerId: MarkerId(node.name+node.type),
                 position: node.getCoordinates(), //position of marker
                 infoWindow: InfoWindow( //popup info
@@ -64,7 +68,6 @@ class _NodeMapScreenState extends State<NodeMapPage> {
             )));
     setState(() {
       _markers = markers;
-      print(markers);
     });
   }
 
@@ -116,14 +119,15 @@ class _NodeMapScreenState extends State<NodeMapPage> {
     );
   }
 
-  Widget acceptButton(BuildContext context, MapNode node) {
-    if (!MapNodeList().checkSelected(node)){
+  Widget acceptButton(BuildContext context, QuestNode node) {
+    if (!QuestNodeList().checkSelected(node)){
+      String message = 'Accept quest?';
       return ElevatedButton(
-          child: const Text('Accept quest?'), ///not implemented
+          child: Text(message),
           onPressed: () {
-            MapNodeList().select(node);
-            _createMarkers();
+            QuestNodeList().select(node);
             Navigator.of(context).pop();
+            _showFeedback("Quest Accepted!");
           },
           style: TextButton.styleFrom(
               padding: const EdgeInsets.all(12.0),
@@ -133,12 +137,13 @@ class _NodeMapScreenState extends State<NodeMapPage> {
           )
       );
     }
+    String message = 'Cancel quest?';
     return ElevatedButton(
-        child: const Text('Cancel quest?'), ///not implemented
+        child: Text(message),
         onPressed: () {
-          MapNodeList().deselect(node);
-          _createMarkers();
+          QuestNodeList().deselect(node);
           Navigator.of(context).pop();
+          _showFeedback("Quest Cancelled.");
         },
         style: TextButton.styleFrom(
             padding: const EdgeInsets.all(12.0),
@@ -149,7 +154,35 @@ class _NodeMapScreenState extends State<NodeMapPage> {
     );
   }
 
-  Future<void> _showMyDialog(MapNode node) async { ///text box thing that pops up when a marker is clicked on
+  void _showFeedback(String message) async{
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(message),
+            actions: <Widget>[
+              ElevatedButton(
+                  child: const Text("OK"), ///closes window
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context)=> const NodeMapPage()
+                    )
+                    );
+                  },
+                  style: TextButton.styleFrom(
+                      padding: const EdgeInsets.all(12.0),
+                      primary: Colors.black,
+                      textStyle: const TextStyle(fontSize: 15),
+                      backgroundColor: Colors.green
+                  )
+              ),
+            ],
+          );
+  });
+  }
+
+  void _showMyDialog(QuestNode node) async { ///text box thing that pops up when a marker is clicked on
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -161,9 +194,9 @@ class _NodeMapScreenState extends State<NodeMapPage> {
               children: <Widget>[
                 Text(node.name),
                 Text(node.type),
-                Text(MapNodeList()
+                Text(QuestNodeList()
                     .getDistance(
-                    node.getCoordinates(), MapNodeList.currentCoordinates)
+                    node.getCoordinates(), QuestNodeList.currentCoordinates)
                     .toString()
                     .split(".")
                     .first + " m")

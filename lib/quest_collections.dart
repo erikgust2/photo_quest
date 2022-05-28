@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:photo_quest/generated/l10n.dart';
-import 'package:photo_quest/profilePage.dart';
-import 'MapNodeList.dart';
-import 'SettingsNavDrawer.dart';
+import 'package:photo_quest/profile.dart';
+import 'quest_list.dart';
+import 'settings_drawer.dart';
 class CollectionsPage extends StatefulWidget {
    const CollectionsPage({Key? key}) : super(key: key);
   @override
@@ -76,17 +76,17 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                   enabled: true,
                   title : Text("CHURCHES"),
                   trailing: const Icon(Icons.church),
-                  onTap: () {MapNodeList().selectAll("kyrka");}
+                  onTap: () {QuestNodeList().selectAll("kyrka");}
               )),
               Card(child: ListTile(
                   title : Text("PARKS"),
                   trailing: const Icon(Icons.wb_sunny_rounded),
-                  onTap: () {MapNodeList().selectAll("park");}
+                  onTap: () {QuestNodeList().selectAll("park");}
               )),
               Card(child: ListTile(
                   title : Text("BUILDINGS"),
                   trailing: const Icon(Icons.home),
-                  onTap: () {MapNodeList().selectAll("byggnad");}
+                  onTap: () {QuestNodeList().selectAll("byggnad");}
               ))]
         ));
   }

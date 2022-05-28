@@ -1,13 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:photo_quest/GoogleSignInProvider.dart';
-import 'package:photo_quest/QuestPage.dart';
+import 'package:photo_quest/google_sign_in_provider.dart';
 import 'package:photo_quest/main.dart';
 import 'package:provider/provider.dart';
-import 'package:photo_quest/QuestPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+
 
 class LoginWidget extends StatelessWidget{
   const LoginWidget({Key? key}) : super(key: key);
