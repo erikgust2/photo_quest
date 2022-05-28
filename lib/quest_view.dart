@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_quest/completed_quests.dart';
 import 'package:photo_quest/quest_tab.dart';
+import 'main.dart';
 import 'quest.dart';
 import 'quest_map.dart';
 import 'quest_list.dart';
@@ -96,6 +97,7 @@ class QuestBox extends StatefulWidget{
       // Error uploading file,
       print("error uploading the image to FireBase");
     }
+    _showFeedback();
   }
 
   static List<QuestNode> nodes = [];
@@ -143,19 +145,8 @@ class QuestBox extends StatefulWidget{
                                 .black),),
                           onPressed: () async {
                             _showChoiceDialog(context, nodes[index].name);
-                            await QuestNodeList().addCompletedList(nodes[index]);
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context)=> const QuestCompleted()
-                            )
-                            );
-                          },
-                            style: TextButton.styleFrom(
-                                padding: const EdgeInsets.all(12.0),
-                                primary: Colors.black,
-                                textStyle: const TextStyle(fontSize: 15),
-                                backgroundColor: Colors.blueAccent
-                            )
-                        ),
+                          }
+                            ),
                         const SizedBox(width: 8),
                         ElevatedButton(
                           child: const Text('SELECT QUEST',
@@ -185,6 +176,33 @@ class QuestBox extends StatefulWidget{
         );
   }
 
+  void _showFeedback() async{
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Quest completed!"),
+            actions: <Widget>[
+              ElevatedButton(
+                  child: const Text("OK"), ///closes window
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context)=> const MainScreen()
+                    )
+                    );
+                  },
+                  style: TextButton.styleFrom(
+                      padding: const EdgeInsets.all(12.0),
+                      primary: Colors.black,
+                      textStyle: const TextStyle(fontSize: 15),
+                      backgroundColor: Colors.green
+                  )
+              ),
+            ],
+          );
+        });
+  }
 }
 
     /*Card(child: ListTile(
