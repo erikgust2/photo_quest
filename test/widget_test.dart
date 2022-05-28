@@ -12,11 +12,13 @@ import 'package:photo_quest/main.dart';
 
 void main() {
 
-  var placeholder = "1";
+  /*var placeholder = "1";
 
   expect(find.text("1"), placeholder);
 
-  /*testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('', ())
+
+  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(MyApp());
 
