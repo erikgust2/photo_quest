@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:photo_quest/completed_quests.dart';
+import 'package:photo_quest/profile.dart';
 import 'package:photo_quest/quest_tab.dart';
 import 'package:photo_quest/quest_view.dart';
 import 'quest.dart';

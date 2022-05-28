@@ -58,17 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   //temporary list to test _getImages()
-  List<Image> images = [
-    Image.network('https://www.gravatar.com/avatar/12d378e6a9788ab9c94bbafe242b82b4?s=256&d=identicon&r=PG'),
-    Image.network('https://www.gravatar.com/avatar/12d378e6a9788ab9c94bbafe242b82b4?s=256&d=identicon&r=PG'),
-    Image.network('https://www.gravatar.com/avatar/12d378e6a9788ab9c94bbafe242b82b4?s=256&d=identicon&r=PG'),
-    Image.network('https://www.gravatar.com/avatar/12d378e6a9788ab9c94bbafe242b82b4?s=256&d=identicon&r=PG'),
-    Image.network('https://www.gravatar.com/avatar/12d378e6a9788ab9c94bbafe242b82b4?s=256&d=identicon&r=PG'),
-    Image.network('https://www.gravatar.com/avatar/12d378e6a9788ab9c94bbafe242b82b4?s=256&d=identicon&r=PG'),
-    Image.network('https://www.gravatar.com/avatar/12d378e6a9788ab9c94bbafe242b82b4?s=256&d=identicon&r=PG'),
-    Image.network('https://www.gravatar.com/avatar/12d378e6a9788ab9c94bbafe242b82b4?s=256&d=identicon&r=PG'),
-    Image.network('https://www.gravatar.com/avatar/b6fac6fc9baf619e8e52f77b44a2b6ca?s=256&d=identicon&r=PG'),
-  ];
+  List<Image> images = [];
 
 
   //should take an int i to be used in _getImages, to apply that image to the new page
@@ -89,17 +79,23 @@ class _ProfilePageState extends State<ProfilePage> {
 
   refreshImages() async{
     // images.clear();
-
+    List<Image> imageList = [];
     final storageRef = FirebaseStorage.instance.ref().child('users/' + user.uid);
     final listResult = await storageRef.listAll();
-
     for(var item in listResult.items){
       final url = await item.getDownloadURL();
-      images.add(Image.network(url));
+      imageList.add(Image.network(url));
     }
-    print(images);
+    setState(() {
+    images = imageList;
+    });
   }
 
+  @override
+  void initState() {
+    super.initState();
+    refreshImages();
+  }
 
   @override
   Widget build(BuildContext context) {
