@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -27,6 +29,26 @@ class QuestNodeList {
 
   Location currentLocation = Location();
 
+  final user = FirebaseAuth.instance.currentUser!;
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+  Future<List> getCompletedList(int newInt) async {
+    DocumentReference docRef = users.doc(user.uid).collection('completedQuests').doc(user.uid);
+    DocumentSnapshot snapshot = await docRef.get();
+    List completed = snapshot.get('completed');
+
+    return completed;
+  }
+
+
+  addCompletedList() async {
+    CollectionReference cQ = FirebaseFirestore.instance.collection('completedQuests');
+
+    DocumentSnapshot snapshot = await cQ.doc(user.uid).get();
+    List completed = snapshot.get('completed');
+    completed.add(3);
+    cQ.doc(user.uid).set({'completed': completed});
+  }
 
 
   Future<LatLng> getLocation() async {

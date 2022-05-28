@@ -42,8 +42,10 @@ class LoginWidget extends StatelessWidget{
 
   }
 
-  void createNewUser(User user, CollectionReference users){
+  createNewUser(User user, CollectionReference users) {
     users.doc(user.uid).set({'userID': user.uid, 'email': user.email});
+    CollectionReference cQ = FirebaseFirestore.instance.collection('completedQuests');
+    cQ.doc(user.uid).set({'completed': []});
   }
 
   Future<bool> checkIfUserExists(String docId) async {
