@@ -51,7 +51,6 @@ class QuestNodeList {
     docRef.set({'completed': completed});
     availableQuests.remove(node);
     QuestCompleted.nodes.add(node);
-    QuestBoxState.nodes.remove(node);
   }
 
   clearCompletedList() async {

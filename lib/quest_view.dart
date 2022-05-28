@@ -188,7 +188,11 @@ class QuestBoxState extends State<QuestBox> {
                   child: const Text("OK"), ///closes window
                   onPressed: () {
                     QuestNodeList().addCompletedList(node);
+                    setState(() {
+                      QuestBoxState.nodes.remove(node);
+                    });
                     Navigator.of(context).pop();
+                    initState();
                   },
                   style: TextButton.styleFrom(
                       padding: const EdgeInsets.all(12.0),
