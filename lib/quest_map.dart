@@ -103,6 +103,11 @@ class _QuestMapScreenState extends State<QuestMapPage> {
               ),
             )
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniStartFloat,
+        floatingActionButton: FloatingActionButton(mini: true, child: const Icon(Icons.arrow_back), backgroundColor: Colors.pinkAccent,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },),
         body: GoogleMap(initialCameraPosition: _initialCameraPosition,
           zoomControlsEnabled: true,
           myLocationButtonEnabled: true,
