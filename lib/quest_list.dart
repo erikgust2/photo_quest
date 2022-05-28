@@ -4,6 +4,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:photo_quest/completed_quests.dart';
+import 'package:photo_quest/quest_tab.dart';
+import 'package:photo_quest/quest_view.dart';
 import 'quest.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -37,7 +39,6 @@ class QuestNodeList {
     DocumentReference docRef = completedIDs.doc(user.uid);
     DocumentSnapshot snapshot = await docRef.get();
     List completed = snapshot.get('completed');
-
     return completed;
   }
 
@@ -49,6 +50,8 @@ class QuestNodeList {
     completed.add(node.id);
     docRef.set({'completed': completed});
     availableQuests.remove(node);
+    QuestCompleted.nodes.add(node);
+    QuestBoxState.nodes.remove(node);
   }
 
   Future<LatLng> getLocation() async {

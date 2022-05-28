@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_quest/completed_quests.dart';
+import 'package:photo_quest/quest_tab.dart';
 import 'quest.dart';
 import 'quest_map.dart';
 import 'quest_list.dart';
@@ -25,7 +26,7 @@ class QuestBox extends StatefulWidget{
   Future<void> _showChoiceDialog(BuildContext context, String name) {
     return showDialog(context: context, builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text("Make a choice!"),
+        title: const Text("Upload photo:"),
         content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -97,7 +98,7 @@ class QuestBox extends StatefulWidget{
     }
   }
 
-  List<QuestNode> nodes = [];
+  static List<QuestNode> nodes = [];
 
   @override
   void initState(){
@@ -140,13 +141,12 @@ class QuestBox extends StatefulWidget{
                           child: const Text('TAKE PHOTO',
                             style: TextStyle(fontSize: 15, color: Colors
                                 .black),),
-                          onPressed: () {
+                          onPressed: () async {
                             _showChoiceDialog(context, nodes[index].name);
-                              setState(() {
-                                QuestNodeList().addCompletedList(nodes[index]);
-                                QuestCompleted.nodes.add(nodes[index]);
-                                nodes.remove(nodes[index]);
-                              },
+                            await QuestNodeList().addCompletedList(nodes[index]);
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context)=> const QuestCompleted()
+                            )
                             );
                           },
                             style: TextButton.styleFrom(
