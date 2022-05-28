@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_quest/quest_list.dart';
 import 'quest.dart';
 
 
@@ -7,7 +8,7 @@ import 'quest.dart';
 
 class QuestCompleted extends StatelessWidget{
 
-  static List<QuestNode> nodes = [];
+  static List<QuestNode> nodes = QuestNodeList().getCompletedQuests();
 
   const QuestCompleted({Key? key}) : super(key: key);
 
