@@ -129,7 +129,11 @@ class _ProfilePageState extends State<ProfilePage> {
           return Stack(
               fit: StackFit.expand,
               children: [
-                Container(
+                GestureDetector(
+                  onTap: () {
+                    _onClickedImage(image);
+          }, // Image tapped
+                  child: Container(
                   alignment: Alignment.topCenter,
                   child: Text("image: " + index.toString()),
                   decoration: BoxDecoration(
@@ -137,7 +141,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       borderRadius: BorderRadius.circular(15),
                       image: DecorationImage(image: image.image)),
                 ),
-              ]);
+                )]);
         }),
       drawer: SettingsNavBar(),
     );
@@ -175,6 +179,12 @@ class _OpenPhotoRouteState extends State<OpenPhotoRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniStartFloat,
+        floatingActionButton: FloatingActionButton(mini: true, child: const Icon(Icons.arrow_back), backgroundColor: Colors.pinkAccent,
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context)=> const ProfilePage()));
+          },),
         appBar: showAppBar ? AppBar(
           backgroundColor: Colors.pink[100],
           title: const Text('Image name here'),
