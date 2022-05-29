@@ -49,7 +49,12 @@ class _QuestMapScreenState extends State<QuestMapPage> {
   }
 
   BitmapDescriptor _getMarker(QuestNode node){
-    if(QuestNodeList().checkSelected(node)) return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
+    if(QuestNodeList().checkSelected(node) && !node.accepted) {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
+    }
+    if(node.accepted) {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose);
+    }
     return BitmapDescriptor.defaultMarker;
   }
   
@@ -149,6 +154,7 @@ class _QuestMapScreenState extends State<QuestMapPage> {
     return ElevatedButton(
         child: Text(message),
         onPressed: () {
+          if(node.accepted) node.decline();
           QuestNodeList().deselect(node);
           Navigator.of(context).pop();
           _showFeedback("Quest Cancelled.");
@@ -204,17 +210,14 @@ class _QuestMapScreenState extends State<QuestMapPage> {
                 Text(node.type),
                 Text(QuestNodeList()
                     .getDistance(
-                    node.getCoordinates(), QuestNodeList.currentCoordinates)
-                    .toString()
-                    .split(".")
-                    .first + " m")
+                    node.getCoordinates(), QuestNodeList.currentCoordinates))
               ],
             ),
           ),
           actions: <Widget>[
             acceptButton(context, node),
             ElevatedButton(
-                child: const Text('Cancel'), ///closes window
+                child: const Icon(Icons.clear), ///closes window
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

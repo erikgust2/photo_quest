@@ -27,6 +27,7 @@ class QuestNode {
   String description;
   String image;
   String id;
+  bool accepted = false;
 
   factory QuestNode.fromJson(Map<String, dynamic> json) => QuestNode(
     name: json["name"],
@@ -66,6 +67,14 @@ class QuestNode {
 
   @override
   int get hashCode => name.hashCode;
+
+  void decline(){
+    accepted = false;
+  }
+
+  void accept(){
+    accepted = true;
+  }
 
 }
 

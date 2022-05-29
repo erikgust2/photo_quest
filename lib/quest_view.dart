@@ -153,7 +153,10 @@ class QuestBoxState extends State<QuestBox> {
                             style: TextStyle(fontSize: 15, color: Colors
                                 .black),),
                           onPressed: () {
+                            QuestNodeList.selectedQuests.forEach((node) {node.decline();});
+                            QuestNodeList.availableQuests.forEach((node) {node.decline();});
                             QuestNodeList().select(nodes[index]);
+                            nodes[index].accept();
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context)=> const QuestMapPage()
                             )
