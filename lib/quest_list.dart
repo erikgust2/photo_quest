@@ -4,9 +4,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:photo_quest/completed_quests.dart';
-import 'package:photo_quest/profile.dart';
-import 'package:photo_quest/quest_tab.dart';
-import 'package:photo_quest/quest_view.dart';
 import 'quest.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -38,7 +35,9 @@ class QuestNodeList {
 
   Future<List> getCompletedList() async {
     DocumentReference docRef = completedIDs.doc(user.uid);
-    DocumentSnapshot snapshot = await docRef.get();
+    DocumentSnapshot snapshot = await docRef.get().catchError((onError) {
+      throw onError;
+    });
     List completed = snapshot.get('completed');
     return completed;
   }
@@ -46,7 +45,9 @@ class QuestNodeList {
 
   addCompletedList(QuestNode node) async {
     DocumentReference docRef = completedIDs.doc(user.uid);
-    DocumentSnapshot snapshot = await docRef.get();
+    DocumentSnapshot snapshot = await docRef.get().catchError((onError) {
+      throw onError;
+    });
     List completed = snapshot.get('completed');
     completed.add(node.id);
     docRef.set({'completed': completed});
@@ -60,7 +61,9 @@ class QuestNodeList {
   }
 
   Future<LatLng> getLocation() async {
-    var location = await currentLocation.getLocation();
+    var location = await currentLocation.getLocation().catchError((onError) {
+      throw onError;
+    });
     currentCoordinates = LatLng(location.latitude ?? 0.0, location.longitude ?? 0.0);
     return currentCoordinates;
   }
@@ -76,11 +79,15 @@ class QuestNodeList {
   }
 
   Future refreshFriends() async {
-    List list = await getCompletedList();
+    List list = await getCompletedList().catchError((onError) {
+      throw onError;
+    });
     getLocation();
     Uri URIOne = Uri.parse(
         'https://storm-elderly-conchoraptor.glitch.me/friends');
-    final resOne = await http.get(URIOne);
+    final resOne = await http.get(URIOne).catchError((onError) {
+      throw onError;
+    });
     var data = json.decode(resOne.body);
       for (int i = 0; i < 15; i++) {
         QuestNode node = QuestNode.fromJson(data[i]);
