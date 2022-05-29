@@ -99,7 +99,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    refreshImages();
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(220.0),
