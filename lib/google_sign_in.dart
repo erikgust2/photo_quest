@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:photo_quest/google_sign_in_provider.dart';
 import 'package:photo_quest/main.dart';
+import 'package:photo_quest/quest_list.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -35,11 +36,18 @@ class LoginWidget extends StatelessWidget{
           createNewUser(user, users);         //skapar en ny user i firestore om det inte redan finns en
         }
 
+        initializeQuestNodeList();
+
         Navigator.of(context).push(MaterialPageRoute(builder: (context)=>  const MainScreen()));
       },
     );
 
 
+  }
+
+  initializeQuestNodeList() async {
+    await QuestNodeList().getLocation();
+    await QuestNodeList().refreshFriends();
   }
 
   createNewUser(User user, CollectionReference users) {
