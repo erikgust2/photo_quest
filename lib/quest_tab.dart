@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:photo_quest/generated/l10n.dart';
 import 'package:photo_quest/quest_view.dart';
+import 'package:photo_quest/themes.dart';
 import 'completed_quests.dart';
 class QuestTab extends StatefulWidget {
   const QuestTab({Key? key}) : super(key: key);
@@ -31,8 +32,6 @@ class MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateMi
   }
 
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,9 +41,9 @@ class MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateMi
         title: TabBar(
           unselectedLabelColor: Colors.black,
           indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
+            borderRadius: BorderRadius.circular(10),
             
-            color: Colors.pink[300]
+            color: VANILLA_ICE.withOpacity(0.2)
           ),
           controller: _tabController,
           tabs: [
@@ -53,7 +52,7 @@ class MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateMi
 
             ),
               child:  Align(alignment: Alignment.center,
-                child: Text(S.of(context).availableLabel, style: TextStyle(color: Colors.white),)),
+                child: Text(S.of(context).availableLabel, style: TextStyle(color: VANILLA_ICE),)),
             ),
             ),
             Tab(child: Container(decoration: BoxDecoration(
@@ -61,7 +60,7 @@ class MyTabbedPageState extends State<QuestTab> with SingleTickerProviderStateMi
 
             ),
               child:  Align(alignment: Alignment.center,
-                  child: Text(S.of(context).completedLabel, style: TextStyle(color: Colors.white),)),
+                  child: Text(S.of(context).completedLabel, style: TextStyle(color: VANILLA_ICE),)),
             ),
             ),
           ],

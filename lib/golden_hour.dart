@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:photo_quest/themes.dart';
+
 class GoldenHour {
   GoldenHour({
     required this.sunset,
@@ -49,7 +51,7 @@ class GoldenHour {
         minuteZero +
         '${correctTime.minute}';
 
-    return Text("Next golden hour: " + nextGoldenHour.toString());
+    return Text("Next golden hour: " + nextGoldenHour.toString(),style: TextStyle(fontSize: 12, color: VANILLA_ICE));
   }
 }
 
@@ -89,7 +91,7 @@ class GoldenHourState extends State<GoldenHourController> {
   @override
   Widget build(BuildContext context) {
     if(friend == null) {
-      return Text("loading...");
+      return Text("loading...", style: TextStyle(fontSize: 12,));
     }
     return  friend.buildTitle(context);
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:photo_quest/quest_tab.dart';
 import 'package:photo_quest/generated/l10n.dart';
+import 'package:photo_quest/themes.dart';
 import 'settings_drawer.dart';
 import 'profile.dart';
 import 'quest_tab.dart';
@@ -16,9 +18,7 @@ class QuestPage extends StatelessWidget {
         centerTitle: true,
           title: Column(children: [
           Text(S.of(context).questLabel,
-            style: TextStyle(color: Colors.white, fontSize: 22.0),),
-          //Text('Countdown',
-              //style: TextStyle(color: Colors.white, fontSize: 12.0),),
+            style: TextStyle(color: VANILLA_ICE, fontSize: 22.0),),
             GoldenHourController(),
           ],
         ),
@@ -32,6 +32,7 @@ class QuestPage extends StatelessWidget {
                 )
                 );
               },
+              color: VANILLA_ICE,
             )
 
             )
@@ -40,6 +41,7 @@ class QuestPage extends StatelessWidget {
             builder: (context) => IconButton(
               icon: const Icon(Icons.settings),
               onPressed: () => Scaffold.of(context).openDrawer(),
+              color: VANILLA_ICE,
             ),
           )
       ),

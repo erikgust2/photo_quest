@@ -131,7 +131,8 @@ class MyStatefulWidget extends State<MainScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.white70,
+        unselectedItemColor: PANSY_PURPLE.withOpacity(0.4),
+        selectedItemColor: PANSY_PURPLE,
         onTap: onItemTapped,
       ),
     );

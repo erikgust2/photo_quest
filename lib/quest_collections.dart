@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:photo_quest/generated/l10n.dart';
 import 'package:photo_quest/profile.dart';
 import 'package:photo_quest/quest_list_view.dart';
+import 'package:photo_quest/themes.dart';
 
 import 'main.dart';
 import 'quest_list.dart';
@@ -86,7 +87,7 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                     children: <Widget>[
                       ListTile(
                           title: Text("CHURCHES",
-                            style: TextStyle(fontSize: 25, color: Colors.white),
+                            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700, color: Colors.white),
                             textAlign: TextAlign.center,)
                       ),
                       Row(
@@ -96,7 +97,7 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                           ElevatedButton(
                               child: const Text('SELECT COLLECTION',
                                 style: TextStyle(fontSize: 15, color: Colors
-                                    .black),),
+                                    .white),),
                               onPressed: () {
                                 setState(() {
                                   QuestNodeList().selectAll("kyrka");
@@ -105,24 +106,24 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                                     builder: (context)=> const MainScreen()));
                               },
                               style: TextButton.styleFrom(
-                                  padding: const EdgeInsets.all(12.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   primary: Colors.black,
                                   textStyle: const TextStyle(fontSize: 15),
-                                  backgroundColor: Colors.green
+                                  backgroundColor: Colors.white.withOpacity(0.5)
                               )
                           ),const SizedBox(width: 8),
                           ElevatedButton(
                               child: const Text('CANCEL',
                                 style: TextStyle(fontSize: 15, color: Colors
-                                    .black),),
+                                    .white),),
                               onPressed: () {
                                 QuestNodeList().deselectAll("kyrka");
                               },
                               style: TextButton.styleFrom(
-                                  padding: const EdgeInsets.all(12.0),
-                                  primary: Colors.black,
+                                  padding: const EdgeInsets.all(8.0),
+                                  primary: Colors.white,
                                   textStyle: const TextStyle(fontSize: 15),
-                                  backgroundColor: Colors.red
+                                  backgroundColor: Colors.white.withOpacity(0.5)
                               )
                           ),
                           const SizedBox(width: 8),
@@ -143,7 +144,7 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                     children: <Widget>[
                       ListTile(
                           title: Text("PARKS",
-                            style: TextStyle(fontSize: 25, color: Colors.white),
+                            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700, color: Colors.white),
                             textAlign: TextAlign.center,)
                       ),
                       Row(
@@ -153,7 +154,7 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                           ElevatedButton(
                               child: const Text('SELECT COLLECTION',
                                 style: TextStyle(fontSize: 15, color: Colors
-                                    .black),),
+                                    .white),),
                               onPressed: () {
                                 setState(() {
                                   QuestNodeList().selectAll("park");
@@ -162,24 +163,24 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                                     builder: (context)=> const MainScreen()));
                               },
                               style: TextButton.styleFrom(
-                                  padding: const EdgeInsets.all(12.0),
-                                  primary: Colors.black,
+                                  padding: const EdgeInsets.all(8.0),
+                                  primary: Colors.white,
                                   textStyle: const TextStyle(fontSize: 15),
-                                  backgroundColor: Colors.green
+                                  backgroundColor: Colors.white.withOpacity(0.5)
                               )
                           ),const SizedBox(width: 8),
                           ElevatedButton(
                               child: const Text('CANCEL',
                                 style: TextStyle(fontSize: 15, color: Colors
-                                    .black),),
+                                    .white),),
                               onPressed: () {
                                 QuestNodeList().deselectAll("park");
                               },
                               style: TextButton.styleFrom(
-                                  padding: const EdgeInsets.all(12.0),
-                                  primary: Colors.black,
+                                  padding: const EdgeInsets.all(8.0),
+                                  primary: Colors.white,
                                   textStyle: const TextStyle(fontSize: 15),
-                                  backgroundColor: Colors.red
+                                  backgroundColor: Colors.white.withOpacity(0.5)
                               )
                           ),
                           const SizedBox(width: 8),
@@ -200,7 +201,7 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                     children: <Widget>[
                       ListTile(
                           title: Text("BUILDINGS",
-                            style: TextStyle(fontSize: 25, color: Colors.white),
+                            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700, color: Colors.white),
                             textAlign: TextAlign.center,)
                       ),
                       Row(
@@ -210,7 +211,7 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                           ElevatedButton(
                               child: const Text('SELECT COLLECTION',
                                 style: TextStyle(fontSize: 15, color: Colors
-                                    .black),),
+                                    .white),),
                               onPressed: () {
                                 setState(() {
                                   QuestNodeList().selectAll("byggnad");
@@ -219,25 +220,25 @@ class _MyTabbedPageState extends State<CollectionsPage> with SingleTickerProvide
                                     builder: (context)=> const MainScreen()));
                               },
                               style: TextButton.styleFrom(
-                                  padding: const EdgeInsets.all(12.0),
-                                  primary: Colors.black,
+                                  padding: const EdgeInsets.all(8.0),
+                                  primary: Colors.white,
                                   textStyle: const TextStyle(fontSize: 15),
-                                  backgroundColor: Colors.green
+                                  backgroundColor: Colors.white.withOpacity(0.5)
                               )
                           ),
                           const SizedBox(width: 8),
                           ElevatedButton(
                               child: const Text('CANCEL',
                                 style: TextStyle(fontSize: 15, color: Colors
-                                    .black),),
+                                    .white),),
                               onPressed: () {
                                 QuestNodeList().deselectAll("byggnad");
                               },
                               style: TextButton.styleFrom(
-                                  padding: const EdgeInsets.all(12.0),
-                                  primary: Colors.black,
+                                  padding: const EdgeInsets.all(8.0),
+                                  primary: Colors.white,
                                   textStyle: const TextStyle(fontSize: 15),
-                                  backgroundColor: Colors.red
+                                  backgroundColor: Colors.white.withOpacity(0.5)
                               )
                           ),
                           const SizedBox(width: 8),

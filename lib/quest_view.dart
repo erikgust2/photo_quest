@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_quest/completed_quests.dart';
 import 'package:photo_quest/quest_tab.dart';
+import 'package:photo_quest/themes.dart';
 import 'main.dart';
 import 'quest.dart';
 import 'quest_map.dart';
@@ -111,7 +112,6 @@ class QuestBoxState extends State<QuestBox> {
   }
 
 
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -120,6 +120,9 @@ class QuestBoxState extends State<QuestBox> {
           Image image = Image.asset(nodes[index].getImage(), height: 70,
             width: 70,);
           return Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
             child: Container(
               decoration: BoxDecoration(image: DecorationImage(image: image.image,
                   fit: BoxFit.fitWidth,
@@ -128,13 +131,15 @@ class QuestBoxState extends State<QuestBox> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  ListTile(
-                    title: Text(nodes[index].name,
-                      style: const TextStyle(fontSize: 25, color: Colors.black),
-                      textAlign: TextAlign.center,),
-                    subtitle: Text(nodes[index].description + "\n" + QuestNodeList().getDistance(QuestNodeList.currentCoordinates, nodes[index].getCoordinates()),
-                      style: const TextStyle(fontSize: 12, color: Colors.black),
-                      textAlign: TextAlign.center,),
+                  Container(
+                    child: ListTile(
+                      title: Text(nodes[index].name,
+                        style: const TextStyle(fontSize: 35, color: Colors.white, fontWeight: FontWeight.bold,),
+                        textAlign: TextAlign.center,),
+                      subtitle: Text(nodes[index].description + "\n" + QuestNodeList().getDistance(QuestNodeList.currentCoordinates, nodes[index].getCoordinates()),
+                        style: const TextStyle(fontSize: 15, color: Colors.white),
+                        textAlign: TextAlign.center,),
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -142,16 +147,23 @@ class QuestBoxState extends State<QuestBox> {
                       ElevatedButton(
                           child: const Text('TAKE PHOTO',
                             style: TextStyle(fontSize: 15, color: Colors
-                                .black),),
+                                .white),),
                           onPressed: () async {
                             _showChoiceDialog(context, nodes[index]);
-                          }
+                          },
+                          style: TextButton.styleFrom(
+                              padding: const EdgeInsets.all(8.0),
+                              primary: Colors.white,
+                              textStyle: const TextStyle(fontSize: 15),
+                              backgroundColor: Colors.white.withOpacity(0.5)
+                              )
+
                       ),
                       const SizedBox(width: 8),
                       ElevatedButton(
                           child: const Text('SELECT QUEST',
                             style: TextStyle(fontSize: 15, color: Colors
-                                .black),),
+                                .white),),
                           onPressed: () {
                             QuestNodeList.selectedNodes.forEach((node) {node.decline();});
                             QuestNodeList.availableQuests.forEach((node) {node.decline();});
@@ -163,10 +175,10 @@ class QuestBoxState extends State<QuestBox> {
                             );
                           },
                           style: TextButton.styleFrom(
-                              padding: const EdgeInsets.all(12.0),
-                              primary: Colors.black,
+                              padding: const EdgeInsets.all(8.0),
+                              primary: Colors.white,
                               textStyle: const TextStyle(fontSize: 15),
-                              backgroundColor: Colors.green
+                              backgroundColor: Colors.white.withOpacity(0.5)
                           )
                       ),
                       const SizedBox(width: 8),
@@ -201,7 +213,7 @@ class QuestBoxState extends State<QuestBox> {
                       padding: const EdgeInsets.all(12.0),
                       primary: Colors.black,
                       textStyle: const TextStyle(fontSize: 15),
-                      backgroundColor: Colors.green
+                      backgroundColor: Colors.white.withOpacity(0.5)
                   )
               ),
             ],
