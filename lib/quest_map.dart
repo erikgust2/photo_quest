@@ -253,7 +253,7 @@ class _QuestMapScreenState extends State<QuestMapPage> {
                   );}
             ),const SizedBox(width: 8),
             ElevatedButton(
-                child: const Icon(Icons.clear), ///closes window
+                child: const Icon(Icons.clear),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

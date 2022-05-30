@@ -2,17 +2,10 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:photo_quest/completed_quests.dart';
-import 'package:photo_quest/quest_tab.dart';
-import 'package:photo_quest/themes.dart';
-import 'main.dart';
 import 'quest.dart';
 import 'quest_map.dart';
 import 'quest_list.dart';
 import 'package:image_picker/image_picker.dart';
-//import 'package:camera/camera.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'dart:html';
 
 class QuestBox extends StatefulWidget{
   const QuestBox({Key? key}) : super(key: key);
