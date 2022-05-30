@@ -130,10 +130,10 @@ class QuestBoxState extends State<QuestBox> {
                 children: <Widget>[
                   ListTile(
                     title: Text(nodes[index].name,
-                      style: TextStyle(fontSize: 25, color: Colors.white),
+                      style: const TextStyle(fontSize: 25, color: Colors.black),
                       textAlign: TextAlign.center,),
                     subtitle: Text(nodes[index].description + "\n" + QuestNodeList().getDistance(QuestNodeList.currentCoordinates, nodes[index].getCoordinates()),
-                      style: TextStyle(fontSize: 12, color: Colors.white),
+                      style: const TextStyle(fontSize: 12, color: Colors.black),
                       textAlign: TextAlign.center,),
                   ),
                   Row(

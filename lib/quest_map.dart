@@ -217,18 +217,6 @@ class _QuestMapScreenState extends State<QuestMapPage> {
           actions: <Widget>[
             acceptButton(context, node),
             ElevatedButton(
-                child: const Icon(Icons.clear), ///closes window
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                style: TextButton.styleFrom(
-                    padding: const EdgeInsets.all(12.0),
-                    primary: Colors.black,
-                    textStyle: const TextStyle(fontSize: 15),
-                    backgroundColor: Colors.redAccent
-                )
-            ),
-            ElevatedButton(
                 child: const Text('Description'),
                 style: TextButton.styleFrom(
                     padding: const EdgeInsets.all(12.0),
@@ -263,7 +251,19 @@ class _QuestMapScreenState extends State<QuestMapPage> {
                     },
 
                   );}
-            )
+            ),const SizedBox(width: 8),
+            ElevatedButton(
+                child: const Icon(Icons.clear), ///closes window
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: TextButton.styleFrom(
+                    padding: const EdgeInsets.all(12.0),
+                    primary: Colors.black,
+                    textStyle: const TextStyle(fontSize: 15),
+                    backgroundColor: Colors.redAccent
+                )
+            ),
           ],
         );
       },

@@ -1,15 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:photo_quest/quest.dart';
 import 'package:photo_quest/quest_list.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:photo_quest/completed_quests.dart';
-
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'dart:core';
 class FakeQuestList extends Fake implements QuestNodeList {
 

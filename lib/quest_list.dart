@@ -136,7 +136,7 @@ class QuestNodeList {
   }
 
   void complete(QuestNode node){
-    if (!QuestCompleted().checkCompleted(node)){
+    if (!const QuestCompleted().checkCompleted(node)){
     QuestCompleted.nodes.add(node);}
     availableQuests.remove(node);
     selectedNodes.remove(node);

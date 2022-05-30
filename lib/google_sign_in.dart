@@ -36,8 +36,6 @@ class LoginWidget extends StatelessWidget{
           createNewUser(user, users);         //skapar en ny user i firestore om det inte redan finns en
         }
 
-        initializeQuestNodeList();
-
         Navigator.of(context).push(MaterialPageRoute(builder: (context)=>  const MainScreen()));
       },
     );
@@ -45,10 +43,6 @@ class LoginWidget extends StatelessWidget{
 
   }
 
-  initializeQuestNodeList() async {
-    await QuestNodeList().getLocation();
-    await QuestNodeList().refreshFriends();
-  }
 
   createNewUser(User user, CollectionReference users) {
     users.doc(user.uid).set({'userID': user.uid, 'email': user.email});
