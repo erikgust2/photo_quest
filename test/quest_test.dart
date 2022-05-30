@@ -38,7 +38,10 @@ void main(){
     test("instantiate quest from factory has correct id", (){
       expect(nodes[0].id, '1');
     });
+  });
 
+    group("quest methods", (){
+      
     test("quest with empty image returns not found", (){
       nodes.forEach((node) {if (node.image.isEmpty){
         expect((node == nodes[5] || node == nodes[10]), true);
@@ -53,8 +56,14 @@ void main(){
       }});
     });
 
-    test("quest overrides equals (sort of)", (){
+    test("quest overrides equals through id", (){
         expect((nodes[0] == nodes[14]), identical(nodes[5].id, nodes[11].id));
+    });
+
+    test("quest overrides equals", (){
+      nodes[0].id = "1";
+      nodes[1].id = "1";
+      expect((nodes[0] == nodes[1]), true);
     });
 
     test("get coordinate gets valid coordinate", (){
