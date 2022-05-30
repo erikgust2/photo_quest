@@ -12,6 +12,7 @@ class FakeQuestList extends Fake implements QuestNodeList {
   _instance = this;
   }
 
+
   factory FakeQuestList() => _instance;
 
   static Set<QuestNode> availableQuests = {};
@@ -43,6 +44,20 @@ class FakeQuestList extends Fake implements QuestNodeList {
   }
 
   @override
+  bool checkSelected(QuestNode node){
+    bool selected = false;
+    selectedNodes.forEach((item) {if (item.id == node.id) selected = true;});
+    return selected;
+  }
+
+  @override
+  bool checkCreated(QuestNode node){
+    bool created = false;
+    availableQuests.forEach((item) {if (item.id == node.id) created = true;});
+    return created;
+  }
+
+  @override
   void select(QuestNode node){
   selectedNodes.add(node);
   }
@@ -67,19 +82,7 @@ class FakeQuestList extends Fake implements QuestNodeList {
   selectedNodes.remove(node);
   }
 
-  @override
-  bool checkSelected(QuestNode node){
-  bool selected = false;
-  selectedNodes.forEach((item) {if (item.id == node.id) selected = true;});
-  return selected;
-  }
 
-  @override
-  bool checkCreated(QuestNode node){
-  bool created = false;
-  availableQuests.forEach((item) {if (item.id == node.id) created = true;});
-  return created;
-  }
 
   @override
   void complete(QuestNode node){
@@ -109,7 +112,7 @@ class FakeQuestList extends Fake implements QuestNodeList {
   }
 
 void main() {
-  // Create a new fake Cat at runtime.
+
   var list = FakeQuestList();
 
   group('testing location', (){
@@ -141,8 +144,6 @@ void main() {
     var node1 = QuestNode(description: '1', type: '1', name: '1', coordinate: '1', id: '1', image: '1');
     var node2 = QuestNode(description: '2', type: '2', name: '2', coordinate: '2', id: '2', image: '2');
     var node3 = QuestNode(description: '3', type: '3', name: '3', coordinate: '3', id: '3', image: '3');
-    var node4 = QuestNode(description: '4', type: '4', name: '4', coordinate: '4', id: '4', image: '4');
-    var node5 = QuestNode(description: '5', type: '5', name: '5', coordinate: '5', id: '5', image: '5');
 
     FakeQuestList.availableQuests = {node1, node2, node3};
 
