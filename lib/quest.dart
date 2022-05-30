@@ -41,14 +41,21 @@ class QuestNode {
   LatLng getCoordinates() {
     List coords = [];
     coords = coordinate.split(", ");
-    double latitude = double.parse(coords[0]);
-    double longitude = double.parse(coords[1]);
+    double latitude = 0.0;
+    double longitude = 0.0;
+    try {
+      latitude = double.parse(coords[0]);
+      longitude = double.parse(coords[1]);
+    }
+    on FormatException catch (_){
+      return LatLng(latitude, longitude);
+    }
     LatLng coordinates = LatLng(latitude, longitude);
     return coordinates;
   }
 
   String getImage(){
-    if(image.isEmpty) return "assets/images/notfound.png";
+    if(image.isEmpty || image.replaceAll(" ", "").isEmpty) return "assets/images/notfound.png";
     return image;
   }
 
