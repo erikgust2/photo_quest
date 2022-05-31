@@ -78,7 +78,8 @@ class QuestNodeList {
     return "Distance: " + _distanceInMeters.toString().split(".").first + " m";
   }
 
-  Future refreshFriends() async {
+  Future refreshFriends(User user) async {
+    user = user;
     List list = await getCompletedList().catchError((onError) {
       throw onError;
     });
@@ -118,7 +119,7 @@ class QuestNodeList {
     if (selectedNodes.length == 1) {
       selectedNodes.clear();
       availableQuests.clear();
-      refreshFriends();
+      refreshFriends(user);
     }
     selectedNodes.remove(node);
   }
@@ -143,7 +144,7 @@ class QuestNodeList {
   }
 
   List<QuestNode> getQuestNodes() {
-    refreshFriends();
+    refreshFriends(user);
     if (selectedNodes.isNotEmpty){
       return selectedNodes.toList();
     }

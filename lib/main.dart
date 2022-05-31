@@ -13,12 +13,9 @@ import 'themes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp().whenComplete(() async =>
-  await QuestNodeList().getLocation().whenComplete(() async =>
-  await QuestNodeList().refreshFriends())
+  await Firebase.initializeApp().whenComplete(() =>
+      runApp(MyApp())
   );
-
-  runApp(MyApp());
 }
 
 

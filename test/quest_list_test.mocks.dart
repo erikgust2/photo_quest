@@ -78,8 +78,8 @@ class MockQuestNodeList extends _i1.Mock implements _i6.QuestNodeList {
       (super.noSuchMethod(Invocation.method(#getDistance, [coord1, coord2]),
           returnValue: '') as String);
   @override
-  _i7.Future<dynamic> refreshFriends() =>
-      (super.noSuchMethod(Invocation.method(#refreshFriends, []),
+  _i7.Future<dynamic> refreshFriends(_i3.User? user) =>
+      (super.noSuchMethod(Invocation.method(#refreshFriends, [user]),
           returnValue: Future<dynamic>.value()) as _i7.Future<dynamic>);
   @override
   void select(_i8.QuestNode? node) =>
