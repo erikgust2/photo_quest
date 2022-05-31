@@ -75,7 +75,7 @@ class QuestNodeList {
         coord2.latitude,
         coord2.longitude
     );
-    return "distance: " + _distanceInMeters.toString().split(".").first + " m";
+    return "Distance: " + _distanceInMeters.toString().split(".").first + " m";
   }
 
   Future refreshFriends() async {

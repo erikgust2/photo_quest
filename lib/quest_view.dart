@@ -127,11 +127,11 @@ class QuestBoxState extends State<QuestBox> {
                   Container(
                     child: ListTile(
                       title: Text(nodes[index].name,
-                        style: const TextStyle(fontSize: 35, color: Colors.white, fontWeight: FontWeight.bold,),
+                        style: const TextStyle(fontSize: 35, color: Colors.white, fontWeight: FontWeight.bold, shadows: [Shadow(blurRadius: 10)]),
                         textAlign: TextAlign.center,),
                       subtitle: Text(nodes[index].description + "\n" + QuestNodeList().getDistance(QuestNodeList.currentCoordinates, nodes[index].getCoordinates()),
-                        style: const TextStyle(fontSize: 15, color: Colors.white),
-                        textAlign: TextAlign.center,),
+                        style: const TextStyle(fontSize: 15, color: Colors.white, shadows: [Shadow(blurRadius: 10)]),
+                        textAlign: TextAlign.justify,),
                     ),
                   ),
                   Row(
@@ -146,15 +146,14 @@ class QuestBoxState extends State<QuestBox> {
                           },
                           style: TextButton.styleFrom(
                               padding: const EdgeInsets.all(8.0),
-                              primary: Colors.white,
+                              primary: Colors.white.withOpacity(0.5),
                               textStyle: const TextStyle(fontSize: 15),
-                              backgroundColor: Colors.white.withOpacity(0.5)
-                              )
-
+                              backgroundColor: Colors.blue
+                          )
                       ),
                       const SizedBox(width: 8),
                       ElevatedButton(
-                          child: const Text('SELECT QUEST',
+                          child: const Text('ACCEPT QUEST',
                             style: TextStyle(fontSize: 15, color: Colors
                                 .white),),
                           onPressed: () {
@@ -169,11 +168,10 @@ class QuestBoxState extends State<QuestBox> {
                           },
                           style: TextButton.styleFrom(
                               padding: const EdgeInsets.all(8.0),
-                              primary: Colors.white,
+                              primary: Colors.white.withOpacity(0.5),
                               textStyle: const TextStyle(fontSize: 15),
-                              backgroundColor: Colors.white.withOpacity(0.5)
-                          )
-                      ),
+                              backgroundColor: Colors.green.withOpacity(0.5)
+                          )),
                       const SizedBox(width: 8),
                     ],
                   ),
@@ -206,7 +204,7 @@ class QuestBoxState extends State<QuestBox> {
                       padding: const EdgeInsets.all(12.0),
                       primary: Colors.black,
                       textStyle: const TextStyle(fontSize: 15),
-                      backgroundColor: Colors.white.withOpacity(0.5)
+                      backgroundColor: Colors.green.withOpacity(0.5)
                   )
               ),
             ],
