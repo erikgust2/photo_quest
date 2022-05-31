@@ -35,7 +35,7 @@ class LoginWidget extends StatelessWidget{
         if(!userExists){
           createNewUser(user, users);         //skapar en ny user i firestore om det inte redan finns en
         }
-        await QuestNodeList().refreshFriends(user);
+        await QuestNodeList().getLocation().whenComplete(() async => await QuestNodeList().refreshFriends(user));
         Navigator.of(context).push(MaterialPageRoute(builder: (context)=>  const MainScreen()));
       },
     );

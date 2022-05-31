@@ -2,8 +2,6 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'main.dart';
 import 'quest.dart';
 import 'quest_map.dart';
 import 'quest_list.dart';
@@ -101,11 +99,9 @@ class QuestBoxState extends State<QuestBox> {
   @override
   void initState(){
     super.initState();
-    if(mounted) {
-      setState(() {
+    setState(() {
       nodes = QuestNodeList().getQuestNodes();
     });
-    }
   }
 
 
@@ -153,10 +149,29 @@ class QuestBoxState extends State<QuestBox> {
                               primary: Colors.white.withOpacity(0.5),
                               textStyle: const TextStyle(fontSize: 15),
                               backgroundColor: Colors.blue
-                              )
+                          )
                       ),
                       const SizedBox(width: 8),
-                     _acceptButton(nodes, index),
+                      ElevatedButton(
+                          child: const Text('ACCEPT QUEST',
+                            style: TextStyle(fontSize: 15, color: Colors
+                                .white),),
+                          onPressed: () {
+                            QuestNodeList.selectedNodes.forEach((node) {node.decline();});
+                            QuestNodeList.availableQuests.forEach((node) {node.decline();});
+                            QuestNodeList().select(nodes[index]);
+                            nodes[index].accept();
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context)=> const QuestMapPage()
+                            )
+                            );
+                          },
+                          style: TextButton.styleFrom(
+                              padding: const EdgeInsets.all(8.0),
+                              primary: Colors.white.withOpacity(0.5),
+                              textStyle: const TextStyle(fontSize: 15),
+                              backgroundColor: Colors.green
+                          )),
                       const SizedBox(width: 8),
                     ],
                   ),
@@ -164,50 +179,6 @@ class QuestBoxState extends State<QuestBox> {
               ),
             ),
           );}
-    );
-  }
-
-  Widget _acceptButton(List<QuestNode> nodes, int index){
-    if(!nodes[index].accepted) {
-      return ElevatedButton(
-        child: const Text('ACCEPT QUEST',
-          style: TextStyle(fontSize: 15, color: Colors
-              .white),),
-        onPressed: () {
-          QuestNodeList.selectedNodes.forEach((node) {node.decline();});
-          QuestNodeList.availableQuests.forEach((node) {node.decline();});
-          QuestNodeList().select(nodes[index]);
-          nodes[index].accept();
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context)=> const QuestMapPage()
-          )
-          );
-        },
-        style: TextButton.styleFrom(
-            padding: const EdgeInsets.all(8.0),
-            primary: Colors.white.withOpacity(0.5),
-            textStyle: const TextStyle(fontSize: 15),
-            backgroundColor: Colors.green
-        )
-    );}
-    return ElevatedButton(
-        child: const Text('CANCEL QUEST',
-          style: TextStyle(fontSize: 15, color: Colors
-              .white),),
-        onPressed: () async {
-          nodes[index].decline();
-          QuestNodeList().deselect(nodes[index]);
-          await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context)=> QuestBox()
-          )
-          );
-        },
-        style: TextButton.styleFrom(
-            padding: const EdgeInsets.all(8.0),
-            primary: Colors.white.withOpacity(0.5),
-            textStyle: const TextStyle(fontSize: 15),
-            backgroundColor: Colors.red
-        )
     );
   }
 
@@ -221,16 +192,17 @@ class QuestBoxState extends State<QuestBox> {
             actions: <Widget>[
               ElevatedButton(
                   child: const Text("OK"), ///closes window
-                  onPressed: () async {
+                  onPressed: () {
                     QuestNodeList().addCompletedList(node);
                     setState(() {
                       QuestBoxState.nodes.remove(node);
                     });
-                    await Navigator.of(context).push(MaterialPageRoute(builder: (context)=> QuestBox()));
+                    Navigator.of(context).pop();
+                    initState();
                   },
                   style: TextButton.styleFrom(
                       padding: const EdgeInsets.all(12.0),
-                      primary: Colors.white.withOpacity(0.5),
+                      primary: Colors.black,
                       textStyle: const TextStyle(fontSize: 15),
                       backgroundColor: Colors.green
                   )
