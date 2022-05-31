@@ -7,6 +7,7 @@ import 'dart:ui' as _i6;
 import 'package:firebase_auth/firebase_auth.dart' as _i2;
 import 'package:flutter/foundation.dart' as _i5;
 import 'package:flutter/material.dart' as _i4;
+import 'package:flutter/rendering.dart' as _i7;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:photo_quest/profile.dart' as _i3;
 
@@ -114,7 +115,7 @@ class MockProfilePageState extends _i1.Mock implements _i3.ProfilePageState {
       super.noSuchMethod(Invocation.method(#didChangeDependencies, []),
           returnValueForMissingStub: null);
   @override
-  void debugFillProperties(_i5.DiagnosticPropertiesBuilder? properties) =>
+  void debugFillProperties(_i7.DiagnosticPropertiesBuilder? properties) =>
       super.noSuchMethod(Invocation.method(#debugFillProperties, [properties]),
           returnValueForMissingStub: null);
   @override

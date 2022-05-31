@@ -10,10 +10,10 @@ class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  ProfilePageState createState() => ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class ProfilePageState extends State<ProfilePage> {
 
   final user = FirebaseAuth.instance.currentUser!;
 
@@ -172,7 +172,7 @@ class _OpenPhotoRouteState extends State<OpenPhotoRoute> {
   //Don't have a method called deletePic and another one called deletePhoto.
   //This is a temporary solution
   void _deletePic(Image image){
-    _ProfilePageState()._deletePhoto(image);
+    ProfilePageState()._deletePhoto(image);
   }
 
   @override
