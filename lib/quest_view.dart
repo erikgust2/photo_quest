@@ -170,7 +170,7 @@ class QuestBoxState extends State<QuestBox> {
                               padding: const EdgeInsets.all(8.0),
                               primary: Colors.white.withOpacity(0.5),
                               textStyle: const TextStyle(fontSize: 15),
-                              backgroundColor: Colors.green.withOpacity(0.5)
+                              backgroundColor: Colors.green
                           )),
                       const SizedBox(width: 8),
                     ],
@@ -204,7 +204,7 @@ class QuestBoxState extends State<QuestBox> {
                       padding: const EdgeInsets.all(12.0),
                       primary: Colors.black,
                       textStyle: const TextStyle(fontSize: 15),
-                      backgroundColor: Colors.green.withOpacity(0.5)
+                      backgroundColor: Colors.green
                   )
               ),
             ],
