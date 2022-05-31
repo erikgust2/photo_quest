@@ -18,7 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final user = FirebaseAuth.instance.currentUser!;
 
   Widget buildProfilePicture() {
-    //Returns CircleAvatar with editable profile photo
+    //Returns CircleAvatar with google profile photo
     return Padding(
         padding: const EdgeInsets.all(40.0),
         child: Stack(
@@ -27,23 +27,12 @@ class _ProfilePageState extends State<ProfilePage> {
             children:  [
               CircleAvatar(
                 backgroundColor: Colors.pinkAccent,
-                backgroundImage: //NetworkImage(user.photoURL!),
-                NetworkImage('https://i.imgur.com/ZahwJjN.gif'),
+                backgroundImage: NetworkImage(user.photoURL!),
                 radius: 50,
               ),
-
-              //An invisible clickable button the size of the avatar above that opens camera/gallery prompt
-              GestureDetector(
-                  onTap: (){
-                    //should communicate with camera.dart, not functional yet
-                    // _showChoiceDialog(context);
-                  },
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    radius: 40,
-                  )),
             ]
-        ));
+        )
+    );
   }
 
   Widget buildProfileInfo() {
@@ -57,11 +46,9 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  //temporary list to test _getImages()
+  //List of user's Images
   List<Image> images = [];
 
-
-  //should take an int i to be used in _getImages, to apply that image to the new page
   void _onClickedImage(Image image) {
     //Push a new page with the supplied image
     Navigator.push(
@@ -70,11 +57,22 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  //does not work in current implementation because I'm not sending the correct image to this method
-  void _deletePhoto(Image image){
-    print(images.length);
-    images.remove(image);
-    print(images.length);
+  //does not work in current implementation because supplied image from parameter has no data that can be compared with the storage reference currently.
+  //They both have hashCodes but aren't the same, so this function only removes the photo titled "Bostadshus.jpg" from the user's library of photos
+  void _deletePhoto(Image image) async {
+    final storageRef = FirebaseStorage.instance.ref().child('users/' + user.uid);
+    final listResult = await storageRef.listAll();
+    for(var item in listResult.items){
+
+      //Hack to check that a photo can be deleted, "Bostadshus.jpg" should be replaced with whatever the image being looked at is called
+      if (item.name == "Bostadshus.jpg"){
+        final removeRef = storageRef.child("images/Bostadshus.jpg");
+        await removeRef.delete();
+      }
+    }
+    //This would then be called to remove the image from the user's image-list:
+    //images.remove(image);
+
   }
 
   refreshImages() async{
@@ -161,7 +159,6 @@ class OpenPhotoRoute extends StatefulWidget{
 
 //Page that displays the new image
 class _OpenPhotoRouteState extends State<OpenPhotoRoute> {
-  //const SecondRoute({key});
   bool showAppBar = false;
   late Image photo;
 
@@ -169,8 +166,6 @@ class _OpenPhotoRouteState extends State<OpenPhotoRoute> {
     this.photo = image;
   }
 
-  //Don't have a method called deletePic and another one called deletePhoto.
-  //This is a temporary solution
   void _deletePic(Image image){
     _ProfilePageState()._deletePhoto(image);
   }
@@ -212,7 +207,6 @@ class _OpenPhotoRouteState extends State<OpenPhotoRoute> {
             setState(() {
               showAppBar = !showAppBar;
             });
-            print("hey");
           },
           child:
           Container(
@@ -229,13 +223,3 @@ class _OpenPhotoRouteState extends State<OpenPhotoRoute> {
     );
   }
 }
-
-
-//Need a user class but maybe there is one in the main branch already
-/*
-class User{
-  final String name = //getgooglename
-  List<Image> images;
-  User(this.images);
-}*/
-
