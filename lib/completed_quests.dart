@@ -34,10 +34,10 @@ class QuestCompleted extends StatelessWidget{
                   children: <Widget>[
                     ListTile(
                       title: Text(item.name,
-                        style: TextStyle(fontSize: 35, color: Colors.white, fontWeight: FontWeight.bold,),
+                        style: TextStyle(fontSize: 35, color: Colors.white, fontWeight: FontWeight.bold,shadows: [Shadow(blurRadius: 10)]),
                         textAlign: TextAlign.center,),
                       subtitle: Text(item.description,
-                        style: TextStyle(fontSize: 15, color: Colors.white),
+                        style: TextStyle(fontSize: 15, color: Colors.white,shadows: [Shadow(blurRadius: 10)]),
                         textAlign: TextAlign.center,),
                     ),
                     Row(
